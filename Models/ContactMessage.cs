@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FreeLance.Models
+namespace HavitGroup.Models
 {
     /// <summary>
     /// Model representing a contact message submitted through the contact form

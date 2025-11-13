@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 
-namespace FreeLance.Services
+namespace HavitGroup.Services
 {
     /// <summary>
     /// Email service implementation using SMTP

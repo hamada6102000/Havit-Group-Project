@@ -1,4 +1,4 @@
-@model FreeLance.Models.ContactViewModel
+@model HavitGroup.Models.ContactViewModel
 @{
     ViewData["Title"] = "Contact Us";
 }
@@ -59,7 +59,7 @@
             <div class="card-body">
                 <h3 class="card-title">Contact Information</h3>
                 @{
-                    var settings = ViewBag.Settings as FreeLance.Models.SiteSettings;
+                    var settings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
                 }
                 @if (settings != null)
                 {

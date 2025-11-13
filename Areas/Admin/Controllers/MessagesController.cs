@@ -1,9 +1,9 @@
-using FreeLance.Data;
+using HavitGroup.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FreeLance.Areas.Admin.Controllers
+namespace HavitGroup.Areas.Admin.Controllers
 {
     /// <summary>
     /// Controller for managing contact messages in admin area

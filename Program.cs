@@ -1,5 +1,5 @@
-using FreeLance.Data;
-using FreeLance.Services;
+using HavitGroup.Data;
+using HavitGroup.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

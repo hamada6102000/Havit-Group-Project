@@ -1,7 +1,7 @@
-using FreeLance.Models;
+using HavitGroup.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FreeLance.Data
+namespace HavitGroup.Data
 {
     /// <summary>
     /// Database context for the application

@@ -1,11 +1,11 @@
 using System.Diagnostics;
-using FreeLance.Data;
-using FreeLance.Models;
-using FreeLance.Services;
+using HavitGroup.Data;
+using HavitGroup.Models;
+using HavitGroup.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FreeLance.Controllers
+namespace HavitGroup.Controllers
 {
     /// <summary>
     /// Controller for public-facing pages

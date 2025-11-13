@@ -1,4 +1,4 @@
-namespace FreeLance.Models
+namespace HavitGroup.Models
 {
     public class ErrorViewModel
     {

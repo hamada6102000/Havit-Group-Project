@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FreeLance.Models
+namespace HavitGroup.Models
 {
     /// <summary>
     /// Model representing site-wide settings and configuration data

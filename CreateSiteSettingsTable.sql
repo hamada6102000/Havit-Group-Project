@@ -1,9 +1,9 @@
 -- SQL Script to Create SiteSettings Table
 -- Run this script directly in SQL Server Management Studio if migration fails
--- Database: FreeLance
+-- Database: HavitGroupDb
 -- Server: HAMADA-MOSTAFA-\SQLEXPRESS
 
-USE [FreeLance];
+USE [HavitGroupDb];
 GO
 
 -- Check if table already exists, drop it if needed

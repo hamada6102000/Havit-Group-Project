@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FreeLance.Models
+namespace HavitGroup.Models
 {
     /// <summary>
     /// Model representing a service offered by the freelance company

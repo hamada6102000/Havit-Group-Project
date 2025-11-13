@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FreeLance.Migrations
+namespace HavitGroup.Migrations
 {
     /// <inheritdoc />
     public partial class AddSiteSettings : Migration

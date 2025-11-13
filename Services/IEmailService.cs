@@ -1,4 +1,4 @@
-namespace FreeLance.Services
+namespace HavitGroup.Services
 {
     /// <summary>
     /// Interface for email service to send emails
