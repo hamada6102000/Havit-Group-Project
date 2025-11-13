@@ -1,0 +1,224 @@
+using System.Diagnostics;
+using FreeLance.Data;
+using FreeLance.Models;
+using FreeLance.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace FreeLance.Controllers
+{
+    /// <summary>
+    /// Controller for public-facing pages
+    /// </summary>
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
+        private readonly IWebHostEnvironment _environment;
+
+        /// <summary>
+        /// Initializes a new instance of the HomeController
+        /// </summary>
+        /// <param name="logger">Logger instance</param>
+        /// <param name="context">Database context</param>
+        /// <param name="emailService">Email service</param>
+        /// <param name="environment">Web host environment</param>
+        public HomeController(
+            ILogger<HomeController> logger,
+            ApplicationDbContext context,
+            IEmailService emailService,
+            IWebHostEnvironment environment)
+        {
+            _logger = logger;
+            _context = context;
+            _emailService = emailService;
+            _environment = environment;
+        }
+
+        /// <summary>
+        /// Displays the home page
+        /// </summary>
+        /// <returns>Home page view</returns>
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        {
+            var services = await _context.Services
+                .Where(s => s.IsActive)
+                .OrderBy(s => s.CreatedAt)
+                .ToListAsync(cancellationToken);
+            
+            return View(services);
+        }
+
+        /// <summary>
+        /// Displays the About Us page
+        /// </summary>
+        /// <returns>About Us page view</returns>
+        public async Task<IActionResult> About(CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Try to ensure database is migrated
+                await _context.Database.MigrateAsync(cancellationToken);
+            }
+            catch
+            {
+                // Migration failed, continue without settings
+            }
+
+            try
+            {
+                // Load site settings for dynamic content
+                var settings = await _context.SiteSettings.FindAsync(new object[] { 1 }, cancellationToken);
+                ViewBag.Settings = settings;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without settings
+                ViewBag.Settings = null;
+            }
+            
+            return View();
+        }
+
+        /// <summary>
+        /// Displays the Services page
+        /// </summary>
+        /// <returns>Services page view with list of active services</returns>
+        public async Task<IActionResult> Services(CancellationToken cancellationToken)
+        {
+            var services = await _context.Services
+                .Where(s => s.IsActive)
+                .OrderBy(s => s.CreatedAt)
+                .ToListAsync(cancellationToken);
+            
+            return View(services);
+        }
+
+        /// <summary>
+        /// Displays the Contact Us page
+        /// </summary>
+        /// <returns>Contact Us page view</returns>
+        [HttpGet]
+        public async Task<IActionResult> Contact(CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Try to ensure database is migrated
+                await _context.Database.MigrateAsync(cancellationToken);
+            }
+            catch
+            {
+                // Migration failed, continue without settings
+            }
+
+            try
+            {
+                // Load site settings for dynamic contact information
+                var settings = await _context.SiteSettings.FindAsync(new object[] { 1 }, cancellationToken);
+                ViewBag.Settings = settings;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without settings
+                ViewBag.Settings = null;
+            }
+            
+            return View(new ContactViewModel());
+        }
+
+        /// <summary>
+        /// Handles the contact form submission
+        /// </summary>
+        /// <param name="model">Contact form data</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Success message or returns to form with errors</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Contact(ContactViewModel model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                string? attachmentPath = null;
+                string? originalFileName = null;
+
+                // Handle file upload if provided
+                if (model.Attachment != null && model.Attachment.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = $"{Guid.NewGuid()}_{model.Attachment.FileName}";
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.Attachment.CopyToAsync(fileStream, cancellationToken);
+                    }
+
+                    attachmentPath = $"/uploads/{uniqueFileName}";
+                    originalFileName = model.Attachment.FileName;
+                }
+
+                // Save to database
+                var contactMessage = new ContactMessage
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Subject = model.Subject,
+                    Message = model.Message,
+                    AttachmentPath = attachmentPath,
+                    OriginalFileName = originalFileName,
+                    SubmittedAt = DateTime.UtcNow
+                };
+
+                _context.ContactMessages.Add(contactMessage);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                // Send email notification
+                var emailBody = $@"
+                    <h2>New Contact Form Submission</h2>
+                    <p><strong>Name:</strong> {model.Name}</p>
+                    <p><strong>Email:</strong> {model.Email}</p>
+                    <p><strong>Subject:</strong> {model.Subject}</p>
+                    <p><strong>Message:</strong></p>
+                    <p>{model.Message.Replace("\n", "<br>")}</p>
+                    {(attachmentPath != null ? $"<p><strong>Attachment:</strong> {originalFileName}</p>" : "")}
+                ";
+
+                await _emailService.SendEmailAsync(
+                    model.Email,
+                    $"Contact Form: {model.Subject}",
+                    emailBody,
+                    cancellationToken);
+
+                TempData["SuccessMessage"] = "Thank you for contacting us! We will get back to you soon.";
+                return RedirectToAction(nameof(Contact));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing contact form submission");
+                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+                return View(model);
+            }
+        }
+
+        /// <summary>
+        /// Displays error page
+        /// </summary>
+        /// <returns>Error page view</returns>
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}

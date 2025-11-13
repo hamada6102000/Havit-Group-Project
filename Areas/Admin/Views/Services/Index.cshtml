@@ -1,0 +1,62 @@
+@model List<FreeLance.Models.Service>
+@{
+    ViewData["Title"] = "Services";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Services Management</h1>
+    <a asp-action="Create" class="btn btn-primary">Add New Service</a>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Icon Class</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Model)
+                {
+                    <tr>
+                        <td>@service.Title</td>
+                        <td>@(service.Description.Length > 50 ? service.Description.Substring(0, 50) + "..." : service.Description)</td>
+                        <td>@(service.IconClass ?? "N/A")</td>
+                        <td>
+                            @if (service.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td>@service.CreatedAt.ToString("g")</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@service.Id" class="btn btn-sm btn-info">View</a>
+                            <a asp-action="Edit" asp-route-id="@service.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@service.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No services found.</h4>
+        <p>Get started by creating your first service.</p>
+        <a asp-action="Create" class="btn btn-primary">Create Service</a>
+    </div>
+}
+

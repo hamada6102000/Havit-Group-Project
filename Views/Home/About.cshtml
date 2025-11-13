@@ -1,0 +1,85 @@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">About Us</h1>
+        
+        @{
+            var settings = ViewBag.Settings as FreeLance.Models.SiteSettings;
+        }
+        
+        @if (settings != null && !string.IsNullOrEmpty(settings.Mission))
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Our Mission</h2>
+                    <p class="card-text" style="white-space: pre-wrap;">@settings.Mission</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Our Mission</h2>
+                    <p class="card-text text-muted">Mission statement will be displayed here once configured in Admin Settings.</p>
+                </div>
+            </div>
+        }
+
+        @if (settings != null && !string.IsNullOrEmpty(settings.Values))
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Our Values</h2>
+                    <p class="card-text" style="white-space: pre-wrap;">@settings.Values</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Our Values</h2>
+                    <ul>
+                        <li><strong>Quality:</strong> We never compromise on the quality of our work</li>
+                        <li><strong>Integrity:</strong> We conduct business with honesty and transparency</li>
+                        <li><strong>Innovation:</strong> We stay ahead with the latest technologies and trends</li>
+                        <li><strong>Client Focus:</strong> Your success is our success</li>
+                    </ul>
+                </div>
+            </div>
+        }
+
+        @if (settings != null && !string.IsNullOrEmpty(settings.WhyChooseUs))
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Why Choose Us?</h2>
+                    <p class="card-text" style="white-space: pre-wrap;">@settings.WhyChooseUs</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">Why Choose Us?</h2>
+                    <p class="card-text">
+                        With years of experience in the industry, we have built a reputation for 
+                        delivering high-quality services on time and within budget. Our team of 
+                        skilled professionals is committed to exceeding your expectations.
+                    </p>
+                </div>
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <a asp-action="Contact" class="btn btn-primary">Contact Us</a>
+            <a asp-action="Services" class="btn btn-outline-primary ms-2">View Our Services</a>
+        </div>
+    </div>
+</div>
+

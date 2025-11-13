@@ -1,0 +1,55 @@
+@model List<FreeLance.Models.Service>
+@{
+    ViewData["Title"] = "Services";
+}
+
+<h1 class="mb-4">Our Services</h1>
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var service in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(service.IconClass))
+                        {
+                            <div class="text-center mb-3">
+                                <i class="@service.IconClass fa-3x text-primary"></i>
+                            </div>
+                        }
+                        <h5 class="card-title">@service.Title</h5>
+                        <p class="card-text">@service.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            @if (service.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No services available at the moment.</h4>
+        <p>Please check back later or contact us for more information.</p>
+    </div>
+}
+
+<div class="text-center mt-5">
+    <h3>Interested in our services?</h3>
+    <p>Get in touch with us to discuss your project requirements.</p>
+    <a asp-action="Contact" class="btn btn-primary btn-lg">Contact Us</a>
+</div>
+

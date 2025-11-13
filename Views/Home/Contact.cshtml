@@ -1,0 +1,121 @@
+@model FreeLance.Models.ContactViewModel
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<h1 class="mb-4">Contact Us</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Send us a Message</h2>
+                
+                <form asp-action="Contact" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Subject" class="form-label"></label>
+                        <input asp-for="Subject" class="form-control" />
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Message" class="form-label"></label>
+                        <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Attachment" class="form-label"></label>
+                        <input asp-for="Attachment" type="file" class="form-control" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
+                        <small class="form-text text-muted">Optional: Upload a file (PDF, DOC, DOCX, TXT, JPG, PNG - Max 10MB)</small>
+                        <span asp-validation-for="Attachment" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Contact Information</h3>
+                @{
+                    var settings = ViewBag.Settings as FreeLance.Models.SiteSettings;
+                }
+                @if (settings != null)
+                {
+                    @if (!string.IsNullOrEmpty(settings.Email))
+                    {
+                        <p><strong>Email:</strong> <a href="mailto:@settings.Email">@settings.Email</a></p>
+                    }
+                    @if (!string.IsNullOrEmpty(settings.Phone))
+                    {
+                        <p><strong>Phone:</strong> <a href="tel:@settings.Phone">@settings.Phone</a></p>
+                    }
+                    @if (!string.IsNullOrEmpty(settings.Mobile))
+                    {
+                        <p><strong>Mobile:</strong> <a href="tel:@settings.Mobile">@settings.Mobile</a></p>
+                    }
+                    @if (!string.IsNullOrEmpty(settings.AddressLine1) || !string.IsNullOrEmpty(settings.City))
+                    {
+                        <p><strong>Address:</strong><br />
+                        @if (!string.IsNullOrEmpty(settings.AddressLine1))
+                        {
+                            @settings.AddressLine1<br />
+                        }
+                        @if (!string.IsNullOrEmpty(settings.AddressLine2))
+                        {
+                            @settings.AddressLine2<br />
+                        }
+                        @if (!string.IsNullOrEmpty(settings.City))
+                        {
+                            @settings.City
+                            @if (!string.IsNullOrEmpty(settings.State))
+                            {
+                                <text>, @settings.State</text>
+                            }
+                            @if (!string.IsNullOrEmpty(settings.PostalCode))
+                            {
+                                <text> @settings.PostalCode</text>
+                            }
+                            <br />
+                        }
+                        @if (!string.IsNullOrEmpty(settings.Country))
+                        {
+                            @settings.Country
+                        }
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Contact information will be displayed here once configured in Admin Settings.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

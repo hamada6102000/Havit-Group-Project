@@ -1,0 +1,67 @@
+﻿@model List<FreeLance.Models.Service>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">Welcome to FreeLance</h1>
+    <p class="lead">Your trusted partner for professional freelance services</p>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">About Our Company</h2>
+                <p class="card-text">
+                    We are a professional freelance company dedicated to delivering high-quality services 
+                    to our clients. With years of experience and a team of skilled professionals, we 
+                    provide solutions that meet your business needs.
+                </p>
+                <a asp-action="About" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <h2 class="mb-4">Our Services</h2>
+    <div class="row">
+        @foreach (var service in Model.Take(3))
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(service.IconClass))
+                        {
+                            <div class="text-center mb-3">
+                                <i class="@service.IconClass fa-3x text-primary"></i>
+                            </div>
+                        }
+                        <h5 class="card-title">@service.Title</h5>
+                        <p class="card-text">@(service.Description.Length > 100 ? service.Description.Substring(0, 100) + "..." : service.Description)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="text-center mt-4">
+        <a asp-action="Services" class="btn btn-outline-primary">View All Services</a>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No services available at the moment.</h4>
+        <p>Please check back later or contact us for more information.</p>
+    </div>
+}
+
+<div class="row mt-5">
+    <div class="col-md-12 text-center">
+        <h2>Get in Touch</h2>
+        <p>Have a project in mind? We'd love to hear from you!</p>
+        <a asp-action="Contact" class="btn btn-primary btn-lg">Contact Us</a>
+    </div>
+</div>
