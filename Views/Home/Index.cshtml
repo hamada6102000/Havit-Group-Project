@@ -3,65 +3,273 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center mb-5">
-    <h1 class="display-4">Welcome to Havit Group</h1>
-    <p class="lead">Your trusted partner for professional services</p>
-</div>
-
-<div class="row mb-5">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-title">About Our Company</h2>
-                <p class="card-text">
-                    We are a professional freelance company dedicated to delivering high-quality services 
-                    to our clients. With years of experience and a team of skilled professionals, we 
-                    provide solutions that meet your business needs.
-                </p>
-                <a asp-action="About" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-@if (Model != null && Model.Any())
+<!-- Hero Image Carousel Section -->
+@{
+    var homeImages = ViewBag.HomeImages as List<HavitGroup.Models.HomeImage>;
+}
+@if (homeImages != null && homeImages.Any())
 {
-    <h2 class="mb-4">Our Services</h2>
-    <div class="row">
-        @foreach (var service in Model.Take(3))
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if (!string.IsNullOrEmpty(service.IconClass))
+    <section class="hero-carousel-section mb-5">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+                @for (int i = 0; i < homeImages.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@homeImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(homeImages[i].AltText ?? "Havit Group")">
+                        @if (!string.IsNullOrWhiteSpace(homeImages[i].AltText))
                         {
-                            <div class="text-center mb-3">
-                                <i class="@service.IconClass fa-3x text-primary"></i>
+                            <div class="carousel-caption">
+                                <h5>@homeImages[i].AltText</h5>
                             </div>
                         }
-                        <h5 class="card-title">@service.Title</h5>
-                        <p class="card-text">@(service.Description.Length > 100 ? service.Description.Substring(0, 100) + "..." : service.Description)</p>
                     </div>
-                </div>
+                }
             </div>
-        }
-    </div>
-    <div class="text-center mt-4">
-        <a asp-action="Services" class="btn btn-outline-primary">View All Services</a>
-    </div>
+            @if (homeImages.Count > 1)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
+        </div>
+    </section>
 }
 else
 {
-    <div class="alert alert-info">
-        <h4>No services available at the moment.</h4>
-        <p>Please check back later or contact us for more information.</p>
-    </div>
+    <!-- Fallback to default image if no images in database -->
+    <section class="hero-carousel-section mb-5">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="d-block w-100 carousel-image" alt="Havit Group">
+                </div>
+            </div>
+        </div>
+    </section>
 }
 
-<div class="row mt-5">
-    <div class="col-md-12 text-center">
-        <h2>Get in Touch</h2>
-        <p>Have a project in mind? We'd love to hear from you!</p>
-        <a asp-action="Contact" class="btn btn-primary btn-lg">Contact Us</a>
+<!-- Our Brands Section -->
+<section class="brands-section mb-5 py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="display-4 fw-bold mb-3">Our Brands</h2>
+            <p class="lead text-muted">Leading furniture brands under the Havit Group</p>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Who We Are Section -->
+<section class="who-we-are-section mb-5 py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-4">Who We Are</h2>
+                <p class="lead mb-3">
+                    Nexus Group is a dynamic conglomerate with diverse business interests spanning technology, manufacturing, real estate, and sustainable energy. With over 25 years of experience, we've established ourselves as industry leaders committed to innovation and excellence.
+                </p>
+                <p class="mb-0">
+                    Our mission is to create lasting value for our stakeholders while contributing positively to the communities we serve. Through strategic investments and operational excellence, we continue to expand our portfolio and impact.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="img-fluid rounded shadow-lg" alt="Who We Are">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Core Values Section -->
+<section class="core-values-section mb-5 py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Our Core Values</h2>
+            <p class="lead text-muted">These principles guide everything we do and shape our company culture</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="value-card text-center p-4 h-100">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-lightbulb fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Innovation</h3>
+                    <p class="text-muted">Constantly pushing boundaries and embracing new technologies to stay ahead</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="value-card text-center p-4 h-100">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-shield-halved fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Integrity</h3>
+                    <p class="text-muted">Building trust through transparency, honesty, and ethical practices</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="value-card text-center p-4 h-100">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-star fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Excellence</h3>
+                    <p class="text-muted">Committed to delivering exceptional quality in everything we undertake</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Hero Carousel Styles */
+    .hero-carousel-section {
+        margin-top: -1rem;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
+
+    .carousel-image {
+        height: 500px;
+        object-fit: cover;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .carousel-caption h5 {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @@media (min-width: 768px) {
+        .carousel-caption {
+            padding: 1rem 2rem;
+            bottom: 2rem;
+        }
+
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    /* Brands Section */
+    .brands-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    /* Who We Are Section */
+    .who-we-are-section {
+        background-color: #ffffff;
+    }
+
+    .who-we-are-section img {
+        transition: transform 0.3s ease;
+    }
+
+    .who-we-are-section img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Core Values Section */
+    .core-values-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    }
+
+    .value-card {
+        background: white;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .value-icon {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image {
+            height: 300px;
+        }
+    }
+</style>

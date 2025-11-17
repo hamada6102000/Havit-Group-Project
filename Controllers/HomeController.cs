@@ -46,6 +46,14 @@ namespace HavitGroup.Controllers
                 .Where(s => s.IsActive)
                 .OrderBy(s => s.CreatedAt)
                 .ToListAsync(cancellationToken);
+
+            var homeImages = await _context.HomeImages
+                .Where(i => i.IsActive)
+                .OrderBy(i => i.DisplayOrder)
+                .ThenByDescending(i => i.CreatedAt)
+                .ToListAsync(cancellationToken);
+
+            ViewBag.HomeImages = homeImages;
             
             return View(services);
         }
