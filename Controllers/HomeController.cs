@@ -42,11 +42,6 @@ namespace HavitGroup.Controllers
         /// <returns>Home page view</returns>
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var services = await _context.Services
-                .Where(s => s.IsActive)
-                .OrderBy(s => s.CreatedAt)
-                .ToListAsync(cancellationToken);
-
             var homeImages = await _context.HomeImages
                 .Where(i => i.IsActive)
                 .OrderBy(i => i.DisplayOrder)
@@ -55,7 +50,7 @@ namespace HavitGroup.Controllers
 
             ViewBag.HomeImages = homeImages;
             
-            return View(services);
+            return View();
         }
 
         /// <summary>
@@ -85,22 +80,40 @@ namespace HavitGroup.Controllers
                 // Table doesn't exist yet, continue without settings
                 ViewBag.Settings = null;
             }
+
+            try
+            {
+                // Load about images for carousel
+                var aboutImages = await _context.AboutImages
+                    .Where(i => i.IsActive)
+                    .OrderBy(i => i.DisplayOrder)
+                    .ThenByDescending(i => i.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.AboutImages = aboutImages;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without images
+                ViewBag.AboutImages = new List<AboutImage>();
+            }
             
             return View();
         }
 
         /// <summary>
-        /// Displays the Services page
+        /// Displays the Services page (static content)
         /// </summary>
-        /// <returns>Services page view with list of active services</returns>
+        /// <returns>Services page view</returns>
         public async Task<IActionResult> Services(CancellationToken cancellationToken)
         {
-            var services = await _context.Services
-                .Where(s => s.IsActive)
-                .OrderBy(s => s.CreatedAt)
+            var serviceImages = await _context.ServiceImages
+                .Where(i => i.IsActive)
+                .OrderBy(i => i.DisplayOrder)
+                .ThenByDescending(i => i.CreatedAt)
                 .ToListAsync(cancellationToken);
-            
-            return View(services);
+
+            ViewBag.ServiceImages = serviceImages;
+            return View();
         }
 
         /// <summary>

@@ -21,22 +21,6 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-success">
-            <div class="card-body">
-                <h5 class="card-title">Total Services</h5>
-                <h2 class="card-text">@ViewBag.TotalServices</h2>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-info">
-            <div class="card-body">
-                <h5 class="card-title">Active Services</h5>
-                <h2 class="card-text">@ViewBag.ActiveServices</h2>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="row mt-4">
@@ -47,8 +31,9 @@
             </div>
             <div class="card-body">
                 <a asp-controller="Messages" asp-action="Index" class="btn btn-primary mb-2 w-100">View Messages</a>
-                <a asp-controller="Services" asp-action="Create" class="btn btn-success mb-2 w-100">Add New Service</a>
-                <a asp-controller="Services" asp-action="Index" class="btn btn-info mb-2 w-100">Manage Services</a>
+                <a asp-controller="HomeImages" asp-action="Index" class="btn btn-info mb-2 w-100">Manage Home Images</a>
+                <a asp-controller="AboutImages" asp-action="Index" class="btn btn-info mb-2 w-100">Manage About Images</a>
+                <a asp-controller="ServiceImages" asp-action="Index" class="btn btn-info mb-2 w-100">Manage Service Images</a>
                 <a asp-controller="Settings" asp-action="Index" class="btn btn-warning w-100">Site Settings</a>
             </div>
         </div>

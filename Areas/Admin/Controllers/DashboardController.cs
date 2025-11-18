@@ -36,13 +36,9 @@ namespace HavitGroup.Areas.Admin.Controllers
         {
             var totalMessages = await _context.ContactMessages.CountAsync(cancellationToken);
             var unreadMessages = await _context.ContactMessages.CountAsync(m => !m.IsRead, cancellationToken);
-            var totalServices = await _context.Services.CountAsync(cancellationToken);
-            var activeServices = await _context.Services.CountAsync(s => s.IsActive, cancellationToken);
 
             ViewBag.TotalMessages = totalMessages;
             ViewBag.UnreadMessages = unreadMessages;
-            ViewBag.TotalServices = totalServices;
-            ViewBag.ActiveServices = activeServices;
 
             return View();
         }

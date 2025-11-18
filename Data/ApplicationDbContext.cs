@@ -38,6 +38,16 @@ namespace HavitGroup.Data
         public DbSet<HomeImage> HomeImages { get; set; }
 
         /// <summary>
+        /// About page carousel images
+        /// </summary>
+        public DbSet<AboutImage> AboutImages { get; set; }
+
+        /// <summary>
+        /// Services page carousel images
+        /// </summary>
+        public DbSet<ServiceImage> ServiceImages { get; set; }
+
+        /// <summary>
         /// Configures the model relationships and constraints
         /// </summary>
         /// <param name="modelBuilder">Model builder instance</param>
@@ -100,6 +110,30 @@ namespace HavitGroup.Data
 
             // Configure HomeImage entity
             modelBuilder.Entity<HomeImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure AboutImage entity
+            modelBuilder.Entity<AboutImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure ServiceImage entity
+            modelBuilder.Entity<ServiceImage>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);

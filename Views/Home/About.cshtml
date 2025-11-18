@@ -2,84 +2,511 @@
     ViewData["Title"] = "About Us";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <h1 class="mb-4">About Us</h1>
-        
-        @{
-            var settings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
-        }
-        
-        @if (settings != null && !string.IsNullOrEmpty(settings.Mission))
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Our Mission</h2>
-                    <p class="card-text" style="white-space: pre-wrap;">@settings.Mission</p>
-                </div>
+<!-- Hero Image Carousel Section -->
+@{
+    var aboutImages = ViewBag.AboutImages as List<HavitGroup.Models.AboutImage>;
+}
+@if (aboutImages != null && aboutImages.Any())
+{
+    <section class="hero-carousel-section mb-5">
+        <div id="aboutCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+            <div class="carousel-inner">
+                @for (int i = 0; i < aboutImages.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@aboutImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(aboutImages[i].AltText ?? "Havit Group")">
+                        @if (!string.IsNullOrWhiteSpace(aboutImages[i].AltText))
+                        {
+                            <div class="carousel-caption">
+                                <h5>@aboutImages[i].AltText</h5>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
-        }
-        else
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Our Mission</h2>
-                    <p class="card-text text-muted">Mission statement will be displayed here once configured in Admin Settings.</p>
-                </div>
-            </div>
-        }
+            @if (aboutImages.Count > 1)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
+        </div>
+    </section>
+}
 
-        @if (settings != null && !string.IsNullOrEmpty(settings.Values))
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Our Values</h2>
-                    <p class="card-text" style="white-space: pre-wrap;">@settings.Values</p>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Our Values</h2>
-                    <ul>
-                        <li><strong>Quality:</strong> We never compromise on the quality of our work</li>
-                        <li><strong>Integrity:</strong> We conduct business with honesty and transparency</li>
-                        <li><strong>Innovation:</strong> We stay ahead with the latest technologies and trends</li>
-                        <li><strong>Client Focus:</strong> Your success is our success</li>
-                    </ul>
-                </div>
-            </div>
-        }
-
-        @if (settings != null && !string.IsNullOrEmpty(settings.WhyChooseUs))
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Why Choose Us?</h2>
-                    <p class="card-text" style="white-space: pre-wrap;">@settings.WhyChooseUs</p>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Why Choose Us?</h2>
-                    <p class="card-text">
-                        With years of experience in the industry, we have built a reputation for 
-                        delivering high-quality services on time and within budget. Our team of 
-                        skilled professionals is committed to exceeding your expectations.
+<!-- Mission and Vision Section -->
+<section class="mission-vision-section mb-5 py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="mission-card h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="mission-icon me-3">
+                            <i class="fas fa-bullseye fa-2x text-primary"></i>
+                        </div>
+                        <h2 class="mb-0">Our Mission</h2>
+                    </div>
+                    <p class="lead mb-0">
+                        To create sustainable value for all our stakeholders by delivering innovative solutions, maintaining the highest standards of integrity, and fostering a culture of excellence. We strive to be a catalyst for positive change in every market we serve.
                     </p>
                 </div>
             </div>
-        }
-
-        <div class="text-center mt-4">
-            <a asp-action="Contact" class="btn btn-primary">Contact Us</a>
-            <a asp-action="Services" class="btn btn-outline-primary ms-2">View Our Services</a>
+            <div class="col-md-6">
+                <div class="vision-card h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="vision-icon me-3">
+                            <i class="fas fa-eye fa-2x text-primary"></i>
+                        </div>
+                        <h2 class="mb-0">Our Vision</h2>
+                    </div>
+                    <p class="lead mb-0">
+                        To be recognized globally as a leader in innovation and sustainability, setting new industry standards and creating lasting impact. We envision a future where our diverse portfolio of businesses drives meaningful progress across sectors.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
+<!-- Our Story Section -->
+<section class="our-story-section mb-5 py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-4">Our Story</h2>
+                <p class="lead mb-3">
+                    What began as a small technology startup in 2000 has grown into a diversified group with operations spanning multiple continents. Our journey has been marked by strategic growth, thoughtful acquisitions, and an unwavering commitment to excellence.
+                </p>
+                <p class="mb-3">
+                    Today, Havit Group comprises multiple business units, each a leader in its respective field. From cutting-edge technology solutions to sustainable manufacturing, from innovative real estate development to renewable energy projects, we continue to expand our impact.
+                </p>
+                <p class="mb-0">
+                    Our success is built on the talent and dedication of our team, the trust of our partners, and our relentless pursuit of innovation. As we look to the future, we remain committed to creating value while making a positive difference in the world.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="~/Images/photo-1623715537851-8bc15aa8c145.jpg" class="img-fluid rounded shadow-lg" alt="Our Story">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Journey Section -->
+<section class="our-journey-section mb-5 py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Our Journey</h2>
+            <p class="lead text-muted">Key milestones that shaped our growth</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="timeline-container">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content left">
+                                <div class="timeline-year">2000</div>
+                                <div class="timeline-text">Founded with a vision to transform industries</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content right">
+                                <div class="timeline-year">2005</div>
+                                <div class="timeline-text">Expanded into international markets</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content left">
+                                <div class="timeline-year">2010</div>
+                                <div class="timeline-text">Launched sustainable energy division</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content right">
+                                <div class="timeline-year">2015</div>
+                                <div class="timeline-text">Reached 250+ employees milestone</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content left">
+                                <div class="timeline-year">2020</div>
+                                <div class="timeline-text">Achieved carbon-neutral operations</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content right">
+                                <div class="timeline-year">2025</div>
+                                <div class="timeline-text">Celebrating 25 years of excellence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What Drives Us Section -->
+<section class="what-drives-us-section mb-5 py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">What Drives Us</h2>
+            <p class="lead text-muted">The principles that guide our operations</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="drive-card text-center p-4 h-100">
+                    <div class="drive-icon mb-3">
+                        <i class="fas fa-lightbulb fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Innovation First</h3>
+                    <p class="text-muted mb-0">We invest heavily in R&D to drive breakthrough solutions</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="drive-card text-center p-4 h-100">
+                    <div class="drive-icon mb-3">
+                        <i class="fas fa-globe fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Global Reach</h3>
+                    <p class="text-muted mb-0">Operating in 30+ countries with local expertise</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="drive-card text-center p-4 h-100">
+                    <div class="drive-icon mb-3">
+                        <i class="fas fa-leaf fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">Sustainable Practices</h3>
+                    <p class="text-muted mb-0">Committed to environmental and social responsibility</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="drive-card text-center p-4 h-100">
+                    <div class="drive-icon mb-3">
+                        <i class="fas fa-users fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold mb-3">People Centered</h3>
+                    <p class="text-muted mb-0">Our employees are our greatest asset and strength</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Hero Carousel Styles */
+    .hero-carousel-section {
+        margin-top: -1rem;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
+
+    .carousel-image {
+        height: 500px;
+        object-fit: cover;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .carousel-caption h5 {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @@media (min-width: 768px) {
+        .carousel-caption {
+            padding: 1rem 2rem;
+            bottom: 2rem;
+        }
+
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    /* Mission and Vision Section */
+    .mission-vision-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    }
+
+    .mission-card, .vision-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .mission-card:hover, .vision-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .mission-icon, .vision-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(37, 140, 251, 0.1);
+        border-radius: 50%;
+    }
+
+    /* Our Story Section */
+    .our-story-section {
+        background-color: #ffffff;
+    }
+
+    .our-story-section img {
+        width: 100%;
+        max-height: 480px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .our-story-section img:hover {
+        transform: scale(1.02);
+    }
+
+    /* Our Journey Section - Timeline */
+    .timeline-container {
+        position: relative;
+        padding: 40px 0;
+    }
+
+    .timeline {
+        position: relative;
+        max-width: 100%;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #90EE90 0%, #32CD32 100%);
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 60px;
+        display: flex;
+        align-items: center;
+    }
+
+    .timeline-item:nth-child(odd) {
+        justify-content: flex-start;
+    }
+
+    .timeline-item:nth-child(even) {
+        justify-content: flex-end;
+    }
+
+    .timeline-content {
+        position: relative;
+        background: #90EE90;
+        padding: 20px 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 45%;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .timeline-content.left {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .timeline-content.right {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .timeline-content::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .timeline-content.left::before {
+        right: -15px;
+        border-width: 15px 0 15px 15px;
+        border-color: transparent transparent transparent #90EE90;
+    }
+
+    .timeline-content.right::before {
+        left: -15px;
+        border-width: 15px 15px 15px 0;
+        border-color: transparent #90EE90 transparent transparent;
+    }
+
+    .timeline-year {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    .timeline-text {
+        font-size: 1rem;
+        color: #2c3e50;
+        line-height: 1.6;
+    }
+
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background: #32CD32;
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+    }
+
+    @@media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-content {
+            max-width: calc(100% - 60px);
+            margin-left: 60px !important;
+            margin-right: 0 !important;
+        }
+
+        .timeline-content.left::before,
+        .timeline-content.right::before {
+            left: -15px;
+            right: auto;
+            border-width: 15px 15px 15px 0;
+            border-color: transparent #90EE90 transparent transparent;
+        }
+
+        .timeline-item::after {
+            left: 30px;
+        }
+    }
+
+    /* What Drives Us Section */
+    .what-drives-us-section {
+        background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+    }
+
+    .drive-card {
+        background: white;
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .drive-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .drive-icon {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image {
+            height: 300px;
+        }
+    }
+</style>

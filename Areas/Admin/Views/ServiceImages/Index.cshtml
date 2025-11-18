@@ -1,0 +1,82 @@
+@model List<HavitGroup.Models.ServiceImage>
+@{
+    ViewData["Title"] = "Service Images";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Service Images Management</h1>
+    <a asp-action="Create" class="btn btn-primary">Add New Image</a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var image in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@image.ImagePath" class="card-img-top" alt="@(image.AltText ?? "Service Image")" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @if (image.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <strong>Display Order:</strong> @image.DisplayOrder<br>
+                                <strong>Alt Text:</strong> @(image.AltText ?? "N/A")<br>
+                                <strong>Original File:</strong> @(image.OriginalFileName ?? "N/A")<br>
+                                <strong>Created:</strong> @image.CreatedAt.ToString("g")
+                            </small>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex gap-2">
+                            <form asp-action="ToggleActive" method="post" class="flex-grow-1">
+                                <input type="hidden" name="id" value="@image.Id" />
+                                <button type="submit" class="btn btn-sm btn-info w-100">
+                                    @(image.IsActive ? "Deactivate" : "Activate")
+                                </button>
+                            </form>
+                            <form asp-action="Delete" method="post" class="flex-grow-1" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                <input type="hidden" name="id" value="@image.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger w-100">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No images found.</h4>
+        <p>Get started by uploading your first service page image.</p>
+        <a asp-action="Create" class="btn btn-primary">Upload Image</a>
+    </div>
+}
+

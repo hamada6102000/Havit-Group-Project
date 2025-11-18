@@ -1,55 +1,335 @@
-@model List<HavitGroup.Models.Service>
 @{
     ViewData["Title"] = "Services";
 }
 
-<h1 class="mb-4">Our Services</h1>
-
-@if (Model != null && Model.Any())
+<!-- Hero Image Carousel Section -->
+@{
+    var serviceImages = ViewBag.ServiceImages as List<HavitGroup.Models.ServiceImage>;
+}
+@if (serviceImages != null && serviceImages.Any())
 {
-    <div class="row">
-        @foreach (var service in Model)
-        {
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if (!string.IsNullOrEmpty(service.IconClass))
+    <section class="hero-carousel-section mb-5">
+        <div id="serviceCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+            <div class="carousel-inner">
+                @for (int i = 0; i < serviceImages.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@serviceImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(serviceImages[i].AltText ?? "Havit Group Services")">
+                        @if (!string.IsNullOrWhiteSpace(serviceImages[i].AltText))
                         {
-                            <div class="text-center mb-3">
-                                <i class="@service.IconClass fa-3x text-primary"></i>
+                            <div class="carousel-caption">
+                                <h5>@serviceImages[i].AltText</h5>
                             </div>
                         }
-                        <h5 class="card-title">@service.Title</h5>
-                        <p class="card-text">@service.Description</p>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            @if (service.IsActive)
-                            {
-                                <span class="badge bg-success">Active</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">Inactive</span>
-                            }
-                        </small>
+                }
+            </div>
+            @if (serviceImages.Count > 1)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
+        </div>
+    </section>
+}
+
+<!-- What We Offer Section -->
+<section class="what-we-offer-section mb-5 py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">What We Offer</h2>
+            <p class="lead text-muted">Our diversified portfolio allows us to deliver integrated solutions that drive real value.</p>
+        </div>
+
+        <div class="row g-5">
+            <!-- Technology Solutions -->
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="service-icon-wrapper d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; background-color: #28a745; border-radius: 8px;">
+                                <i class="fas fa-microchip fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3" style="font-size: 1.5rem;">Technology Solutions</h4>
+                        <p class="card-text text-muted mb-4" style="font-size: 1.05rem; line-height: 1.7;">Cutting-edge software development, AI integration, and digital transformation services.</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Enterprise Software Development</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>AI & Machine Learning Solutions</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cloud Infrastructure</li>
+                            <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>Cybersecurity Services</li>
+                        </ul>
                     </div>
                 </div>
             </div>
+
+            <!-- Advanced Manufacturing -->
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="service-icon-wrapper d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; background-color: #28a745; border-radius: 8px;">
+                                <i class="fas fa-industry fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3" style="font-size: 1.5rem;">Advanced Manufacturing</h4>
+                        <p class="card-text text-muted mb-4" style="font-size: 1.05rem; line-height: 1.7;">State-of-the-art manufacturing facilities producing high-quality industrial components.</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Precision Engineering</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Quality Assurance</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Supply Chain Management</li>
+                            <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>Lean Manufacturing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real Estate Development -->
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="service-icon-wrapper d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; background-color: #28a745; border-radius: 8px;">
+                                <i class="fas fa-building fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3" style="font-size: 1.5rem;">Real Estate Development</h4>
+                        <p class="card-text text-muted mb-4" style="font-size: 1.05rem; line-height: 1.7;">Developing sustainable commercial and residential properties in prime locations.</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Commercial Development</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Residential Projects</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Property Management</li>
+                            <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>Urban Planning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Renewable Energy -->
+            <div class="col-md-6 col-lg-6 mb-5">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="service-icon-wrapper d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; background-color: #28a745; border-radius: 8px;">
+                                <i class="fas fa-bolt fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3" style="font-size: 1.5rem;">Renewable Energy</h4>
+                        <p class="card-text text-muted mb-4" style="font-size: 1.05rem; line-height: 1.7;">Leading the transition to clean energy with solar, wind, and innovative storage solutions.</p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Solar Power Systems</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Wind Energy Projects</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Energy Storage Solutions</li>
+                            <li class="mb-0"><i class="fas fa-check-circle text-success me-2"></i>Sustainability Consulting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Havit Group Section -->
+<section class="why-choose-section mb-5 py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="/Images/photo-1521791136064-7986c2920216.jpg" class="img-fluid rounded shadow-lg" alt="Why Choose Havit Group" style="max-height: 500px; width: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="display: none; padding: 2rem; background-color: #f8f9fa; border-radius: 8px; text-align: center;">
+                    <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Image will be displayed here. Please add handshake-image.jpg to wwwroot/Images folder.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold mb-4">Why Choose Havit Group</h2>
+                
+                <div class="mb-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="feature-icon me-3" style="width: 50px; height: 50px; background-color: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Proven Track Record</h5>
+                            <p class="text-muted mb-0">25 years of delivering exceptional results across industries</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="feature-icon me-3" style="width: 50px; height: 50px; background-color: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-users text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Expert Team</h5>
+                            <p class="text-muted mb-0">Industry veterans and innovative thinkers working together</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="feature-icon me-3" style="width: 50px; height: 50px; background-color: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-check-circle text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Quality Assured</h5>
+                            <p class="text-muted mb-0">ISO certified processes and rigorous quality standards</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="@Url.Action("Contact", "Home")" class="btn btn-dark btn-lg mt-3">
+                    Start a Conversation <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section py-5" style="background-color: #28a745;">
+    <div class="container text-center text-white">
+        <h2 class="display-5 fw-bold mb-3">Ready to Transform Your Business?</h2>
+        <p class="lead mb-4">Let's discuss how our solutions can help you achieve your goals</p>
+        <a href="@Url.Action("Contact", "Home")" class="btn btn-light btn-lg">
+            Contact Our Team <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
+
+<style>
+    /* Hero Carousel Styles */
+    .hero-carousel-section {
+        margin-top: -1rem;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
         }
-    </div>
-}
-else
-{
-    <div class="alert alert-info">
-        <h4>No services available at the moment.</h4>
-        <p>Please check back later or contact us for more information.</p>
-    </div>
-}
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
 
-<div class="text-center mt-5">
-    <h3>Interested in our services?</h3>
-    <p>Get in touch with us to discuss your project requirements.</p>
-    <a asp-action="Contact" class="btn btn-primary btn-lg">Contact Us</a>
-</div>
+    .carousel-image {
+        height: 500px;
+        object-fit: cover;
+        animation: fadeIn 1s ease-in;
+    }
 
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .carousel-caption h5 {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @@media (min-width: 768px) {
+        .carousel-caption {
+            padding: 1rem 2rem;
+            bottom: 2rem;
+        }
+
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    /* What We Offer Section */
+    .what-we-offer-section {
+        background-color: #ffffff;
+    }
+
+    .service-icon-wrapper {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .service-icon-wrapper {
+        transform: scale(1.1);
+    }
+
+    /* Why Choose Section */
+    .why-choose-section {
+        background-color: #f8f9fa;
+    }
+
+    .feature-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .feature-icon:hover {
+        transform: scale(1.1);
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image {
+            height: 300px;
+        }
+    }
+</style>
