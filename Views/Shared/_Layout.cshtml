@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="~/FreeLance.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <header >
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Havit Group</a>
+                <a class="navbar-brand" style="color:rgb(41, 78, 52);font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">Havit Group</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,16 +26,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" style="color:rgb(41, 78, 52)" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About Us</a>
+                            <a class="nav-link" style="color:rgb(41, 78, 52)" asp-area="" asp-controller="Home" asp-action="About">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Services">Services</a>
+                            <a class="nav-link" style="color:rgb(41, 78, 52)" asp-area="" asp-controller="Home" asp-action="Services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                            <a class="nav-link" style="color:rgb(41, 78, 52)" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
                         </li>
                         @* Admin link removed - Admin area is only accessible via direct URL: /Admin/Dashboard
                            This prevents regular users from discovering the admin panel through navigation.
@@ -117,3 +117,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

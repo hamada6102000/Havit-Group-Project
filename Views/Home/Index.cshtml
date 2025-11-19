@@ -105,12 +105,13 @@ else
                 <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="img-fluid rounded shadow-lg" alt="Who We Are">
             </div>
         </div>
+        <button class="btn btn-dark" style="background:rgb(41, 78, 52)"> Discover Our Journy <span class="fas fa-arrow-right m-md-1"></span></button>
     </div>
 </section>
 
 <!-- Our Core Values Section -->
-<section class="core-values-section mb-5 py-5 bg-light">
-    <div class="container">
+<section class="core-values-section mb-5 py-5">
+    <div class="core-values-section container">
         <div class="text-center mb-5">
             <h2 class="display-5 fw-bold mb-3">Our Core Values</h2>
             <p class="lead text-muted">These principles guide everything we do and shape our company culture</p>
@@ -119,7 +120,7 @@ else
             <div class="col-md-4">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-lightbulb fa-3x text-primary"></i>
+                        <i class="fas fa-lightbulb fa-3x"></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Innovation</h3>
                     <p class="text-muted">Constantly pushing boundaries and embracing new technologies to stay ahead</p>
@@ -128,7 +129,7 @@ else
             <div class="col-md-4">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-shield-halved fa-3x text-primary"></i>
+                        <i class="fas fa-shield-halved fa-3x"></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Integrity</h3>
                     <p class="text-muted">Building trust through transparency, honesty, and ethical practices</p>
@@ -137,7 +138,7 @@ else
             <div class="col-md-4">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-star fa-3x text-primary"></i>
+                        <i class="fas fa-star fa-3x "></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Excellence</h3>
                     <p class="text-muted">Committed to delivering exceptional quality in everything we undertake</p>
@@ -246,7 +247,7 @@ else
 
     /* Brands Section */
     .brands-section {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        /*background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);*/
     }
 
     .brand-card {
@@ -265,6 +266,7 @@ else
         position: relative;
         overflow: hidden;
         cursor: pointer;
+
     }
 
     .brand-card::before {
@@ -285,7 +287,7 @@ else
     .brand-card:hover {
         transform: translateY(-15px) scale(1.05);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        border-color: #258cfb;
+        border-color: rgb(41, 78, 52);
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     }
 
@@ -300,7 +302,7 @@ else
     }
 
     .brand-card:hover .brand-name {
-        color: #258cfb;
+        color: rgb(41, 78, 52);
         transform: scale(1.1);
     }
 
@@ -348,9 +350,13 @@ else
     }
 
     /* Core Values Section */
-    .core-values-section {
-        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+@*     .core-values-section
+    {
+        background: White;
     }
+    .core-values-section .container{
+        background: White;
+    } *@
 
     .value-card {
         background: white;
@@ -366,6 +372,7 @@ else
 
     .value-icon {
         animation: pulse 2s infinite;
+        color: rgb(41, 78, 52);
     }
 
     @@keyframes pulse {
