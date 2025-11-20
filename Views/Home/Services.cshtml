@@ -185,7 +185,7 @@
                     </div>
                 </div>
 
-                <a href="@Url.Action("Contact", "Home")" class="btn btn-dark btn-lg mt-3">
+                <a href="@Url.Action("Contact", "Home")" class="btn btn-lg mt-3" style="background-color: rgb(41, 78, 52); color: white;">
                     Start a Conversation <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
@@ -194,11 +194,11 @@
 </section>
 
 <!-- Call to Action Section -->
-<section class="cta-section py-5" style="background-color: rgb(41, 78, 52);">
-    <div class="container text-center text-white">
+<section class="cta-section py-5" style="background-color: #F5F5F5;">
+    <div class="container text-center">
         <h2 class="display-5 fw-bold mb-3">Ready to Transform Your Business?</h2>
         <p class="lead mb-4">Let's discuss how our solutions can help you achieve your goals</p>
-        <a href="@Url.Action("Contact", "Home")" class="btn btn-light btn-lg">
+        <a href="@Url.Action("Contact", "Home")" class="btn btn-lg" style="background-color: rgb(41, 78, 52); color: white;">
             Contact Our Team <i class="fas fa-arrow-right ms-2"></i>
         </a>
     </div>
@@ -254,7 +254,7 @@
     }
 
     .carousel-caption {
-        background: rgba(0, 0, 0, 0.6);
+        background: transparent; /* شفاف - Transparent background */
         padding: 0.75rem 1.5rem;
         border-radius: 5px;
         bottom: 1.5rem;
@@ -325,6 +325,53 @@
 
     .feature-icon:hover {
         transform: scale(1.1);
+    }
+
+    /* Call to Action Section - Full Width */
+    .cta-section {
+        margin-left: -15px;
+        margin-right: -15px;
+        width: calc(100% + 30px);
+    }
+    
+    @@media (min-width: 576px) {
+        .cta-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+            width: 100vw;
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .cta-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+            width: 100vw;
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .cta-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+            width: 100vw;
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .cta-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+            width: 100vw;
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .cta-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+            width: 100vw;
+        }
     }
 
     @@media (max-width: 575px) {

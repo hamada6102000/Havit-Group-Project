@@ -19,6 +19,133 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #F5F5F5; /* WhiteSmoke background color */
+}
+
+/* Navbar Brand Styling - Beautiful Display */
+.navbar-brand {
+  font-size: 1.75rem !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgb(41, 78, 52) 0%, rgb(52, 98, 62) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+  letter-spacing: 1.5px;
+}
+
+@media (max-width: 991px) {
+  .navbar-brand {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Navigation Tabs Styling - Bigger Font and Beautiful Hover/Active Effects */
+.navbar-nav .nav-link {
+  font-size: 1.25rem; /* Bigger font size */
+  font-weight: 600;
+  padding: 0.85rem 1.5rem !important;
+  margin: 0 0.3rem;
+  border-radius: 10px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: visible;
+  text-decoration: none !important; /* Remove default underline */
+}
+
+.navbar-nav .nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: rgb(41, 78, 52);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(41, 78, 52, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  z-index: -1;
+}
+
+.navbar-nav .nav-link:hover {
+  color: rgb(41, 78, 52) !important;
+  background-color: rgba(41, 78, 52, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(41, 78, 52, 0.2);
+  text-decoration: none !important;
+}
+
+.navbar-nav .nav-link:hover::before {
+  width: 85%; /* Show underline on hover */
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 200px;
+  height: 200px;
+}
+
+.navbar-nav .nav-link:active,
+.navbar-nav .nav-link.active {
+  color: rgb(41, 78, 52) !important;
+  background-color: transparent !important; /* Remove background color */
+  font-weight: 600; /* Keep normal weight */
+  transform: none !important; /* Remove transform */
+  box-shadow: none !important; /* Remove shadow */
+  text-decoration: none !important;
+}
+
+.navbar-nav .nav-link:active::before,
+.navbar-nav .nav-link.active::before {
+  width: 100%; /* Show full underline when active */
+}
+
+.navbar-nav .nav-link:focus {
+  outline: none !important; /* Remove focus outline */
+  box-shadow: none !important; /* Remove focus shadow */
+  text-decoration: none !important;
+}
+
+.navbar-nav .nav-link:focus::before {
+  width: 100%; /* Show underline on focus */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .navbar-nav .nav-link {
+    font-size: 1.15rem;
+    padding: 0.65rem 1.2rem !important;
+    margin: 0.2rem 0;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    transform: translateY(-2px);
+  }
+  
+  .navbar-nav .nav-link:active,
+  .navbar-nav .nav-link.active {
+    transform: none !important;
+  }
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {

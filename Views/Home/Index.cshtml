@@ -105,7 +105,7 @@ else
                 <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="img-fluid rounded shadow-lg" alt="Who We Are">
             </div>
         </div>
-        <button class="btn btn-dark" style="background:rgb(41, 78, 52)"> Discover Our Journy <span class="fas fa-arrow-right m-md-1"></span></button>
+        <a asp-controller="Home" asp-action="About" class="btn btn-dark" style="background:rgb(41, 78, 52)"> Discover Our Journey <span class="fas fa-arrow-right m-md-1"></span></a>
     </div>
 </section>
 
@@ -198,7 +198,7 @@ else
     }
 
     .carousel-caption {
-        background: rgba(0, 0, 0, 0.6);
+        background: transparent; /* شفاف - Transparent background */
         padding: 0.75rem 1.5rem;
         border-radius: 5px;
         bottom: 1.5rem;
@@ -347,6 +347,14 @@ else
 
     .who-we-are-section img:hover {
         transform: scale(1.05);
+    }
+
+    /* Discover Our Journey Button Focus Style */
+    .who-we-are-section .btn:focus,
+    .who-we-are-section .btn:focus-visible {
+        outline: 2px solid rgb(41, 78, 52);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 0.2rem rgba(41, 78, 52, 0.25);
     }
 
     /* Core Values Section */
