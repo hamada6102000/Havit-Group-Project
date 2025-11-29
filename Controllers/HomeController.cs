@@ -117,6 +117,91 @@ namespace HavitGroup.Controllers
         }
 
         /// <summary>
+        /// Displays the References page
+        /// </summary>
+        /// <returns>References page view</returns>
+        public async Task<IActionResult> References(CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Try to ensure database is migrated
+                await _context.Database.MigrateAsync(cancellationToken);
+            }
+            catch
+            {
+                // Migration failed, continue without settings
+            }
+
+            try
+            {
+                // Load references images for carousel
+                var referencesImages = await _context.ReferencesImages
+                    .Where(i => i.IsActive)
+                    .OrderBy(i => i.DisplayOrder)
+                    .ThenByDescending(i => i.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.ReferencesImages = referencesImages;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without images
+                ViewBag.ReferencesImages = new List<ReferencesImage>();
+            }
+
+            try
+            {
+                // Load statistics
+                var statistics = await _context.Statistics.FindAsync(new object[] { 1 }, cancellationToken);
+                ViewBag.Statistics = statistics;
+            }
+            catch
+            {
+                // Table doesn't exist yet, use default values
+                ViewBag.Statistics = new Statistics
+                {
+                    CompletedProjects = 500,
+                    CountriesServed = 45,
+                    HappyClients = 1000,
+                    SatisfactionRate = 98
+                };
+            }
+
+            try
+            {
+                // Load featured projects
+                var projects = await _context.Projects
+                    .Where(p => p.IsActive)
+                    .OrderBy(p => p.DisplayOrder)
+                    .ThenByDescending(p => p.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.Projects = projects;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without projects
+                ViewBag.Projects = new List<Project>();
+            }
+
+            try
+            {
+                // Load testimonials
+                var testimonials = await _context.Testimonials
+                    .Where(t => t.IsActive)
+                    .OrderBy(t => t.DisplayOrder)
+                    .ThenByDescending(t => t.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.Testimonials = testimonials;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without testimonials
+                ViewBag.Testimonials = new List<Testimonial>();
+            }
+            
+            return View();
+        }
+
+        /// <summary>
         /// Displays the Contact Us page
         /// </summary>
         /// <returns>Contact Us page view</returns>

@@ -1,0 +1,77 @@
+@model HavitGroup.Models.Statistics
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h1 class="mb-4">Statistics</h1>
+<p class="text-muted">Manage the statistics displayed on the References page. These numbers will be animated when the page loads.</p>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-action="Index" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CreatedAt" />
+
+    <!-- Statistics Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Statistics</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CompletedProjects" class="form-label"></label>
+                    <input asp-for="CompletedProjects" class="form-control" type="number" min="0" />
+                    <small class="form-text text-muted">This will display as "500+ Completed Projects" on the References page</small>
+                    <span asp-validation-for="CompletedProjects" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CountriesServed" class="form-label"></label>
+                    <input asp-for="CountriesServed" class="form-control" type="number" min="0" />
+                    <small class="form-text text-muted">This will display as "45+ Countries Served" on the References page</small>
+                    <span asp-validation-for="CountriesServed" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="HappyClients" class="form-label"></label>
+                    <input asp-for="HappyClients" class="form-control" type="number" min="0" />
+                    <small class="form-text text-muted">This will display as "1000+ Happy Clients" on the References page</small>
+                    <span asp-validation-for="HappyClients" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SatisfactionRate" class="form-label"></label>
+                    <input asp-for="SatisfactionRate" class="form-control" type="number" min="0" max="100" />
+                    <small class="form-text text-muted">This will display as "98% Satisfaction Rate" on the References page (0-100)</small>
+                    <span asp-validation-for="SatisfactionRate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary btn-lg">Save Statistics</button>
+        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary btn-lg">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

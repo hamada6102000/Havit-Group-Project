@@ -58,6 +58,26 @@ namespace HavitGroup.Data
         public DbSet<FAQ> FAQs { get; set; }
 
         /// <summary>
+        /// References page carousel images
+        /// </summary>
+        public DbSet<ReferencesImage> ReferencesImages { get; set; }
+
+        /// <summary>
+        /// Featured projects
+        /// </summary>
+        public DbSet<Project> Projects { get; set; }
+
+        /// <summary>
+        /// Site statistics (singleton pattern)
+        /// </summary>
+        public DbSet<Statistics> Statistics { get; set; }
+
+        /// <summary>
+        /// Client testimonials
+        /// </summary>
+        public DbSet<Testimonial> Testimonials { get; set; }
+
+        /// <summary>
         /// Configures the model relationships and constraints
         /// </summary>
         /// <param name="modelBuilder">Model builder instance</param>
@@ -173,6 +193,62 @@ namespace HavitGroup.Data
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Question).IsRequired().HasMaxLength(500);
                 entity.Property(e => e.Answer).IsRequired().HasMaxLength(2000);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure ReferencesImage entity
+            modelBuilder.Entity<ReferencesImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure Project entity
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Brand).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Location).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Country).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Year).IsRequired();
+                entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Description).IsRequired().HasMaxLength(1000);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure Statistics entity (singleton pattern)
+            modelBuilder.Entity<Statistics>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever(); // Prevent auto-increment
+                entity.Property(e => e.CompletedProjects).IsRequired();
+                entity.Property(e => e.CountriesServed).IsRequired();
+                entity.Property(e => e.HappyClients).IsRequired();
+                entity.Property(e => e.SatisfactionRate).IsRequired();
+                entity.Property(e => e.CreatedAt).IsRequired();
+            });
+
+            // Configure Testimonial entity
+            modelBuilder.Entity<Testimonial>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Text).IsRequired().HasMaxLength(1000);
+                entity.Property(e => e.ClientName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.ClientTitle).HasMaxLength(200);
+                entity.Property(e => e.CompanyName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Rating).IsRequired();
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.HasIndex(e => e.IsActive);
                 entity.HasIndex(e => e.DisplayOrder);

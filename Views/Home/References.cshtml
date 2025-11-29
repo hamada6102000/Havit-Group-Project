@@ -1,0 +1,599 @@
+@{
+    ViewData["Title"] = "References";
+}
+
+<!-- Hero Image Carousel Section -->
+@{
+    var referencesImages = ViewBag.ReferencesImages as List<HavitGroup.Models.ReferencesImage>;
+}
+@if (referencesImages != null && referencesImages.Any())
+{
+    <section class="hero-carousel-section mb-5">
+        <div id="referencesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+            <div class="carousel-inner">
+                @for (int i = 0; i < referencesImages.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@referencesImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(referencesImages[i].AltText ?? "Havit Group")">
+                        @if (!string.IsNullOrWhiteSpace(referencesImages[i].AltText))
+                        {
+                            <div class="carousel-caption">
+                                <h5>@referencesImages[i].AltText</h5>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            @if (referencesImages.Count > 1)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#referencesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#referencesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
+        </div>
+    </section>
+}
+
+<!-- Statistics Section -->
+@{
+    var statistics = ViewBag.Statistics as HavitGroup.Models.Statistics;
+    var completedProjects = statistics?.CompletedProjects ?? 500;
+    var countriesServed = statistics?.CountriesServed ?? 45;
+    var happyClients = statistics?.HappyClients ?? 1000;
+    var satisfactionRate = statistics?.SatisfactionRate ?? 98;
+}
+<section class="statistics-section mb-5 py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card text-center p-4 h-100">
+                    <div class="stat-number mb-2" data-target="@completedProjects">0</div>
+                    <div class="stat-label">Completed Projects</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card text-center p-4 h-100">
+                    <div class="stat-number mb-2" data-target="@countriesServed">0</div>
+                    <div class="stat-label">Countries Served</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card text-center p-4 h-100">
+                    <div class="stat-number mb-2" data-target="@happyClients">0</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card text-center p-4 h-100">
+                    <div class="stat-number mb-2" data-target="@satisfactionRate">0</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+@{
+    var projects = ViewBag.Projects as List<HavitGroup.Models.Project>;
+}
+<section class="featured-projects-section mb-5 py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Featured Projects</h2>
+            <p class="lead text-muted">A showcase of our successful furniture solutions across various sectors</p>
+        </div>
+        @if (projects != null && projects.Any())
+        {
+            <div class="row g-4">
+                @foreach (var project in projects)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="project-card h-100">
+                            <div class="project-image-wrapper">
+                                <img src="@project.ImagePath" class="project-image" alt="@project.Title">
+                                <div class="brand-tag">@project.Brand</div>
+                            </div>
+                            <div class="project-content p-4">
+                                <h3 class="project-title mb-3">@project.Title</h3>
+                                <div class="project-meta mb-3">
+                                    <div class="meta-item mb-2">
+                                        <i class="fas fa-map-marker-alt me-2"></i>
+                                        <span>@project.Location, @project.Country</span>
+                                    </div>
+                                    <div class="meta-item mb-2">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        <span>@project.Year</span>
+                                    </div>
+                                </div>
+                                <div class="category-tag mb-3">@project.Category</div>
+                                <p class="project-description mb-0">@project.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <p class="text-muted">No projects available at the moment.</p>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Client Testimonials Section -->
+@{
+    var testimonials = ViewBag.Testimonials as List<HavitGroup.Models.Testimonial>;
+}
+@if (testimonials != null && testimonials.Any())
+{
+    <section class="testimonials-section mb-5 py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">Client Testimonials</h2>
+                <p class="lead text-muted">What our clients say about working with us</p>
+            </div>
+            <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    @{
+                        int itemsPerSlide = 3;
+                        int totalSlides = (int)Math.Ceiling((double)testimonials.Count / itemsPerSlide);
+                    }
+                    @for (int slideIndex = 0; slideIndex < totalSlides; slideIndex++)
+                    {
+                        <div class="carousel-item @(slideIndex == 0 ? "active" : "")">
+                            <div class="row justify-content-center">
+                                @{
+                                    int startIndex = slideIndex * itemsPerSlide;
+                                    int endIndex = Math.Min(startIndex + itemsPerSlide - 1, testimonials.Count - 1);
+                                    int itemsInThisSlide = endIndex - startIndex + 1;
+                                }
+                                @for (int j = startIndex; j <= endIndex; j++)
+                                {
+                                    var item = testimonials[j];
+                                    <div class="col-md-@(itemsInThisSlide == 1 ? "12" : itemsInThisSlide == 2 ? "6" : "4") mb-4">
+                                        <div class="testimonial-card h-100">
+                                            <div class="testimonial-header">
+                                                <div class="testimonial-stars">
+                                                    @for (int k = 1; k <= 5; k++)
+                                                    {
+                                                        <i class="fas fa-star @(k <= item.Rating ? "text-warning" : "text-muted")"></i>
+                                                    }
+                                                </div>
+                                                <div class="testimonial-quote-icon">
+                                                    <i class="fas fa-quote-right"></i>
+                                                </div>
+                                            </div>
+                                            <p class="testimonial-text">"@item.Text"</p>
+                                            <hr class="testimonial-divider">
+                                            <div class="testimonial-footer">
+                                                <h6 class="testimonial-name">@item.ClientName</h6>
+                                                @if (!string.IsNullOrEmpty(item.ClientTitle))
+                                                {
+                                                    <p class="testimonial-title">@item.ClientTitle</p>
+                                                }
+                                                <p class="testimonial-company">@item.CompanyName</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (testimonials.Count > 3)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    /* Hero Carousel Styles */
+    .hero-carousel-section {
+        margin-top: -1rem;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
+
+    .carousel-image {
+        height: 500px;
+        object-fit: cover;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .carousel-caption {
+        background: transparent;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .carousel-caption h5 {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @@media (min-width: 768px) {
+        .carousel-caption {
+            padding: 1rem 2rem;
+            bottom: 2rem;
+        }
+
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    /* Statistics Section */
+    .statistics-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: rgb(41, 78, 52);
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    @@media (max-width: 768px) {
+        .stat-number {
+            font-size: 2.5rem;
+        }
+    }
+
+    /* Featured Projects Section */
+    .featured-projects-section {
+        background-color: #ffffff;
+    }
+
+    .project-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .project-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 250px;
+    }
+
+    .project-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .project-card:hover .project-image {
+        transform: scale(1.1);
+    }
+
+    .brand-tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgb(41, 78, 52);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .project-content {
+        background: white;
+    }
+
+    .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .project-meta {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .meta-item i {
+        color: rgb(41, 78, 52);
+        width: 20px;
+    }
+
+    .category-tag {
+        display: inline-block;
+        background: #e9ecef;
+        color: #6c757d;
+        padding: 0.3rem 0.8rem;
+        border-radius: 5px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .project-description {
+        color: #6c757d;
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+        background-color: #ffffff;
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .testimonial-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-stars {
+        font-size: 1rem;
+    }
+
+    .testimonial-quote-icon {
+        font-size: 3rem;
+        color: rgb(41, 78, 52);
+        opacity: 1;
+        line-height: 1;
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        color: #495057;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .testimonial-divider {
+        border: none;
+        border-top: 1px solid #e9ecef;
+        margin: 1.5rem 0;
+    }
+
+    .testimonial-footer {
+        margin-top: auto;
+    }
+
+    .testimonial-name {
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.25rem;
+        font-size: 1.1rem;
+    }
+
+    .testimonial-title {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .testimonial-company {
+        color: rgb(41, 78, 52);
+        font-weight: 500;
+        margin-bottom: 0;
+        font-size: 0.95rem;
+    }
+
+    #testimonialsCarousel .carousel-control-prev,
+    #testimonialsCarousel .carousel-control-next {
+        width: 50px;
+        height: 50px;
+        background-color: rgb(41, 78, 52);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.8;
+    }
+
+    #testimonialsCarousel .carousel-control-prev {
+        left: -25px;
+    }
+
+    #testimonialsCarousel .carousel-control-next {
+        right: -25px;
+    }
+
+    #testimonialsCarousel .carousel-control-prev:hover,
+    #testimonialsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgb(41, 78, 52);
+    }
+
+    @@media (max-width: 991px) {
+        #testimonialsCarousel .carousel-control-prev {
+            left: 10px;
+        }
+
+        #testimonialsCarousel .carousel-control-next {
+            right: 10px;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image {
+            height: 300px;
+        }
+
+        .testimonial-card {
+            padding: 1.5rem;
+        }
+
+        .testimonial-quote-icon {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<script>
+    // Animate statistics numbers on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-target'));
+                    const suffix = entry.target.textContent.includes('%') ? '%' : '+';
+                    const hasPlus = entry.target.textContent.includes('+');
+                    
+                    animateValue(entry.target, 0, target, 2000, suffix, hasPlus);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        statNumbers.forEach(stat => {
+            observer.observe(stat);
+        });
+
+        function animateValue(element, start, end, duration, suffix, hasPlus) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                element.textContent = current + (hasPlus ? '+' : '') + (suffix === '%' ? '%' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    });
+</script>
+

@@ -1,0 +1,131 @@
+@model HavitGroup.Models.Project
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<h1 class="mb-4">Create New Project</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Brand" class="form-label"></label>
+                        <input asp-for="Brand" class="form-control" placeholder="e.g., Istikbal" />
+                        <span asp-validation-for="Brand" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" placeholder="e.g., Grand Plaza Hotel" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Location" class="form-label"></label>
+                            <input asp-for="Location" class="form-control" placeholder="e.g., Istanbul" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Country" class="form-label"></label>
+                            <input asp-for="Country" class="form-control" placeholder="e.g., Turkey" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Year" class="form-label"></label>
+                        <input asp-for="Year" class="form-control" type="number" min="1900" max="2100" />
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Category" class="form-label"></label>
+                        <input asp-for="Category" class="form-control" placeholder="e.g., Hospitality, Corporate, Residential" />
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Project description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Project Image <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                        <div class="form-text">Allowed formats: JPG, JPEG, PNG, GIF, WEBP. Max size: 10MB</div>
+                        @if (ViewData.ModelState["image"]?.Errors?.Count > 0)
+                        {
+                            <span class="text-danger">@(ViewData.ModelState["image"]?.Errors?[0]?.ErrorMessage ?? "Invalid image")</span>
+                        }
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="DisplayOrder" class="form-label">Display Order</label>
+                        <input asp-for="DisplayOrder" class="form-control" type="number" value="0" min="0" />
+                        <small class="form-text text-muted">Lower numbers appear first</small>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                        <label asp-for="IsActive" class="form-check-label">
+                            Active (visible on website)
+                        </label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Image Preview</h5>
+            </div>
+            <div class="card-body text-center">
+                <img id="imagePreview" src="#" alt="Preview" class="img-fluid" style="display: none; max-height: 300px;">
+                <p id="noPreview" class="text-muted">No image selected</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('noPreview').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('noPreview').style.display = 'block';
+        }
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

@@ -1,0 +1,79 @@
+@model HavitGroup.Models.Testimonial
+@{
+    ViewData["Title"] = "Edit Testimonial";
+}
+
+<h1 class="mb-4">Edit Testimonial</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Text" class="form-label">Testimonial Text <span class="text-danger">*</span></label>
+                        <textarea asp-for="Text" class="form-control" rows="5"></textarea>
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="ClientName" class="form-label">Client Name <span class="text-danger">*</span></label>
+                        <input asp-for="ClientName" class="form-control" />
+                        <span asp-validation-for="ClientName" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="ClientTitle" class="form-label">Client Title</label>
+                        <input asp-for="ClientTitle" class="form-control" />
+                        <span asp-validation-for="ClientTitle" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="CompanyName" class="form-label">Company Name <span class="text-danger">*</span></label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Rating" class="form-label">Rating <span class="text-danger">*</span></label>
+                        <select asp-for="Rating" class="form-select">
+                            <option value="1">1 Star</option>
+                            <option value="2">2 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="5">5 Stars</option>
+                        </select>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="DisplayOrder" class="form-label">Display Order</label>
+                        <input asp-for="DisplayOrder" class="form-control" type="number" min="0" />
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsActive" class="form-check-label">
+                            Active (visible on website)
+                        </label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

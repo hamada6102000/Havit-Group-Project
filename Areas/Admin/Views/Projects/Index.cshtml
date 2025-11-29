@@ -1,0 +1,77 @@
+@model List<HavitGroup.Models.Project>
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Projects Management</h1>
+    <a asp-action="Create" class="btn btn-primary">Add New Project</a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var project in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <img src="@project.ImagePath" class="card-img-top" alt="@project.Title" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@project.Title</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <strong>Brand:</strong> @project.Brand<br>
+                                <strong>Location:</strong> @project.Location, @project.Country<br>
+                                <strong>Year:</strong> @project.Year<br>
+                                <strong>Category:</strong> @project.Category<br>
+                                <strong>Display Order:</strong> @project.DisplayOrder<br>
+                                <strong>Status:</strong> 
+                                @if (project.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Inactive</span>
+                                }
+                            </small>
+                        </p>
+                        <p class="card-text">@(project.Description.Length > 100 ? project.Description.Substring(0, 100) + "..." : project.Description)</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-sm btn-info flex-grow-1">View</a>
+                            <a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-sm btn-warning flex-grow-1">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@project.Id" class="btn btn-sm btn-danger flex-grow-1">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No projects found.</h4>
+        <p>Get started by creating your first project.</p>
+        <a asp-action="Create" class="btn btn-primary">Create Project</a>
+    </div>
+}
+

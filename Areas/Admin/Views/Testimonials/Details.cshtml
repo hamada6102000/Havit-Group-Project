@@ -1,0 +1,58 @@
+@model HavitGroup.Models.Testimonial
+@{
+    ViewData["Title"] = "Testimonial Details";
+}
+
+<h1 class="mb-4">Testimonial Details</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Testimonial Information</h5>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <strong>Rating:</strong>
+            @for (int i = 1; i <= 5; i++)
+            {
+                <i class="fas fa-star @(i <= Model.Rating ? "text-warning" : "text-muted")"></i>
+            }
+        </div>
+        <dl class="row">
+            <dt class="col-sm-3">Testimonial:</dt>
+            <dd class="col-sm-9"><em>"@Model.Text"</em></dd>
+            
+            <dt class="col-sm-3">Client Name:</dt>
+            <dd class="col-sm-9">@Model.ClientName</dd>
+            
+            <dt class="col-sm-3">Client Title:</dt>
+            <dd class="col-sm-9">@(Model.ClientTitle ?? "N/A")</dd>
+            
+            <dt class="col-sm-3">Company Name:</dt>
+            <dd class="col-sm-9"><span class="text-success">@Model.CompanyName</span></dd>
+            
+            <dt class="col-sm-3">Display Order:</dt>
+            <dd class="col-sm-9">@Model.DisplayOrder</dd>
+            
+            <dt class="col-sm-3">Status:</dt>
+            <dd class="col-sm-9">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">Inactive</span>
+                }
+            </dd>
+            
+            <dt class="col-sm-3">Created At:</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("F")</dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+

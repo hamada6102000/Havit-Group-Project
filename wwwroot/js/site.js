@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             (currentPath === '/' && linkPath.includes('/home/index')) ||
             (currentPath.includes('/home/about') && linkPath.includes('/home/about')) ||
             (currentPath.includes('/home/services') && linkPath.includes('/home/services')) ||
+            (currentPath.includes('/home/references') && linkPath.includes('/home/references')) ||
             (currentPath.includes('/home/contact') && linkPath.includes('/home/contact'))) {
             link.classList.add('active');
         }
