@@ -12,6 +12,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Company</th>
                     <th>Email</th>
                     <th>Subject</th>
                     <th>Submitted At</th>
@@ -24,6 +25,7 @@
                 {
                     <tr class="@(!message.IsRead ? "table-warning" : "")">
                         <td>@message.Name</td>
+                        <td>@(string.IsNullOrEmpty(message.Company) ? "-" : message.Company)</td>
                         <td>@message.Email</td>
                         <td>@message.Subject</td>
                         <td>@message.SubmittedAt.ToString("g")</td>

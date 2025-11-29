@@ -87,6 +87,31 @@
         </div>
     </div>
 
+    <!-- Location Section Settings -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Location Section (Contact Page)</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="LocationHeading" class="form-label"></label>
+                    <input asp-for="LocationHeading" class="form-control" placeholder="Our Location" />
+                    <small class="form-text text-muted">Main heading for the location section on contact page</small>
+                    <span asp-validation-for="LocationHeading" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="LocationSubheading" class="form-label"></label>
+                    <input asp-for="LocationSubheading" class="form-control" placeholder="Visit our headquarters in the heart of New York City" />
+                    <small class="form-text text-muted">Subheading text displayed below the main heading</small>
+                    <span asp-validation-for="LocationSubheading" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Company Information Section -->
     <div class="card mb-4">
         <div class="card-header bg-success text-white">

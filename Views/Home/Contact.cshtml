@@ -3,119 +3,547 @@
     ViewData["Title"] = "Contact Us";
 }
 
-<h1 class="mb-4">Contact Us</h1>
+<!-- Hero Image Carousel Section -->
+@{
+    var contactImages = ViewBag.ContactImages as List<HavitGroup.Models.ContactImage>;
+}
+@if (contactImages != null && contactImages.Any())
+{
+    <section class="hero-carousel-section mb-5">
+        <div id="contactCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+            <div class="carousel-inner">
+                @for (int i = 0; i < contactImages.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@contactImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(contactImages[i].AltText ?? "Havit Group Contact")">
+                        @if (!string.IsNullOrWhiteSpace(contactImages[i].AltText))
+                        {
+                            <div class="carousel-caption">
+                                <h5>@contactImages[i].AltText</h5>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            @if (contactImages.Count > 1)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#contactCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#contactCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
+        </div>
+    </section>
+}
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-title mb-4">Send us a Message</h2>
-                
-                <form asp-action="Contact" method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="container my-5">
+    <div class="row">
+        <!-- Left Section: Contact Form -->
+        <div class="col-lg-7 mb-5 mb-lg-0">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="card-title mb-4 fw-bold">Send us a Message</h2>
                     
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" type="email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label asp-for="Subject" class="form-label"></label>
-                        <input asp-for="Subject" class="form-control" />
-                        <span asp-validation-for="Subject" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label asp-for="Message" class="form-label"></label>
-                        <textarea asp-for="Message" class="form-control" rows="5"></textarea>
-                        <span asp-validation-for="Message" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label asp-for="Attachment" class="form-label"></label>
-                        <input asp-for="Attachment" type="file" class="form-control" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" />
-                        <small class="form-text text-muted">Optional: Upload a file (PDF, DOC, DOCX, TXT, JPG, PNG - Max 10MB)</small>
-                        <span asp-validation-for="Attachment" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                        <button type="reset" class="btn btn-secondary">Clear</button>
-                    </div>
-                </form>
+                    <form asp-action="Contact" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold">
+                                @Html.DisplayNameFor(m => m.Name) <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="John Doe" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-semibold">
+                                @Html.DisplayNameFor(m => m.Email) <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Email" class="form-control form-control-lg" type="email" placeholder="john@example.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Company" class="form-label fw-semibold">
+                                    @Html.DisplayNameFor(m => m.Company)
+                                </label>
+                                <input asp-for="Company" class="form-control form-control-lg" placeholder="Your Company" />
+                                <span asp-validation-for="Company" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label fw-semibold">
+                                    @Html.DisplayNameFor(m => m.Phone)
+                                </label>
+                                <input asp-for="Phone" class="form-control form-control-lg" placeholder="+1 (555) 000-0000" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label fw-semibold">
+                                @Html.DisplayNameFor(m => m.Subject) <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Subject" class="form-control form-control-lg" placeholder="How can we help?" />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="Message" class="form-label fw-semibold">
+                                @Html.DisplayNameFor(m => m.Message) <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="Message" class="form-control form-control-lg" rows="5" placeholder="Tell us more about your inquiry.."></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark btn-lg px-5">
+                                Send Message <i class="fas fa-paper-plane ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Contact Information</h3>
-                @{
-                    var settings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
-                }
-                @if (settings != null)
-                {
-                    @if (!string.IsNullOrEmpty(settings.Email))
-                    {
-                        <p><strong>Email:</strong> <a href="mailto:@settings.Email">@settings.Email</a></p>
+        
+        <!-- Right Section: Contact Information -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="card-title mb-4 fw-bold">Contact Information</h3>
+                    <p class="text-muted mb-4">Reach out to us through any of the following channels. Our team is ready to assist you with your inquiries.</p>
+                    
+                    @{
+                        var settings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
                     }
-                    @if (!string.IsNullOrEmpty(settings.Phone))
+                    
+                    @if (settings != null)
                     {
-                        <p><strong>Phone:</strong> <a href="tel:@settings.Phone">@settings.Phone</a></p>
+                        <!-- Visit Us -->
+                        @if (!string.IsNullOrEmpty(settings.AddressLine1) || !string.IsNullOrEmpty(settings.City))
+                        {
+                            <div class="mb-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="contact-icon-wrapper me-3">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-semibold mb-2">Visit Us</h5>
+                                        <p class="mb-1 text-muted">
+                                            @if (!string.IsNullOrEmpty(settings.AddressLine1))
+                                            {
+                                                @settings.AddressLine1<br />
+                                            }
+                                            @if (!string.IsNullOrEmpty(settings.AddressLine2))
+                                            {
+                                                @settings.AddressLine2<br />
+                                            }
+                                            @if (!string.IsNullOrEmpty(settings.City))
+                                            {
+                                                @settings.City
+                                                @if (!string.IsNullOrEmpty(settings.State))
+                                                {
+                                                    <text>, @settings.State</text>
+                                                }
+                                                @if (!string.IsNullOrEmpty(settings.PostalCode))
+                                                {
+                                                    <text> @settings.PostalCode</text>
+                                                }
+                                                <br />
+                                            }
+                                            @if (!string.IsNullOrEmpty(settings.Country))
+                                            {
+                                                @settings.Country
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <!-- Call Us -->
+                        @if (!string.IsNullOrEmpty(settings.Phone) || !string.IsNullOrEmpty(settings.Mobile))
+                        {
+                            <div class="mb-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="contact-icon-wrapper me-3">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-semibold mb-2">Call Us</h5>
+                                        @if (!string.IsNullOrEmpty(settings.Phone))
+                                        {
+                                            <p class="mb-1">
+                                                <a href="tel:@settings.Phone" class="text-decoration-none text-dark">@settings.Phone</a>
+                                            </p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(settings.Mobile))
+                                        {
+                                            <p class="mb-1">
+                                                <a href="tel:@settings.Mobile" class="text-decoration-none text-dark">@settings.Mobile</a>
+                                            </p>
+                                        }
+                                        <p class="mb-0 text-muted small">Mon-Fri: 9am-6pm EST</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <!-- Email Us -->
+                        @if (!string.IsNullOrEmpty(settings.Email))
+                        {
+                            <div class="mb-4">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="contact-icon-wrapper me-3">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-semibold mb-2">Email Us</h5>
+                                        <p class="mb-1">
+                                            <a href="mailto:@settings.Email" class="text-decoration-none text-dark">@settings.Email</a>
+                                        </p>
+                                        @if (!string.IsNullOrEmpty(settings.Mobile))
+                                        {
+                                            <p class="mb-1">
+                                                <a href="mailto:support@havitgroup.com" class="text-decoration-none text-dark">support@havitgroup.com</a>
+                                            </p>
+                                        }
+                                        <p class="mb-0">
+                                            <a href="mailto:careers@havitgroup.com" class="text-decoration-none text-dark">careers@havitgroup.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        <!-- Business Hours -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="contact-icon-wrapper me-3">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2">Business Hours</h5>
+                                    <p class="mb-1 text-muted">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                                    <p class="mb-1 text-muted">Saturday: 10:00 AM - 2:00 PM</p>
+                                    <p class="mb-0 text-muted">Sunday: Closed</p>
+                                </div>
+                            </div>
+                        </div>
                     }
-                    @if (!string.IsNullOrEmpty(settings.Mobile))
+                    else
                     {
-                        <p><strong>Mobile:</strong> <a href="tel:@settings.Mobile">@settings.Mobile</a></p>
+                        <div class="alert alert-info">
+                            <p class="mb-0">Contact information will be displayed here once configured in Admin Settings.</p>
+                        </div>
                     }
-                    @if (!string.IsNullOrEmpty(settings.AddressLine1) || !string.IsNullOrEmpty(settings.City))
-                    {
-                        <p><strong>Address:</strong><br />
-                        @if (!string.IsNullOrEmpty(settings.AddressLine1))
-                        {
-                            @settings.AddressLine1<br />
-                        }
-                        @if (!string.IsNullOrEmpty(settings.AddressLine2))
-                        {
-                            @settings.AddressLine2<br />
-                        }
-                        @if (!string.IsNullOrEmpty(settings.City))
-                        {
-                            @settings.City
-                            @if (!string.IsNullOrEmpty(settings.State))
-                            {
-                                <text>, @settings.State</text>
-                            }
-                            @if (!string.IsNullOrEmpty(settings.PostalCode))
-                            {
-                                <text> @settings.PostalCode</text>
-                            }
-                            <br />
-                        }
-                        @if (!string.IsNullOrEmpty(settings.Country))
-                        {
-                            @settings.Country
-                        }
-                        </p>
-                    }
-                }
-                else
-                {
-                    <p class="text-muted">Contact information will be displayed here once configured in Admin Settings.</p>
-                }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Our Location Section -->
+@{
+    var locationSettings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
+    var hasAddress = locationSettings != null && (!string.IsNullOrEmpty(locationSettings.AddressLine1) || !string.IsNullOrEmpty(locationSettings.City));
+}
+@if (hasAddress)
+{
+    <section class="location-section py-5 my-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">@(locationSettings?.LocationHeading ?? "Our Location")</h2>
+                @if (!string.IsNullOrEmpty(locationSettings?.LocationSubheading))
+                {
+                    <p class="lead text-muted">@locationSettings.LocationSubheading</p>
+                }
+            </div>
+            
+            @{
+                // Build full address for Google Maps
+                var addressParts = new List<string>();
+                if (!string.IsNullOrEmpty(locationSettings.AddressLine1))
+                {
+                    addressParts.Add(locationSettings.AddressLine1);
+                }
+                if (!string.IsNullOrEmpty(locationSettings.City))
+                {
+                    var cityState = locationSettings.City;
+                    if (!string.IsNullOrEmpty(locationSettings.State))
+                    {
+                        cityState += ", " + locationSettings.State;
+                    }
+                    if (!string.IsNullOrEmpty(locationSettings.PostalCode))
+                    {
+                        cityState += " " + locationSettings.PostalCode;
+                    }
+                    addressParts.Add(cityState);
+                }
+                if (!string.IsNullOrEmpty(locationSettings.Country))
+                {
+                    addressParts.Add(locationSettings.Country);
+                }
+                var fullAddress = string.Join(", ", addressParts);
+                var googleMapsUrl = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(fullAddress)}";
+            }
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <a href="@googleMapsUrl" target="_blank" class="location-map-link text-decoration-none">
+                        <div class="location-map-container">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marker-alt fa-3x mb-3"></i>
+                                <h5 class="fw-semibold mb-2">Interactive Map</h5>
+                                <p class="text-muted mb-0">@fullAddress</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Frequently Asked Questions Section -->
+@{
+    var faqs = ViewBag.FAQs as List<HavitGroup.Models.FAQ>;
+}
+@if (faqs != null && faqs.Any())
+{
+    <section class="faq-section py-5 my-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="text-center mb-5">
+                                <h2 class="display-5 fw-bold mb-3">Frequently Asked Questions</h2>
+                                <p class="lead text-muted">Quick answers to common questions</p>
+                            </div>
+                            
+                            <div class="faq-list">
+                                @foreach (var faq in faqs)
+                                {
+                                    <div class="faq-item mb-4">
+                                        <h5 class="faq-question fw-bold mb-2">@faq.Question</h5>
+                                        <p class="faq-answer text-muted mb-0">@faq.Answer</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    /* Hero Carousel Styles */
+    .hero-carousel-section {
+        margin-top: -1rem;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
+
+    .carousel-image {
+        height: 500px;
+        object-fit: cover;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .carousel-caption {
+        background: transparent;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .carousel-caption h5 {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    @@media (min-width: 768px) {
+        .carousel-caption {
+            padding: 1rem 2rem;
+            bottom: 2rem;
+        }
+
+        .carousel-caption h5 {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image {
+            height: 300px;
+        }
+    }
+
+    /* Contact Page Styles */
+    .contact-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        background-color: rgb(41, 78, 52);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .form-control-lg {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+
+    .btn-dark {
+        background-color: rgb(41, 78, 52);
+        border-color: rgb(41, 78, 52);
+        color: white;
+    }
+
+    .btn-dark:hover {
+        background-color: rgb(32, 62, 42);
+        border-color: rgb(32, 62, 42);
+        color: white;
+    }
+
+    /* Location Section Styles */
+    .location-section {
+        background-color: #f8f9fa;
+    }
+
+    .location-map-link {
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .location-map-link:hover {
+        transform: translateY(-5px);
+        text-decoration: none;
+    }
+
+    .location-map-container {
+        background-color: #e9ecef;
+        border-radius: 12px;
+        padding: 4rem 2rem;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .location-map-link:hover .location-map-container {
+        background-color: #dee2e6;
+    }
+
+    .map-placeholder {
+        text-align: center;
+        color: #495057;
+    }
+
+    .map-placeholder i {
+        color: rgb(41, 78, 52);
+    }
+
+    .map-placeholder h5 {
+        color: #212529;
+    }
+
+    /* FAQ Section Styles */
+    .faq-section {
+        background-color: #ffffff;
+    }
+
+    .faq-item {
+        position: relative;
+        padding-left: 1.5rem;
+        border-left: 4px solid rgb(41, 78, 52);
+    }
+
+    .faq-question {
+        color: #212529;
+        font-size: 1.1rem;
+    }
+
+    .faq-answer {
+        color: #6c757d;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+</style>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

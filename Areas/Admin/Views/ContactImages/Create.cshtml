@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = "Add Contact Image";
+}
+
+<h1 class="mb-4">Add New Contact Image</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h5>Please fix the following errors:</h5>
+        <ul class="mb-0">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            
+            <div class="mb-3">
+                <label for="image" class="form-label">Image File <span class="text-danger">*</span></label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                <div class="form-text">Allowed formats: JPG, JPEG, PNG, GIF, WEBP. Max size: 10MB</div>
+                @if (ViewData.ModelState["image"]?.Errors?.Count > 0)
+                {
+                    <span class="text-danger">@(ViewData.ModelState["image"]?.Errors?[0]?.ErrorMessage ?? "Invalid image")</span>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label for="altText" class="form-label">Alt Text / Caption</label>
+                <input type="text" class="form-control" id="altText" name="altText" placeholder="Enter alt text or caption for the image">
+                <div class="form-text">Optional: Descriptive text for screen readers and carousel caption</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="displayOrder" class="form-label">Display Order</label>
+                <input type="number" class="form-control" id="displayOrder" name="displayOrder" value="0" min="0">
+                <div class="form-text">Lower numbers appear first in the carousel</div>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="isActive" name="isActive" checked>
+                <label class="form-check-label" for="isActive">
+                    Active (Image will be displayed on contact page)
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Upload Image</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Image Preview</h5>
+            </div>
+            <div class="card-body text-center">
+                <img id="imagePreview" src="#" alt="Preview" class="img-fluid" style="display: none; max-height: 300px;">
+                <p id="noPreview" class="text-muted">No image selected</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('noPreview').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('noPreview').style.display = 'block';
+        }
+    });
+</script>
+

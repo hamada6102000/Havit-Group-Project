@@ -144,6 +144,38 @@ namespace HavitGroup.Controllers
                 // Table doesn't exist yet, continue without settings
                 ViewBag.Settings = null;
             }
+
+            try
+            {
+                // Load contact images for carousel
+                var contactImages = await _context.ContactImages
+                    .Where(i => i.IsActive)
+                    .OrderBy(i => i.DisplayOrder)
+                    .ThenByDescending(i => i.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.ContactImages = contactImages;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without images
+                ViewBag.ContactImages = new List<ContactImage>();
+            }
+
+            try
+            {
+                // Load FAQs
+                var faqs = await _context.FAQs
+                    .Where(f => f.IsActive)
+                    .OrderBy(f => f.DisplayOrder)
+                    .ThenByDescending(f => f.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.FAQs = faqs;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without FAQs
+                ViewBag.FAQs = new List<FAQ>();
+            }
             
             return View(new ContactViewModel());
         }
@@ -160,6 +192,45 @@ namespace HavitGroup.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // Reload settings and images for the view
+                try
+                {
+                    var settings = await _context.SiteSettings.FindAsync(new object[] { 1 }, cancellationToken);
+                    ViewBag.Settings = settings;
+                }
+                catch
+                {
+                    ViewBag.Settings = null;
+                }
+
+                try
+                {
+                    var contactImages = await _context.ContactImages
+                        .Where(i => i.IsActive)
+                        .OrderBy(i => i.DisplayOrder)
+                        .ThenByDescending(i => i.CreatedAt)
+                        .ToListAsync(cancellationToken);
+                    ViewBag.ContactImages = contactImages;
+                }
+                catch
+                {
+                    ViewBag.ContactImages = new List<ContactImage>();
+                }
+
+                try
+                {
+                    var faqs = await _context.FAQs
+                        .Where(f => f.IsActive)
+                        .OrderBy(f => f.DisplayOrder)
+                        .ThenByDescending(f => f.CreatedAt)
+                        .ToListAsync(cancellationToken);
+                    ViewBag.FAQs = faqs;
+                }
+                catch
+                {
+                    ViewBag.FAQs = new List<FAQ>();
+                }
+
                 return View(model);
             }
 
@@ -194,6 +265,8 @@ namespace HavitGroup.Controllers
                 {
                     Name = model.Name,
                     Email = model.Email,
+                    Company = model.Company,
+                    Phone = model.Phone,
                     Subject = model.Subject,
                     Message = model.Message,
                     AttachmentPath = attachmentPath,
@@ -209,6 +282,8 @@ namespace HavitGroup.Controllers
                     <h2>New Contact Form Submission</h2>
                     <p><strong>Name:</strong> {model.Name}</p>
                     <p><strong>Email:</strong> {model.Email}</p>
+                    {(string.IsNullOrEmpty(model.Company) ? "" : $"<p><strong>Company:</strong> {model.Company}</p>")}
+                    {(string.IsNullOrEmpty(model.Phone) ? "" : $"<p><strong>Phone:</strong> {model.Phone}</p>")}
                     <p><strong>Subject:</strong> {model.Subject}</p>
                     <p><strong>Message:</strong></p>
                     <p>{model.Message.Replace("\n", "<br>")}</p>
@@ -228,6 +303,46 @@ namespace HavitGroup.Controllers
             {
                 _logger.LogError(ex, "Error processing contact form submission");
                 ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+                
+                // Reload settings and images for the view
+                try
+                {
+                    var settings = await _context.SiteSettings.FindAsync(new object[] { 1 }, cancellationToken);
+                    ViewBag.Settings = settings;
+                }
+                catch
+                {
+                    ViewBag.Settings = null;
+                }
+
+                try
+                {
+                    var contactImages = await _context.ContactImages
+                        .Where(i => i.IsActive)
+                        .OrderBy(i => i.DisplayOrder)
+                        .ThenByDescending(i => i.CreatedAt)
+                        .ToListAsync(cancellationToken);
+                    ViewBag.ContactImages = contactImages;
+                }
+                catch
+                {
+                    ViewBag.ContactImages = new List<ContactImage>();
+                }
+
+                try
+                {
+                    var faqs = await _context.FAQs
+                        .Where(f => f.IsActive)
+                        .OrderBy(f => f.DisplayOrder)
+                        .ThenByDescending(f => f.CreatedAt)
+                        .ToListAsync(cancellationToken);
+                    ViewBag.FAQs = faqs;
+                }
+                catch
+                {
+                    ViewBag.FAQs = new List<FAQ>();
+                }
+
                 return View(model);
             }
         }

@@ -48,6 +48,16 @@ namespace HavitGroup.Data
         public DbSet<ServiceImage> ServiceImages { get; set; }
 
         /// <summary>
+        /// Contact page carousel images
+        /// </summary>
+        public DbSet<ContactImage> ContactImages { get; set; }
+
+        /// <summary>
+        /// Frequently asked questions
+        /// </summary>
+        public DbSet<FAQ> FAQs { get; set; }
+
+        /// <summary>
         /// Configures the model relationships and constraints
         /// </summary>
         /// <param name="modelBuilder">Model builder instance</param>
@@ -140,6 +150,29 @@ namespace HavitGroup.Data
                 entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
                 entity.Property(e => e.OriginalFileName).HasMaxLength(255);
                 entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure ContactImage entity
+            modelBuilder.Entity<ContactImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.AltText).HasMaxLength(200);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+            });
+
+            // Configure FAQ entity
+            modelBuilder.Entity<FAQ>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Question).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.Answer).IsRequired().HasMaxLength(2000);
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.HasIndex(e => e.IsActive);
                 entity.HasIndex(e => e.DisplayOrder);

@@ -78,6 +78,20 @@ namespace HavitGroup.Models
         [Display(Name = "Country")]
         public string? Country { get; set; }
 
+        /// <summary>
+        /// Location section heading
+        /// </summary>
+        [StringLength(200, ErrorMessage = "Location heading cannot exceed 200 characters")]
+        [Display(Name = "Location Heading")]
+        public string? LocationHeading { get; set; }
+
+        /// <summary>
+        /// Location section subheading
+        /// </summary>
+        [StringLength(500, ErrorMessage = "Location subheading cannot exceed 500 characters")]
+        [Display(Name = "Location Subheading")]
+        public string? LocationSubheading { get; set; }
+
         // Company Information
         /// <summary>
         /// Company name

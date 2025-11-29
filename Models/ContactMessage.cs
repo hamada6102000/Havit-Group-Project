@@ -28,6 +28,18 @@ namespace HavitGroup.Models
         public string Email { get; set; } = string.Empty;
 
         /// <summary>
+        /// Company name (optional)
+        /// </summary>
+        [StringLength(100, ErrorMessage = "Company name cannot exceed 100 characters")]
+        public string? Company { get; set; }
+
+        /// <summary>
+        /// Phone number (optional)
+        /// </summary>
+        [StringLength(50, ErrorMessage = "Phone cannot exceed 50 characters")]
+        public string? Phone { get; set; }
+
+        /// <summary>
         /// Subject of the message
         /// </summary>
         [Required(ErrorMessage = "Subject is required")]
