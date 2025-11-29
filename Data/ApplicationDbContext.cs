@@ -97,6 +97,7 @@ namespace HavitGroup.Data
                 entity.Property(e => e.Country).HasMaxLength(100);
                 entity.Property(e => e.CompanyName).HasMaxLength(200);
                 entity.Property(e => e.Tagline).HasMaxLength(500);
+                entity.Property(e => e.FooterDescription).HasMaxLength(500);
                 entity.Property(e => e.Mission).HasMaxLength(2000);
                 entity.Property(e => e.Values).HasMaxLength(2000);
                 entity.Property(e => e.WhyChooseUs).HasMaxLength(2000);

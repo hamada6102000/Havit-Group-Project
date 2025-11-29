@@ -107,6 +107,14 @@
                     <span asp-validation-for="Tagline" class="text-danger"></span>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="FooterDescription" class="form-label"></label>
+                    <textarea asp-for="FooterDescription" class="form-control" rows="3" placeholder="Leading the way in innovation and excellence. Building sustainable solutions for tomorrow's challenges."></textarea>
+                    <span asp-validation-for="FooterDescription" class="text-danger"></span>
+                    <small class="form-text text-muted">This text appears in the footer under the company name.</small>
+                </div>
+            </div>
         </div>
     </div>
 

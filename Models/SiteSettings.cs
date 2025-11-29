@@ -93,6 +93,13 @@ namespace HavitGroup.Models
         [Display(Name = "Tagline")]
         public string? Tagline { get; set; }
 
+        /// <summary>
+        /// Footer description text displayed under company name
+        /// </summary>
+        [StringLength(500, ErrorMessage = "Footer description cannot exceed 500 characters")]
+        [Display(Name = "Footer Description")]
+        public string? FooterDescription { get; set; }
+
         // About Page Content
         /// <summary>
         /// Mission statement for About page
