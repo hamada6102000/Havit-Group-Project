@@ -260,9 +260,22 @@
     }
 
     .carousel-image {
-        height: 500px;
+        max-height: 600px;
+        width: 100%;
         object-fit: cover;
+        object-position: center;
+        background-color: #f8f9fa;
         animation: fadeIn 1s ease-in;
+        display: block;
+    }
+
+    .carousel-item {
+        min-height: 400px;
+        background-color: #f8f9fa;
+    }
+
+    .carousel-item img {
+        margin: 0 auto;
     }
 
     .carousel-caption {
@@ -349,8 +362,10 @@
 
     .our-story-section img {
         width: 100%;
-        max-height: 480px;
-        object-fit: cover;
+        max-height: 600px;
+        object-fit: contain;
+        object-position: center;
+        background-color: #f8f9fa;
         transition: transform 0.3s ease;
     }
 
@@ -533,7 +548,7 @@
 
     @@media (max-width: 575px) {
         .carousel-image {
-            height: 300px;
+            max-height: 400px;
         }
     }
 </style>
