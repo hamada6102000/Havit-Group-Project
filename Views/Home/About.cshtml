@@ -360,14 +360,12 @@
         background-color: #ffffff;
     }
 
-    .our-story-section img {
-        width: 100%;
-        max-height: 600px;
-        object-fit: contain;
-        object-position: center;
-        background-color: #f8f9fa;
-        transition: transform 0.3s ease;
-    }
+        .our-story-section img {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
 
     .our-story-section img:hover {
         transform: scale(1.02);
@@ -548,7 +546,7 @@
 
     @@media (max-width: 575px) {
         .carousel-image {
-            max-height: 400px;
+            height: 300px;
         }
     }
 </style>
