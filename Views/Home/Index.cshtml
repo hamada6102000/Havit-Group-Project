@@ -158,6 +158,151 @@ else
     </div>
 </section>
 
+<!-- Why Choose Havit Group Section (added) -->
+<section class="why-choose-section mb-5 py-5">
+ <div class="container">
+ <div class="text-center mb-4">
+ <h2 class="display-5 fw-bold mb-3">Why Choose Havit Group</h2>
+            <p class="lead text-muted">
+                We combine decades of expertise with innovative solutions to deliver furniture that exceeds<br />
+                expectations
+            </p>
+
+ </div>
+ <div class="row g-4 justify-content-center">
+ <div class="col-sm-8 col-md-6 col-lg-3">
+ <div class="feature-card p-4 h-100 bg-white rounded shadow-sm border">
+ <div class="feature-icon mb-3 d-inline-flex align-items-center justify-content-center rounded-circle">
+ <i class="fas fa-star"></i>
+ </div>
+ <h5 class="fw-bold mt-2">Premium Quality</h5>
+ <p class="text-muted small">Each piece is crafted with precision using the finest materials and latest manufacturing techniques.</p>
+ </div>
+ </div>
+ <div class="col-sm-8 col-md-6 col-lg-3">
+ <div class="feature-card p-4 h-100 bg-white rounded shadow-sm border">
+ <div class="feature-icon mb-3 d-inline-flex align-items-center justify-content-center rounded-circle">
+ <i class="fas fa-shield-alt"></i>
+ </div>
+ <h5 class="fw-bold mt-2">Trusted Expertise</h5>
+ <p class="text-muted small">Over 25 years of experience delivering furniture solutions to clients across 45+ countries.</p>
+ </div>
+ </div>
+ <div class="col-sm-8 col-md-6 col-lg-3">
+ <div class="feature-card p-4 h-100 bg-white rounded shadow-sm border">
+ <div class="feature-icon mb-3 d-inline-flex align-items-center justify-content-center rounded-circle">
+ <i class="fas fa-check-circle"></i>
+ </div>
+ <h5 class="fw-bold mt-2">Complete Solutions</h5>
+ <p class="text-muted small">From design consultation to installation, we provide end-to-end furniture solutions.</p>
+ </div>
+ </div>
+ <div class="col-sm-8 col-md-6 col-lg-3">
+ <div class="feature-card p-4 h-100 bg-white rounded shadow-sm border">
+ <div class="feature-icon mb-3 d-inline-flex align-items-center justify-content-center rounded-circle">
+ <i class="fas fa-clock"></i>
+ </div>
+ <h5 class="fw-bold mt-2">Timely Delivery</h5>
+ <p class="text-muted small">We pride ourselves on meeting deadlines and ensuring your projects stay on schedule.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+@{ 
+ var statistics = ViewBag.Statistics as HavitGroup.Models.Statistics;
+ var completedProjects = statistics?.CompletedProjects ??500;
+ var countriesServed = statistics?.CountriesServed ??45;
+ var happyClients = statistics?.HappyClients ??1000;
+ var satisfactionRate = statistics?.SatisfactionRate ??98;
+}
+
+<!-- Statistics Section (inserted under Our Core Values) -->
+<section class="statistics-section mb-5 py-5">
+ <div class="container">
+ <div class="text-center mb-4">
+ <h2 class="display-5 fw-bold mb-2">Numbers That Matter</h2>
+ <p class="lead text-muted">Our track record speaks for itself</p>
+ </div>
+ <div class="row g-4">
+ <div class="col-md-6 col-lg-3">
+ <div class="stat-card text-center p-4 h-100">
+ <div class="stat-number mb-2" data-target="@completedProjects+">0</div>
+ <div class="stat-label">Completed Projects</div>
+ </div>
+ </div>
+ <div class="col-md-6 col-lg-3">
+ <div class="stat-card text-center p-4 h-100">
+ <div class="stat-number mb-2" data-target="@countriesServed+">0</div>
+ <div class="stat-label">Countries Served</div>
+ </div>
+ </div>
+ <div class="col-md-6 col-lg-3">
+ <div class="stat-card text-center p-4 h-100">
+ <div class="stat-number mb-2" data-target="@happyClients+">0</div>
+ <div class="stat-label">Happy Clients</div>
+ </div>
+ </div>
+ <div class="col-md-6 col-lg-3">
+ <div class="stat-card text-center p-4 h-100">
+ <div class="stat-number mb-2" data-target="@satisfactionRate">0</div>
+ <div class="stat-label">Satisfaction Rate</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<style>
+ /* Inline minimal styles for statistics (keeps other sections unchanged) */
+ .statistics-section { background: linear-gradient(135deg, #f5f7fa0%, #ffffff100%); }
+ .stat-card { background: white; border-radius:15px; box-shadow:04px15px rgba(0,0,0,0.08); transition: transform .3s ease, box-shadow .3s ease; }
+ .stat-card:hover { transform: translateY(-5px); box-shadow:08px25px rgba(0,0,0,0.12); }
+ .stat-number { font-size:3rem; font-weight:700; color: rgb(41,78,52); line-height:1; }
+ .stat-label { font-size:1.05rem; color: #6c757d; font-weight:500; }
+ @@media (max-width:768px) { .stat-number { font-size:2.3rem; } }
+</style>
+
+<script>
+ // Animate statistics numbers on scroll
+ document.addEventListener('DOMContentLoaded', function() {
+ const statNumbers = document.querySelectorAll('.stat-number');
+ if (!('IntersectionObserver' in window)) {
+ // Fallback: just set final values
+ statNumbers.forEach(el => el.textContent = el.getAttribute('data-target'));
+ return;
+ }
+
+ const observerOptions = { threshold:0.5, rootMargin: '0px' };
+ const observer = new IntersectionObserver(function(entries) {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ const target = parseInt(entry.target.getAttribute('data-target')) ||0;
+ animateValue(entry.target,0, target,1500);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, observerOptions);
+
+ statNumbers.forEach(stat => observer.observe(stat));
+
+ function animateValue(element, start, end, duration) {
+ let startTimestamp = null;
+ const step = (timestamp) => {
+ if (!startTimestamp) startTimestamp = timestamp;
+ const progress = Math.min((timestamp - startTimestamp) / duration,1);
+ const current = Math.floor(progress * (end - start) + start);
+ element.textContent = current;
+ if (progress <1) {
+ window.requestAnimationFrame(step);
+ }
+ };
+ window.requestAnimationFrame(step);
+ }
+ });
+</script>
+
 <style>
     /* Hero Carousel Styles */
     .hero-carousel-section {
@@ -200,7 +345,7 @@ else
             margin-right: calc((100vw - 1320px) / -2);
         }
     }
-
+    
     .carousel-image {
         max-height: 700px;
         width: 100%;
@@ -283,7 +428,7 @@ else
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         @*height: 100%;*@
         height: 148px;
-        width:275px;
+        width: 275px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -422,4 +567,92 @@ else
             max-height: 400px;
         }
     }
-</style>
+
+    /* Why Choose Section styles */
+    .why-choose-section {
+        background-color: #f8fafb;
+    }
+
+    .feature-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
+        border: 1px solid #eef2f4;
+        background: #fff;
+        cursor: pointer;
+        transition: transform 0.45s cubic-bezier(.2,.9,.2,1), box-shadow 0.45s cubic-bezier(.2,.9,.2,1), border-color 0.45s ease;
+    }
+
+        /* Soft gradient sweep */
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 30%, rgba(17,122,74,0.08), transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.7s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-14px) scale(1.035);
+            box-shadow: 0 24px 60px rgba(17,122,74,0.18);
+            border-color: rgb(41, 78, 52);
+        }
+
+    /* Icon animation */
+    .feature-icon {
+        width: 56px;
+        height: 56px;
+        background: #e9f7ef;
+        color: #117a4a;
+        font-size: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 8px 20px rgba(17,122,74,0.1);
+        transition: transform 0.45s cubic-bezier(.2,.9,.2,1), background-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: translateY(-8px) scale(1.15) rotate(-8deg);
+        background: #dff3e8;
+        box-shadow: 0 16px 36px rgba(17,122,74,0.18);
+    }
+
+    .feature-icon i {
+        transition: transform 0.45s ease;
+    }
+
+    .feature-card:hover .feature-icon i {
+        transform: scale(1.15);
+    }
+
+    /* Text animation */
+    .feature-card h5,
+    .feature-card p {
+        transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    .feature-card:hover h5 {
+        transform: translateY(-4px);
+    }
+
+    .feature-card:hover p {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .stat-number::after {
+        content: "+";
+        font-size: 0.8em;
+        margin-left: 4px;
+        color: inherit;
+    }
+
+
+ }</style>
