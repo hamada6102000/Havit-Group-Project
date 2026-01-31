@@ -49,7 +49,8 @@ namespace HavitGroup.Controllers
                 .ToListAsync(cancellationToken);
 
             ViewBag.HomeImages = homeImages;
-            
+            ViewBag.Projects = _context.Projects.Take(3).ToList();
+
             return View();
         }
 
