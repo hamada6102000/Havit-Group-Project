@@ -605,6 +605,28 @@ else
 
         </div>
     </section>
+    <section class="cta-section py-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 text-center">
+                    <h2 class="display-5 fw-bold mb-3 text-dark">Ready to Transform Your Space?</h2>
+                    <p class="lead text-muted mb-5">
+                        Let's discuss how Havit Group can bring your furniture vision to life with quality, style, and expertise
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a asp-controller="Home" asp-action="Contact" class="btn btn-brand-green btn-lg px-4 rounded-3 fw-bold d-flex align-items-center">
+                            Start Your Project <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+
+                        <a asp-controller="Home" asp-action="Services" class="btn btn-outline-brand-green btn-lg px-4 rounded-3 fw-bold">
+                            Explore Our Services
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 }
 
 <style>
@@ -670,6 +692,43 @@ else
 </script>
 
 <style>
+    /* === CTA Section Styles (Light Background Version) === */
+    .cta-section {
+        background-color: #f8f9fa; /* Very subtle light gray background */
+        border-top: 1px solid #e9ecef;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    /* Custom Solid Brand Green Button */
+    .btn-brand-green {
+        background-color: rgb(41, 78, 52); /* Your brand green color */
+        border: 2px solid rgb(41, 78, 52);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+        .btn-brand-green:hover {
+            background-color: rgb(28, 54, 36); /* Slightly darker green on hover */
+            border-color: rgb(28, 54, 36);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.2);
+        }
+
+    /* Custom Outline Brand Green Button */
+    .btn-outline-brand-green {
+        background-color: transparent;
+        color: rgb(41, 78, 52); /* Brand green text */
+        border: 2px solid rgb(41, 78, 52); /* Brand green border */
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-brand-green:hover {
+            background-color: rgb(41, 78, 52);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.1);
+        }
     /* Hero Carousel Styles */
     .hero-carousel-section {
         margin-top: -1rem;

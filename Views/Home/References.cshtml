@@ -205,24 +205,54 @@
 }
 
 
-<section style="background:green">
-    <div class="row">
-        <div class="col-md-12">
-            <div class=" container text-center mt-5 mb-5">
-                <svg style="color:white" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 mx-auto mb-4" aria-hidden="true"><path d="M10 12h4"></path><path d="M10 8h4"></path><path d="M14 21v-3a2 2 0 0 0-4 0v3"></path><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg>
-                <p class="text-light" style="font-size:larger">
-                    Become Our Next Success Story
-                    <br />
-                    <br />
+<section class="success-story-section py-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <svg style="color:rgb(41, 78, 52)" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 mb-4">
+                    <path d="M10 12h4"></path>
+                    <path d="M10 8h4"></path>
+                    <path d="M14 21v-3a2 2 0 0 0-4 0v3"></path>
+                    <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                    <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path>
+                </svg>
+
+                <h2 class="display-5 fw-bold mb-3 text-dark">Become Our Next Success Story</h2>
+
+                <p class="lead text-muted mb-5">
                     Join hundreds of satisfied clients who trust Havit Group for their furniture needs
                 </p>
-                <button class="btn btn-light" style="color:green">Start Your Project</button>
+
+                <a asp-controller="Home" asp-action="Contact" class="btn btn-brand-green btn-lg px-5 rounded-3 fw-bold">
+                    Start Your Project
+                </a>
             </div>
         </div>
     </div>
 </section>
 
 <style>
+    /* Success Story Section Styles */
+    .success-story-section {
+        background-color: #f8f9fa; /* Light Gray Background */
+        border-top: 1px solid #e9ecef;
+    }
+
+    /* Custom Brand Green Button */
+    .btn-brand-green {
+        background-color: rgb(41, 78, 52); /* Havit Green */
+        border: 2px solid rgb(41, 78, 52);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+        .btn-brand-green:hover {
+            background-color: rgb(28, 54, 36); /* Darker Green on hover */
+            border-color: rgb(28, 54, 36);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.25);
+        }
     /* Hero Carousel Styles */
     .hero-carousel-section {
         margin-top: -1rem;

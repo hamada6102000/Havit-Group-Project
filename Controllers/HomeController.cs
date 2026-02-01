@@ -58,6 +58,7 @@ namespace HavitGroup.Controllers
                     .Where(t => t.IsActive)
                     .OrderBy(t => t.DisplayOrder)
                     .ThenByDescending(t => t.CreatedAt)
+                    .Take(2)
                     .ToListAsync(cancellationToken);
                 ViewBag.Testimonials = testimonials;
             }
