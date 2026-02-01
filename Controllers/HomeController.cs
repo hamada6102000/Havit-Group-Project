@@ -51,6 +51,22 @@ namespace HavitGroup.Controllers
             ViewBag.HomeImages = homeImages;
             ViewBag.Projects = _context.Projects.Take(3).ToList();
 
+            try
+            {
+                // Load testimonials
+                var testimonials = await _context.Testimonials
+                    .Where(t => t.IsActive)
+                    .OrderBy(t => t.DisplayOrder)
+                    .ThenByDescending(t => t.CreatedAt)
+                    .ToListAsync(cancellationToken);
+                ViewBag.Testimonials = testimonials;
+            }
+            catch
+            {
+                // Table doesn't exist yet, continue without testimonials
+                ViewBag.Testimonials = new List<Testimonial>();
+            }
+
             return View();
         }
 
