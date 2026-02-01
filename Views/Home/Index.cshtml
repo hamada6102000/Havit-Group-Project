@@ -106,19 +106,21 @@ else
         <div class="row align-items-center animate-grid">
             <div class="col-lg-6 mb-4 mb-lg-0 animate-card">
                 <h2 class="display-5 fw-bold mb-4">Who We Are</h2>
-                <p class="lead mb-3">
+                <p class="lead mb-4">
                     Havit Group is a leading furniture and interior solutions conglomerate bringing together some of the most trusted names in home, office, and custom manufacturing. Through our brands Istikbal, Burotime, Bravo, and Havit Furniture we deliver a complete spectrum of furnishing solutions for residential, commercial, and hospitality spaces. With a commitment to quality, innovation, and exceptional craftsmanship, we transform ideas into functional, beautiful environments. All under one unified group.
                 </p>
 
+                <a asp-controller="Home" asp-action="About" class="btn btn-outline-success view-all-btn">
+                    Discover Our Journey
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
             <div class="col-lg-6 animate-card">
                 <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="img-fluid rounded shadow-lg" alt="Who We Are">
             </div>
         </div>
-        <a asp-controller="Home" asp-action="About" class="btn btn-dark" style="background:rgb(41, 78, 52)"> Discover Our Journey <span class="fas fa-arrow-right m-md-1"></span></a>
     </div>
 </section>
-
 <!-- Our Core Values Section -->
 <section class="core-values-section mb-5 py-5 reveal-section">
     <div class="core-values-section container">
@@ -596,10 +598,12 @@ else
                         <span class="visually-hidden">Next</span>
                     </button>
                 }
-                <div class="text-center mx-5 mt-5">
-
-                    <a class="btn btn-outline-success mx-5" asp-area="" asp-controller="Home" asp-action="References"> Read more testmonials > </a>
-            </div>
+                <div class="text-center mt-5">
+                    <a asp-controller="Home" asp-action="References" class="btn btn-outline-success view-all-btn">
+                        Read More Testimonials
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
             </div>
 
 
@@ -788,6 +792,43 @@ else
 </script>
 
 <style>
+    /* Button Style (Matches Featured Projects) */
+    .view-all-btn {
+        padding: 0.7rem 2.2rem;
+        border-radius: 50px; /* Pill shape */
+        font-weight: 600;
+        font-size: 1rem;
+        border: 2px solid rgb(41, 78, 52); /* Brand Border Color */
+        color: rgb(41, 78, 52); /* Brand Text Color */
+        transition: all 0.35s cubic-bezier(.2,.9,.2,1);
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Remove default Bootstrap success colors if needed */
+    .btn-outline-success.view-all-btn {
+        color: rgb(41, 78, 52);
+        border-color: rgb(41, 78, 52);
+    }
+
+    .view-all-btn:hover {
+        transform: translateY(-4px) scale(1.04);
+        box-shadow: 0 12px 28px rgba(41,78,52,0.25);
+        background-color: rgb(41, 78, 52);
+        color: #fff;
+        border-color: rgb(41, 78, 52);
+    }
+
+    .view-all-btn i {
+        transition: transform 0.35s ease;
+    }
+
+    .view-all-btn:hover i {
+        transform: translateX(6px); /* Arrow moves right on hover */
+    }
     /* === CTA Section Styles (Light Background Version) === */
     .cta-section {
         background-color: #f8f9fa; /* Very subtle light gray background */
@@ -1103,16 +1144,6 @@ else
         cursor: pointer;
         transition: transform 0.45s cubic-bezier(.2,.9,.2,1), box-shadow 0.45s cubic-bezier(.2,.9,.2,1), border-color 0.45s ease;
     }
-
-        /* Soft gradient sweep */
-        .feature-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, transparent 30%, rgba(17,122,74,0.08), transparent 70%);
-            transform: translateX(-100%);
-            transition: transform 0.7s ease;
-        }
 
         .feature-card:hover::before {
             transform: translateX(100%);
