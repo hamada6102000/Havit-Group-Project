@@ -1660,7 +1660,7 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
 document.addEventListener('DOMContentLoaded', function(){
  // Delegated handler to support dynamically added buttons too
  document.body.addEventListener('click', function(e){
-     var btn = e.target.closest('.view-project-btn');
+ var btn = e.target.closest('.view-project-btn');
  if (!btn) return;
  e.preventDefault();
 
@@ -1691,8 +1691,44 @@ document.addEventListener('DOMContentLoaded', function(){
  console.error(err);
  });
  });
-});
-</script>
+
+ // Handle thumbnail clicks inside modal (delegated)
+ document.body.addEventListener('click', function(e){
+ var thumb = e.target.closest('.related-thumb');
+ if (!thumb) return;
+ e.preventDefault();
+ var large = thumb.getAttribute('data-large');
+ if (!large) return;
+ var modalEl = document.getElementById('projectModal');
+ if (!modalEl) return;
+ var main = modalEl.querySelector('#project-main-image');
+ if (main) main.src = large;
+ // update selected class
+ var container = thumb.closest('.related-thumbs-wrapper');
+ if (container) {
+ container.querySelectorAll('.related-thumb').forEach(function(t){ t.classList.remove('selected'); });
+ }
+ thumb.classList.add('selected');
+ });
+
+ // When modal is shown, auto-select first thumbnail if exists
+ var projectModalEl = document.getElementById('projectModal');
+ if (projectModalEl) {
+ projectModalEl.addEventListener('shown.bs.modal', function(){
+ var firstThumb = projectModalEl.querySelector('.related-thumb');
+ if (firstThumb) {
+ // set main image to first thumb
+ var large = firstThumb.getAttribute('data-large');
+ var main = projectModalEl.querySelector('#project-main-image');
+ if (main && large) main.src = large;
+ // mark selected
+ projectModalEl.querySelectorAll('.related-thumb').forEach(function(t){ t.classList.remove('selected'); });
+ firstThumb.classList.add('selected');
+ }
+ });
+ }
+ });
+ </script>
 
 <!-- Project details modal -->
 <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">

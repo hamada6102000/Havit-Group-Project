@@ -1,73 +1,327 @@
 @model HavitGroup.Models.Project
 
-<div class="row">
- <div class="col-12 mb-3">
- <div class="d-flex justify-content-between align-items-center">
+@{
+ var images = new List<string>();
+ if (!string.IsNullOrEmpty(Model.ImagePath)) images.Add(Model.ImagePath);
+ if (Model.RelatedImages != null)
+ {
+ foreach (var ri in Model.RelatedImages.OrderBy(i => i.DisplayOrder))
+ {
+ if (!string.IsNullOrEmpty(ri.ImagePath) && !images.Contains(ri.ImagePath))
+ images.Add(ri.ImagePath);
+ }
+ }
+ var carouselId = "projectCarousel-" + Model.Id;
+ var thumbsId = "projectThumbs-" + Model.Id;
+}
+
+<div class="project-details-modal-body container-fluid px-0">
+
+ <!-- ================= HEADER (PINNED) ================= -->
+ <div class="project-header sticky-top bg-white px-4 py-3 border-bottom">
+ <div class="d-flex justify-content-between align-items-start">
  <div>
- <h3>@Model.Title</h3>
- <div class="text-muted"><i class="fas fa-map-marker-alt"></i> @Model.Location, @Model.Country &nbsp; <i class="fas fa-calendar"></i> @Model.Year &nbsp; <span class="badge" style="background:#dff6e6;color:#175c3a">@Model.Brand</span></div>
+ <h4 class="mb-1">@Model.Title</h4>
+ <div class="text-muted small">
+ <i class="fas fa-map-marker-alt me-1"></i>
+ @Model.Location@if(!string.IsNullOrEmpty(Model.Country)){
+ <text>, @Model.Country</text>
+ }
+ &nbsp;
+ <i class="fas fa-calendar ms-3 me-1"></i> @Model.Year
+ @if (!string.IsNullOrEmpty(Model.Brand))
+ {
+ <span class="badge bg-light text-success ms-3 fw-semibold">@Model.Brand</span>
+ }
  </div>
- <div>
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
+- <!-- circular close button -->
+- <button type="button" class="modal-close-circle" data-bs-dismiss="modal" aria-label="Close">
+- <i class="fas fa-times"></i>
+- </button>
++ <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">&times;</button>
  </div>
  </div>
 
- <div class="col-lg-8">
+ <!-- ================= SCROLLABLE CONTENT ================= -->
+ <div class="project-scroll-content">
+
+ <!-- ===== Main Image Slider ===== -->
  <div class="mb-3">
- <img src="@Model.ImagePath" class="img-fluid rounded" style="width:100%; height:400px; object-fit:cover;" />
- </div>
-
- <div class="d-flex gap-2 mb-3">
- @if (Model.RelatedImages != null && Model.RelatedImages.Any())
+ <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+ <div class="carousel-inner rounded-0">
+                    @for (int i = 0; i < images.Count; i++)
  {
- foreach (var img in Model.RelatedImages.OrderBy(i => i.DisplayOrder))
- {
- <div style="width:120px;">
- <img src="@img.ImagePath" class="img-thumbnail related-thumb" style="width:100%; height:80px; object-fit:cover; cursor:pointer;" data-large="@img.ImagePath" />
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@images[i]"
+                                 class="d-block w-100 project-main-img"
+                                 alt="@Model.Title - @i" />
  </div>
- }
  }
  </div>
 
- <h5>Project Overview</h5>
- <p class="text-muted">@Model.Description</p>
+                @if (images.Count > 1)
+ {
+ <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+ <span class="carousel-control-prev-icon"></span>
+ </button>
+ <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+ <span class="carousel-control-next-icon"></span>
+ </button>
+ }
+ </div>
 
- <h6>Scope of Work</h6>
- <p class="text-muted">@Model.ScopeOfWork</p>
+ <!-- ===== Thumbnails ===== -->
+            @if (images.Count > 1)
+ {
+ <div id="@thumbsId" class="d-flex gap-2 mt-3 related-thumbs-wrapper px-4">
+                    @for (int i = 0; i < images.Count; i++)
+ {
+ <div class="thumb-wrap">
+                            <img src="@images[i]"
+                                 data-bs-target="#@carouselId"
+                                 data-bs-slide-to="@i"
+                                 class="img-thumbnail related-thumb"
+                                 alt="thumb-@i" />
+                        </div>
+ }
+ </div>
+ }
+ </div>
+
+ <!-- ===== Content Section ===== -->
+ <div class="row gx-5 mx-0 px-4">
+ <div class="col-lg-8">
+ <h6 class="fw-bold">Project Overview</h6>
+ <p class="text-muted">@Html.Raw(Model.Description ?? string.Empty)</p>
+
+ @if (!string.IsNullOrEmpty(Model.ScopeOfWork))
+ {
+ <h6 class="fw-bold mt-4">Scope of Work</h6>
+ <p class="text-muted">@Html.Raw(Model.ScopeOfWork)</p>
+ }
  </div>
 
  <div class="col-lg-4">
- <h5>Project Information</h5>
- <dl class="row">
- <dt class="col-5">Category</dt>
+ <div class="project-info-card">
+ <h6 class="fw-bold mb-3">Project Information</h6>
+                    <dl class="row mb-0">
+ @if (!string.IsNullOrEmpty(Model.Category))
+ {
+ <dt class="col-5 text-muted">Category</dt>
  <dd class="col-7">@Model.Category</dd>
-
- <dt class="col-5">Client</dt>
+ }
+ @if (!string.IsNullOrEmpty(Model.Client))
+ {
+ <dt class="col-5 text-muted">Client</dt>
  <dd class="col-7">@Model.Client</dd>
+ }
+ <dt class="col-5 text-muted">Location</dt>
+ <dd class="col-7">
+ @Model.Location@if(!string.IsNullOrEmpty(Model.Country)){
+ <text>, @Model.Country</text>
+ }
+ </dd>
 
- <dt class="col-5">Location</dt>
- <dd class="col-7">@Model.Location, @Model.Country</dd>
-
- <dt class="col-5">Year Completed</dt>
+ <dt class="col-5 text-muted">Year Completed</dt>
  <dd class="col-7">@Model.Year</dd>
 
- <dt class="col-5">Area</dt>
+ @if (!string.IsNullOrEmpty(Model.Area))
+ {
+ <dt class="col-5 text-muted">Area</dt>
  <dd class="col-7">@Model.Area</dd>
+ }
 
- <dt class="col-5">Brand</dt>
+ <dt class="col-5 text-muted">Brand</dt>
  <dd class="col-7">@Model.Brand</dd>
  </dl>
  </div>
-</div>
+ </div>
+ </div>
+
+
+ <!-- bottom close bar -->
+ <div class="project-bottom-bar bg-light p-3 border-top">
+ <div class="container-fluid px-4 d-flex justify-content-end">
+ <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+ </div>
+ </div>
+
+<style>
+ /* ===== FORCE MODAL TO FULL WIDTH ===== */
+ .modal-dialog {
+        max-width: 95vw !important;
+        margin: 1rem auto;
+ }
+
+ .modal-content {
+        border-radius: 16px;
+ }
+
+ /* ===== FULL WIDTH BODY ===== */
+ .project-details-modal-body {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+ overflow: hidden;
+ }
+
+ /* Sticky header */
+ .project-header {
+        z-index: 1055;
+ }
+
+ /* circular close button */
+ .modal-close-circle {
+ width:36px;
+ height:36px;
+ border-radius:50%;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ border:1px solid rgba(0,0,0,0.08);
+ background: #fff;
+ color: #333;
+ font-size:14px;
+ }
+
+ /* Scroll container */
+ .project-scroll-content {
+        max-height: 78vh;
+ overflow-y: auto;
+ overflow-x: hidden;
+ }
+
+ /* Main image frame + decoration rings */
+ .project-main-frame {
+ border-radius:12px;
+ display: inline-block;
+ padding:12px; /* space for outer rings */
+ background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.02));
+ box-shadow:010px30px rgba(0,0,0,0.06);
+ }
+
+ .project-main-img {
+ height:70vh;
+ max-height:900px;
+ object-fit: cover;
+ border-radius:8px;
+ display: block;
+ box-shadow:0006px rgba(255,255,255,0.6),00010px rgba(41,78,52,0.06);
+ }
+
+ /* Thumbnails decoration */
+ .related-thumbs-wrapper {
+ overflow-x: auto;
+ padding-bottom:4px;
+ }
+
+ .thumb-wrap {
+ flex:00 auto;
+ width:180px;
+ }
+
+ .related-thumb-frame {
+ padding:6px; /* small ring space */
+ border-radius:10px;
+ transition: transform .12s ease;
+ }
+
+ .related-thumb {
+ width:100%;
+        height:230px;
+ object-fit: cover;
+ border-radius:8px;
+ cursor: pointer;
+ border:2px solid transparent !important;
+ transition: .15s ease;
+ }
+
+    /* Only show green border when hovered or selected */
+        .related-thumb:hover {
+            /* enforce visible green border when hovered or explicitly selected */
+            border-color: #28a745 !important;
+            box-shadow: 06px18px rgba(0,0,0,.08) !important;
+        }
+,
+ .related-thumb.selected {
+ border-color: #28a745 !important;
+ box-shadow:06px18px rgba(0,0,0,.08) !important;
+ }
+
+ .related-thumb:focus { outline: none !important; border-color: transparent !important; box-shadow: none !important; }
+
+    /* Right info sticky */
+    .project-info-card {
+        position: sticky;
+        top: 96px;
+ }
+
+    /* Mobile */
+    @@media (max-width: 767px) {
+        .project-main-img
+
+    {
+        height: 400px;
+ }
+
+ .related-thumb {
+        height: 120px;
+ }
+
+    .project-scroll-content {
+        max-height: 70vh;
+    }
+
+ }
+</style>
 
 <script>
- // swap main image when clicking related thumbnail
- document.querySelectorAll('.related-thumb').forEach(function(el){
- el.addEventListener('click', function(){
- var large = this.getAttribute('data-large');
- var main = document.querySelector('#projectModal img.img-fluid');
- if(main) main.src = large;
+ (function () {
+ var carouselEl = document.getElementById('@carouselId');
+ var thumbsEl = document.getElementById('@thumbsId');
+ if (!carouselEl) return;
+
+ // Clear any selected classes immediately (defensive)
+ if (thumbsEl) {
+ thumbsEl.querySelectorAll('.related-thumb').forEach(function (t) { t.classList.remove('selected'); if (t.blur) t.blur(); });
+ }
+
+ // Also clear after a short delay to avoid race conditions with Bootstrap or server-side classes
+ setTimeout(function () {
+ if (thumbsEl) {
+ thumbsEl.querySelectorAll('.related-thumb').forEach(function (t) { t.classList.remove('selected'); if (t.blur) t.blur(); });
+ }
+ },120);
+
+ // Update selected thumbnail when main carousel changes
+ carouselEl.addEventListener('slid.bs.carousel', function (e) {
+ if (!thumbsEl) return;
+
+ thumbsEl.querySelectorAll('.related-thumb')
+ .forEach(t => t.classList.remove('selected'));
+
+ // Add selected only if user navigates slider
+ var sel = thumbsEl.querySelectorAll('.related-thumb')[Array.from(carouselEl.querySelectorAll('.carousel-item')).indexOf(e.relatedTarget)];
+ if (sel) sel.classList.add('selected');
  });
+
+
+ // Click on thumbnail to select + move carousel
+ if (thumbsEl) {
+ thumbsEl.addEventListener('click', function (ev) {
+ var t = ev.target.closest('.related-thumb');
+ if (!t) return;
+
+ thumbsEl.querySelectorAll('.related-thumb')
+ .forEach(x => x.classList.remove('selected'));
+ t.classList.add('selected');
+
+ // Move main carousel to clicked thumbnail
+ var slideIndex = Array.from(thumbsEl.querySelectorAll('.related-thumb')).indexOf(t);
+ var carousel = bootstrap.Carousel.getInstance(carouselEl);
+ carousel.to(slideIndex);
  });
+ }
+ })();
 </script>
