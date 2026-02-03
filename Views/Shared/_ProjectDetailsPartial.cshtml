@@ -1,0 +1,73 @@
+@model HavitGroup.Models.Project
+
+<div class="row">
+ <div class="col-12 mb-3">
+ <div class="d-flex justify-content-between align-items-center">
+ <div>
+ <h3>@Model.Title</h3>
+ <div class="text-muted"><i class="fas fa-map-marker-alt"></i> @Model.Location, @Model.Country &nbsp; <i class="fas fa-calendar"></i> @Model.Year &nbsp; <span class="badge" style="background:#dff6e6;color:#175c3a">@Model.Brand</span></div>
+ </div>
+ <div>
+ <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ </div>
+ </div>
+
+ <div class="col-lg-8">
+ <div class="mb-3">
+ <img src="@Model.ImagePath" class="img-fluid rounded" style="width:100%; height:400px; object-fit:cover;" />
+ </div>
+
+ <div class="d-flex gap-2 mb-3">
+ @if (Model.RelatedImages != null && Model.RelatedImages.Any())
+ {
+ foreach (var img in Model.RelatedImages.OrderBy(i => i.DisplayOrder))
+ {
+ <div style="width:120px;">
+ <img src="@img.ImagePath" class="img-thumbnail related-thumb" style="width:100%; height:80px; object-fit:cover; cursor:pointer;" data-large="@img.ImagePath" />
+ </div>
+ }
+ }
+ </div>
+
+ <h5>Project Overview</h5>
+ <p class="text-muted">@Model.Description</p>
+
+ <h6>Scope of Work</h6>
+ <p class="text-muted">@Model.ScopeOfWork</p>
+ </div>
+
+ <div class="col-lg-4">
+ <h5>Project Information</h5>
+ <dl class="row">
+ <dt class="col-5">Category</dt>
+ <dd class="col-7">@Model.Category</dd>
+
+ <dt class="col-5">Client</dt>
+ <dd class="col-7">@Model.Client</dd>
+
+ <dt class="col-5">Location</dt>
+ <dd class="col-7">@Model.Location, @Model.Country</dd>
+
+ <dt class="col-5">Year Completed</dt>
+ <dd class="col-7">@Model.Year</dd>
+
+ <dt class="col-5">Area</dt>
+ <dd class="col-7">@Model.Area</dd>
+
+ <dt class="col-5">Brand</dt>
+ <dd class="col-7">@Model.Brand</dd>
+ </dl>
+ </div>
+</div>
+
+<script>
+ // swap main image when clicking related thumbnail
+ document.querySelectorAll('.related-thumb').forEach(function(el){
+ el.addEventListener('click', function(){
+ var large = this.getAttribute('data-large');
+ var main = document.querySelector('#projectModal img.img-fluid');
+ if(main) main.src = large;
+ });
+ });
+</script>

@@ -68,6 +68,11 @@ namespace HavitGroup.Data
         public DbSet<Project> Projects { get; set; }
 
         /// <summary>
+        /// Project related images
+        /// </summary>
+        public DbSet<ProjectImage> ProjectImages { get; set; }
+
+        /// <summary>
         /// Site statistics (singleton pattern)
         /// </summary>
         public DbSet<Statistics> Statistics { get; set; }
@@ -223,6 +228,29 @@ namespace HavitGroup.Data
                 entity.Property(e => e.Description).IsRequired().HasMaxLength(1000);
                 entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
                 entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.CreatedAt).IsRequired();
+                entity.HasIndex(e => e.IsActive);
+                entity.HasIndex(e => e.DisplayOrder);
+
+                // New optional fields
+                entity.Property(e => e.Client).HasMaxLength(200);
+                entity.Property(e => e.Area).HasMaxLength(100);
+                entity.Property(e => e.ScopeOfWork).HasMaxLength(2000);
+
+                // Relationship
+                entity.HasMany(e => e.RelatedImages)
+                    .WithOne(i => i.Project)
+                    .HasForeignKey(i => i.ProjectId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configure ProjectImage entity
+            modelBuilder.Entity<ProjectImage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ImagePath).IsRequired().HasMaxLength(500);
+                entity.Property(e => e.OriginalFileName).HasMaxLength(255);
+                entity.Property(e => e.AltText).HasMaxLength(200);
                 entity.Property(e => e.CreatedAt).IsRequired();
                 entity.HasIndex(e => e.IsActive);
                 entity.HasIndex(e => e.DisplayOrder);

@@ -451,6 +451,33 @@ namespace HavitGroup.Controllers
         }
 
         /// <summary>
+        /// Displays the project details partial view for AJAX/modal display
+        /// </summary>
+        /// <param name="id">Project id</param>
+        [HttpGet]
+        public async Task<IActionResult> ProjectDetails(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var project = await _context.Projects
+                    .Include(p => p.RelatedImages)
+                    .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return PartialView("_ProjectDetailsPartial", project);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading project details for id {Id}", id);
+                return StatusCode(500);
+            }
+        }
+
+        /// <summary>
         /// Displays error page
         /// </summary>
         /// <returns>Error page view</returns>

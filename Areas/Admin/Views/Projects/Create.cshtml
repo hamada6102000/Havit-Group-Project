@@ -62,6 +62,24 @@
                         <textarea asp-for="Description" class="form-control" rows="4" placeholder="Project description"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Client" class="form-label">Client</label>
+                        <input asp-for="Client" class="form-control" placeholder="Client name" />
+                        <span asp-validation-for="Client" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Area" class="form-label">Area</label>
+                        <input asp-for="Area" class="form-control" placeholder="e.g., 45,000 sq ft" />
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ScopeOfWork" class="form-label">Scope of Work</label>
+                        <textarea asp-for="ScopeOfWork" class="form-control" rows="3" placeholder="Scope of work details"></textarea>
+                        <span asp-validation-for="ScopeOfWork" class="text-danger"></span>
+                    </div>
                     
                     <div class="mb-3">
                         <label for="image" class="form-label">Project Image <span class="text-danger">*</span></label>
@@ -71,6 +89,12 @@
                         {
                             <span class="text-danger">@(ViewData.ModelState["image"]?.Errors?[0]?.ErrorMessage ?? "Invalid image")</span>
                         }
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="relatedImages" class="form-label">Related Images (optional)</label>
+                        <input type="file" class="form-control" id="relatedImages" name="relatedImages" accept="image/*" multiple>
+                        <div class="form-text">You can upload multiple images for the project gallery.</div>
                     </div>
                     
                     <div class="mb-3">

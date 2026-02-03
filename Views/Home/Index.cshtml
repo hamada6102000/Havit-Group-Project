@@ -316,30 +316,44 @@ else
                 @foreach (var project in projects)
                 {
                     <div class="col-md-6 col-lg-4 animate-card">
-                        <div class="project-card h-100">
+                        <div class="project-card h-100 d-flex flex-column">
                             <div class="project-image-wrapper">
                                 <img src="@project.ImagePath" class="project-image" alt="@project.Title">
                                 <div class="brand-tag">@project.Brand</div>
                             </div>
-                            <div class="project-content p-4">
-                                <h3 class="project-title mb-3">@project.Title</h3>
-                                <div class="project-meta mb-3">
-                                    <div class="meta-item mb-2">
-                                        <i class="fas fa-map-marker-alt me-2"></i>
+
+                            <div class="project-content p-4 flex-grow-1 d-flex flex-column">
+                                <h3 class="project-title mb-2">@project.Title</h3>
+
+                                <div class="project-meta mb-3 small text-muted">
+                                    <div class="meta-item">
+                                        <i class="fas fa-map-marker-alt me-2 text-success"></i>
                                         <span>@project.Location, @project.Country</span>
                                     </div>
-                                    <div class="meta-item mb-2">
-                                        <i class="fas fa-calendar me-2"></i>
+                                    <div class="meta-item">
+                                        <i class="fas fa-calendar me-2 text-success"></i>
                                         <span>@project.Year</span>
                                     </div>
                                 </div>
+
                                 <div class="category-tag mb-3">@project.Category</div>
-                                <p class="project-description mb-0">@project.Description</p>
+
+                                <p class="project-description mb-4 text-muted small">
+                                    @project.Description
+                                </p>
+
+                                <div class="mt-auto pt-3">
+                                    <button type="button"
+                                            class="btn btn-outline-success btn-sm view-project-btn px-3 rounded-pill fw-bold"
+                                            data-project-id="@project.Id">
+                                        View Details <i class="fas fa-plus ms-1"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 }
-            </div>
+ </div>
         }
         else
         {
@@ -529,9 +543,9 @@ else
 
 
 @{
-    var testimonials = ViewBag.Testimonials as List<HavitGroup.Models.Testimonial>;
+    var testimonals = ViewBag.Testimonials as List<HavitGroup.Models.Testimonial>;
 }
-@if (testimonials != null && testimonials.Any())
+@if (testimonals != null && testimonals.Any())
 {
     <section class="testimonials-section mb-5 py-5 reveal-section">
         <div class="container">
@@ -543,7 +557,7 @@ else
                 <div class="carousel-inner">
                     @{
                         int itemsPerSlide = 3;
-                        int totalSlides = (int)Math.Ceiling((double)testimonials.Count / itemsPerSlide);
+                        int totalSlides = (int)Math.Ceiling((double)testimonals.Count / itemsPerSlide);
                     }
                     @for (int slideIndex = 0; slideIndex < totalSlides; slideIndex++)
                     {
@@ -551,12 +565,12 @@ else
                             <div class="row justify-content-center animate-grid">
                                 @{
                                     int startIndex = slideIndex * itemsPerSlide;
-                                    int endIndex = Math.Min(startIndex + itemsPerSlide - 1, testimonials.Count - 1);
+                                    int endIndex = Math.Min(startIndex + itemsPerSlide - 1, testimonals.Count - 1);
                                     int itemsInThisSlide = endIndex - startIndex + 1;
                                 }
                                 @for (int j = startIndex; j <= endIndex; j++)
                                 {
-                                    var item = testimonials[j];
+                                    var item = testimonals[j];
                                     <div class="col-md-@(itemsInThisSlide == 1 ? "12" : itemsInThisSlide == 2 ? "6" : "4") mt-5 animate-card">
                                         <div class="testimonial-card h-100">
                                             <div class="testimonial-header">
@@ -587,7 +601,7 @@ else
                         </div>
                     }
                 </div>
-                @if (testimonials.Count > 3)
+                @if (testimonals.Count > 3)
                 {
                     <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -789,9 +803,62 @@ else
             }, 350);
         });
     });
+    // Inside your DOMContentLoaded listener:
+document.querySelectorAll('.view-project-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const projectId = this.getAttribute('data-project-id');
+        // Call your function to open the modal (as we discussed in the previous step)
+        if (typeof openProjectDetails === "function") {
+            openProjectDetails(projectId);
+        }
+    });
+});
 </script>
 
 <style>
+    /* Project Card Specific Styling */
+    .project-card {
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+    /* Matching the site's green brand colors */
+    .btn-outline-success {
+        border-color: #294e34; /* Dark Green matching your stats */
+        color: #294e34;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-success:hover {
+            background-color: #294e34;
+            border-color: #294e34;
+            color: #ffffff;
+        }
+
+    .project-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .category-tag {
+        display: inline-block;
+        padding: 2px 10px;
+        background: #f0f4f1;
+        color: #294e34;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
     /* Button Style (Matches Featured Projects) */
     .view-all-btn {
         padding: 0.7rem 2.2rem;
@@ -907,7 +974,7 @@ else
             margin-right: calc((100vw - 1320px) / -2);
         }
     }
-    
+
     .carousel-image {
         max-height: 700px;
         width: 100%;
@@ -923,9 +990,9 @@ else
         background-color: #f8f9fa;
     }
 
-    .carousel-item img {
-        margin: 0 auto;
-    }
+        .carousel-item img {
+            margin: 0 auto;
+        }
 
     .carousel-caption {
         background: transparent; /* شفاف - Transparent background */
@@ -938,13 +1005,13 @@ else
         text-align: center;
     }
 
-    .carousel-caption h5 {
-        color: #fff;
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin: 0;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    }
+        .carousel-caption h5 {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
 
     @@media (min-width: 768px) {
         .carousel-caption {
@@ -952,9 +1019,9 @@ else
             bottom: 2rem;
         }
 
-        .carousel-caption h5 {
-            font-size: 1.5rem;
-        }
+            .carousel-caption h5 {
+                font-size: 1.5rem;
+            }
     }
 
     @@keyframes fadeIn {
@@ -971,9 +1038,9 @@ else
         transition: opacity 0.8s ease-in-out;
     }
 
-    .carousel-fade .carousel-item.active {
-        opacity: 1;
-    }
+        .carousel-fade .carousel-item.active {
+            opacity: 1;
+        }
 
     /* Brands Section */
     .brands-section {
@@ -1001,27 +1068,27 @@ else
 
     }
 
-    .brand-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-    }
+        .brand-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
 
-    .brand-card:hover::before {
-        left: 100%;
-    }
+        .brand-card:hover::before {
+            left: 100%;
+        }
 
-    .brand-card:hover {
-        transform: translateY(-15px) scale(1.05);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        border-color: rgb(41, 78, 52);
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    }
+        .brand-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: rgb(41, 78, 52);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
 
     .brand-name {
         font-size: 1.75rem;
@@ -1073,24 +1140,24 @@ else
         background-color: #ffffff;
     }
 
-    .who-we-are-section img {
-        transition: transform 0.3s ease;
-    }
+        .who-we-are-section img {
+            transition: transform 0.3s ease;
+        }
 
-    .who-we-are-section img:hover {
-        transform: scale(1.05);
-    }
+            .who-we-are-section img:hover {
+                transform: scale(1.05);
+            }
 
-    /* Discover Our Journey Button Focus Style */
-    .who-we-are-section .btn:focus,
-    .who-we-are-section .btn:focus-visible {
-        outline: 2px solid rgb(41, 78, 52);
-        outline-offset: 2px;
-        box-shadow: 0 0 0 0.2rem rgba(41, 78, 52, 0.25);
-    }
+        /* Discover Our Journey Button Focus Style */
+        .who-we-are-section .btn:focus,
+        .who-we-are-section .btn:focus-visible {
+            outline: 2px solid rgb(41, 78, 52);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 0.2rem rgba(41, 78, 52, 0.25);
+        }
 
     /* Core Values Section */
-@*     .core-values-section
+    @*     .core-values-section
     {
         background: White;
     }
@@ -1119,6 +1186,7 @@ else
         0%, 100% {
             transform: scale(1);
         }
+
         50% {
             transform: scale(1.1);
         }
@@ -1357,12 +1425,10 @@ else
     }
 
     @@keyframes fadeOutPage {
-        to
-
-    {
-        opacity: 0;
-        transform: scale(0.98);
-    }
+        to {
+            opacity: 0;
+            transform: scale(0.98);
+        }
     }
     /* Our Achievements Section Styles */
     .achievement-card {
@@ -1404,7 +1470,6 @@ else
 
 
 
-
     /* How we work Section Styles */
     .HowWeWork-card {
         background: #fff;
@@ -1414,7 +1479,7 @@ else
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
-@*         align-items: center;
+        @*         align-items: center;
  *@        justify-content: center;
     }
 
@@ -1559,4 +1624,85 @@ else
         }
     }
 
-    }</style>
+    /* Add CSS for image overlay button */
+    .project-image-wrapper { position: relative; }
+    .image-details-btn {
+ position: absolute;
+ top:12px;
+ left:12px;
+ z-index:60;
+ padding:0.35rem0.5rem;
+ border-radius:6px;
+ background: rgba(255,255,255,0.9);
+ color: rgb(41,78,52);
+ border:1px solid rgba(41,78,52,0.12);
+ }
+ /* When page is RTL (e.g., Arabic), place the details button at the bottom-left */
+ html[dir="rtl"] .project-image-wrapper .image-details-btn,
+ html[lang^="ar"] .project-image-wrapper .image-details-btn {
+ /* move button below the image (outside) and align left */
+ position: absolute;
+ top: auto;
+ bottom: 12px; /* inside the image,12px from bottom */
+ left:12px;
+ z-index:60;
+ }
+
+ /* add bottom padding to card so the button doesn't overlap content in RTL */
+ html[dir="rtl"] .project-card,
+ html[lang^="ar"] .project-card {
+ padding-bottom:1.5rem; /*24px */
+ }
+ /* Ensure icon and small button look good on dark/light images */
+ .image-details-btn i { font-size:0.95rem; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+ // Delegated handler to support dynamically added buttons too
+ document.body.addEventListener('click', function(e){
+     var btn = e.target.closest('.view-project-btn');
+ if (!btn) return;
+ e.preventDefault();
+
+ var id = btn.getAttribute('data-project-id');
+ if (!id) return;
+
+ var modalEl = document.getElementById('projectModal');
+ if (!modalEl) {
+ console.error('Project modal element not found');
+ return;
+ }
+ var modal = new bootstrap.Modal(modalEl);
+ var body = document.getElementById('projectModalBody');
+ body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+ fetch('/Home/ProjectDetails?id=' + encodeURIComponent(id), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+ .then(function(resp){
+ if (!resp.ok) throw new Error('Network response was not ok');
+ return resp.text();
+ })
+ .then(function(html){
+ body.innerHTML = html;
+ modal.show();
+ })
+ .catch(function(err){
+ body.innerHTML = '<div class="p-4 text-danger">Unable to load project details.</div>';
+ modal.show();
+ console.error(err);
+ });
+ });
+});
+</script>
+
+<!-- Project details modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+ <div class="modal-dialog modal-xl modal-dialog-centered">
+ <div class="modal-content">
+ <div class="modal-body" id="projectModalBody">
+ <div class="text-center py-5">
+ <div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>

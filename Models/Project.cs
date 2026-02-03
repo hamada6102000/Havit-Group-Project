@@ -88,6 +88,23 @@ namespace HavitGroup.Models
         /// Date when the project was created
         /// </summary>
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// New optional fields for richer project information
+        /// </summary>
+        [StringLength(200)]
+        public string? Client { get; set; }
+
+        [StringLength(100)]
+        public string? Area { get; set; }
+
+        [StringLength(2000)]
+        public string? ScopeOfWork { get; set; }
+
+        /// <summary>
+        /// Related images for the project
+        /// </summary>
+        public virtual ICollection<ProjectImage>? RelatedImages { get; set; }
     }
 }
 

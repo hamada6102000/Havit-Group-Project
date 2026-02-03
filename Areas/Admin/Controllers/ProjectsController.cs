@@ -81,6 +81,7 @@ namespace HavitGroup.Areas.Admin.Controllers
             }
 
             var project = await _context.Projects
+                .Include(p => p.RelatedImages)
                 .FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
 
             if (project == null)
@@ -105,13 +106,15 @@ namespace HavitGroup.Areas.Admin.Controllers
         /// </summary>
         /// <param name="project">Project data</param>
         /// <param name="image">Project image file</param>
+        /// <param name="relatedImages">Additional project images</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Redirects to projects list or returns form with errors</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Brand,Title,Location,Country,Year,Category,Description,DisplayOrder,IsActive")] Project project,
+            [Bind("Brand,Title,Location,Country,Year,Category,Description,DisplayOrder,IsActive,Client,Area,ScopeOfWork")] Project project,
             IFormFile image,
+            List<IFormFile>? relatedImages,
             CancellationToken cancellationToken)
         {
             if (image == null || image.Length == 0)
@@ -181,8 +184,38 @@ namespace HavitGroup.Areas.Admin.Controllers
                     project.OriginalFileName = image.FileName;
                     project.CreatedAt = DateTime.UtcNow;
 
+                    // Save project first so we have project.Id
                     _context.Add(project);
                     await _context.SaveChangesAsync(cancellationToken);
+
+                    // Handle related images
+                    if (relatedImages != null && relatedImages.Any())
+                    {
+                        foreach (var r in relatedImages)
+                        {
+                            if (r == null || r.Length == 0) continue;
+                            var ext = Path.GetExtension(r.FileName).ToLowerInvariant();
+                            var allowed = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                            if (!allowed.Contains(ext)) continue;
+
+                            var unique = $"{Guid.NewGuid()}{ext}";
+                            var path = Path.Combine(uploadsFolder, unique);
+                            using (var fs = new FileStream(path, FileMode.Create))
+                            {
+                                await r.CopyToAsync(fs, cancellationToken);
+                            }
+                            var pImg = new ProjectImage
+                            {
+                                ProjectId = project.Id,
+                                ImagePath = $"/Images/Projects/{unique}",
+                                OriginalFileName = r.FileName,
+                                CreatedAt = DateTime.UtcNow
+                            };
+                            _context.Add(pImg);
+                        }
+                        await _context.SaveChangesAsync(cancellationToken);
+                    }
+
                     TempData["SuccessMessage"] = "Project created successfully.";
                     return RedirectToAction(nameof(Index));
                 }
@@ -208,7 +241,7 @@ namespace HavitGroup.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.FindAsync(new object[] { id }, cancellationToken);
+            var project = await _context.Projects.Include(p => p.RelatedImages).FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             if (project == null)
             {
                 return NotFound();
@@ -222,14 +255,16 @@ namespace HavitGroup.Areas.Admin.Controllers
         /// <param name="id">Project ID</param>
         /// <param name="project">Updated project data</param>
         /// <param name="image">New project image file (optional)</param>
+        /// <param name="relatedImages">New related images (optional)</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Redirects to projects list or returns form with errors</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
             int id,
-            [Bind("Id,Brand,Title,Location,Country,Year,Category,Description,ImagePath,OriginalFileName,DisplayOrder,IsActive,CreatedAt")] Project project,
+            [Bind("Id,Brand,Title,Location,Country,Year,Category,Description,ImagePath,OriginalFileName,DisplayOrder,IsActive,CreatedAt,Client,Area,ScopeOfWork")] Project project,
             IFormFile? image,
+            List<IFormFile>? relatedImages,
             CancellationToken cancellationToken)
         {
             if (id != project.Id)
@@ -303,8 +338,39 @@ namespace HavitGroup.Areas.Admin.Controllers
                         project.OriginalFileName = image.FileName;
                     }
 
+                    // Save project changes first
                     _context.Update(project);
                     await _context.SaveChangesAsync(cancellationToken);
+
+                    // Handle related images upload
+                    if (relatedImages != null && relatedImages.Any())
+                    {
+                        var uploadsFolder = Path.Combine(_environment.WebRootPath, "Images", "Projects");
+                        foreach (var r in relatedImages)
+                        {
+                            if (r == null || r.Length == 0) continue;
+                            var ext = Path.GetExtension(r.FileName).ToLowerInvariant();
+                            var allowed = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                            if (!allowed.Contains(ext)) continue;
+
+                            var unique = $"{Guid.NewGuid()}{ext}";
+                            var path = Path.Combine(uploadsFolder, unique);
+                            using (var fs = new FileStream(path, FileMode.Create))
+                            {
+                                await r.CopyToAsync(fs, cancellationToken);
+                            }
+                            var pImg = new ProjectImage
+                            {
+                                ProjectId = project.Id,
+                                ImagePath = $"/Images/Projects/{unique}",
+                                OriginalFileName = r.FileName,
+                                CreatedAt = DateTime.UtcNow
+                            };
+                            _context.Add(pImg);
+                        }
+                        await _context.SaveChangesAsync(cancellationToken);
+                    }
+
                     TempData["SuccessMessage"] = "Project updated successfully.";
                 }
                 catch (DbUpdateConcurrencyException)
@@ -356,18 +422,35 @@ namespace HavitGroup.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, CancellationToken cancellationToken)
         {
-            var project = await _context.Projects.FindAsync(new object[] { id }, cancellationToken);
+            var project = await _context.Projects.Include(p => p.RelatedImages).FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
             if (project != null)
             {
                 try
                 {
-                    // Delete physical file
+                    // Delete main image
                     if (!string.IsNullOrEmpty(project.ImagePath))
                     {
                         var filePath = Path.Combine(_environment.WebRootPath, project.ImagePath.TrimStart('/'));
                         if (System.IO.File.Exists(filePath))
                         {
                             System.IO.File.Delete(filePath);
+                        }
+                    }
+
+                    // Delete related images
+                    if (project.RelatedImages != null)
+                    {
+                        foreach (var ri in project.RelatedImages)
+                        {
+                            if (!string.IsNullOrEmpty(ri.ImagePath))
+                            {
+                                var f = Path.Combine(_environment.WebRootPath, ri.ImagePath.TrimStart('/'));
+                                if (System.IO.File.Exists(f))
+                                {
+                                    System.IO.File.Delete(f);
+                                }
+                            }
+                            _context.ProjectImages.Remove(ri);
                         }
                     }
 
@@ -393,6 +476,42 @@ namespace HavitGroup.Areas.Admin.Controllers
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.Id == id);
+        }
+
+        /// <summary>
+        /// Deletes a related image from a project
+        /// </summary>
+        /// <param name="id">Image ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Redirects to projects list</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteRelatedImage(int id, CancellationToken cancellationToken)
+        {
+            var img = await _context.ProjectImages.FindAsync(new object[] { id }, cancellationToken);
+            if (img == null)
+            {
+                TempData["ErrorMessage"] = "Image not found.";
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                // Delete physical file
+                if (!string.IsNullOrEmpty(img.ImagePath))
+                {
+                    var file = Path.Combine(_environment.WebRootPath, img.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(file)) System.IO.File.Delete(file);
+                }
+                _context.ProjectImages.Remove(img);
+                await _context.SaveChangesAsync(cancellationToken);
+                TempData["SuccessMessage"] = "Image deleted.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting related image");
+                TempData["ErrorMessage"] = "Error deleting image.";
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
