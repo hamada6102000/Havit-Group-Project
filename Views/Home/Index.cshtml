@@ -339,14 +339,14 @@ else
                                 <div class="category-tag mb-3">@project.Category</div>
 
                                 <p class="project-description mb-4 text-muted small">
-                                    @project.Description
+                                    @((!string.IsNullOrWhiteSpace(project.Overview)) ? project.Overview : project.Description)
                                 </p>
 
                                 <div class="mt-auto pt-3">
                                     <button type="button"
                                             class="btn btn-outline-success btn-sm view-project-btn px-3 rounded-pill fw-bold"
                                             data-project-id="@project.Id">
-                                        View Details <i class="fas fa-plus ms-1"></i>
+                                        View Details <i class="fas fa-arrow-right ms-2"></i>
                                     </button>
                                 </div>
                             </div>

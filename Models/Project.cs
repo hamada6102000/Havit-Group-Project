@@ -62,6 +62,12 @@ namespace HavitGroup.Models
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
+        /// Short overview used in lists/cards (optional)
+        /// </summary>
+        [StringLength(500, ErrorMessage = "Overview cannot exceed 500 characters")]
+        public string? Overview { get; set; }
+
+        /// <summary>
         /// Path to the project image file (relative to wwwroot)
         /// </summary>
         [Required(ErrorMessage = "Image path is required")]

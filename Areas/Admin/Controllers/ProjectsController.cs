@@ -112,7 +112,7 @@ namespace HavitGroup.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Brand,Title,Location,Country,Year,Category,Description,DisplayOrder,IsActive,Client,Area,ScopeOfWork")] Project project,
+            [Bind("Brand,Title,Location,Country,Year,Category,Description,Overview,DisplayOrder,IsActive,Client,Area,ScopeOfWork")] Project project,
             IFormFile image,
             List<IFormFile>? relatedImages,
             CancellationToken cancellationToken)
@@ -262,7 +262,7 @@ namespace HavitGroup.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
             int id,
-            [Bind("Id,Brand,Title,Location,Country,Year,Category,Description,ImagePath,OriginalFileName,DisplayOrder,IsActive,CreatedAt,Client,Area,ScopeOfWork")] Project project,
+            [Bind("Id,Brand,Title,Location,Country,Year,Category,Description,Overview,ImagePath,OriginalFileName,DisplayOrder,IsActive,CreatedAt,Client,Area,ScopeOfWork")] Project project,
             IFormFile? image,
             List<IFormFile>? relatedImages,
             CancellationToken cancellationToken)

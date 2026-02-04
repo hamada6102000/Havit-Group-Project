@@ -21,7 +21,7 @@
  <div class="project-header sticky-top bg-white px-4 py-3 border-bottom">
  <div class="d-flex justify-content-between align-items-start">
  <div>
- <h4 class="mb-1">@Model.Title</h4>
+ <h4 class="mb-3">@Model.Title</h4>
  <div class="text-muted small">
  <i class="fas fa-map-marker-alt me-1"></i>
  @Model.Location@if(!string.IsNullOrEmpty(Model.Country)){
@@ -35,11 +35,10 @@
  }
  </div>
  </div>
-- <!-- circular close button -->
-- <button type="button" class="modal-close-circle" data-bs-dismiss="modal" aria-label="Close">
-- <i class="fas fa-times"></i>
-- </button>
-+ <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">&times;</button>
+ <!-- icon-only close button (green icon, no circle) -->
+ <button type="button" class="modal-close-icon" data-bs-dismiss="modal" aria-label="Close">
+ <i class="fas fa-times" aria-hidden="true"></i>
+ </button>
  </div>
  </div>
 
@@ -52,10 +51,10 @@
  <div class="carousel-inner rounded-0">
                     @for (int i = 0; i < images.Count; i++)
  {
-                        <div class="carousel-item @(i == 0 ? "active" : "")">
-                            <img src="@images[i]"
-                                 class="d-block w-100 project-main-img"
-                                 alt="@Model.Title - @i" />
+ <div class="carousel-item @(i == 0 ? "active" : "")">
+ <img src="@images[i]"
+ class="d-block w-100 project-main-img"
+ alt="@Model.Title - @i" />
  </div>
  }
  </div>
@@ -78,76 +77,142 @@
                     @for (int i = 0; i < images.Count; i++)
  {
  <div class="thumb-wrap">
-                            <img src="@images[i]"
-                                 data-bs-target="#@carouselId"
-                                 data-bs-slide-to="@i"
-                                 class="img-thumbnail related-thumb"
-                                 alt="thumb-@i" />
+ <img src="@images[i]"
+ data-bs-target="#@carouselId"
+ data-bs-slide-to="@i"
+ class="img-thumbnail related-thumb"
+ alt="thumb-@i" />
+ </div>
+ }
+ </div>
+ }
+ </div>
+
+        <!-- ===== Content Section ===== -->
+        <div class="row gx-5 mx-0 px-4 pb-4">
+
+            <!-- LEFT -->
+            <div class="col-lg-8">
+                <h6 class="section-title">Project Overview</h6>
+                <p class="section-text">@Html.Raw(Model.Description ?? string.Empty)</p>
+
+                @if (!string.IsNullOrEmpty(Model.ScopeOfWork))
+                {
+                    <h6 class="section-title mt-4">Scope of Work</h6>
+                    <p class="section-text">@Html.Raw(Model.ScopeOfWork)</p>
+                }
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-lg-4">
+                <h6 class="section-title mb-3">Project Information</h6>
+
+                <div class="project-info-list">
+
+                    @if (!string.IsNullOrEmpty(Model.Category))
+                    {
+                        <div class="info-row">
+                            <span class="info-label">Category</span>
+                            <span class="info-value">@Model.Category</span>
                         </div>
- }
- </div>
- }
- </div>
+                    }
 
- <!-- ===== Content Section ===== -->
- <div class="row gx-5 mx-0 px-4">
- <div class="col-lg-8">
- <h6 class="fw-bold">Project Overview</h6>
- <p class="text-muted">@Html.Raw(Model.Description ?? string.Empty)</p>
+                    @if (!string.IsNullOrEmpty(Model.Client))
+                    {
+                        <div class="info-row">
+                            <span class="info-label">Client</span>
+                            <span class="info-value">@Model.Client</span>
+                        </div>
+                    }
 
- @if (!string.IsNullOrEmpty(Model.ScopeOfWork))
- {
- <h6 class="fw-bold mt-4">Scope of Work</h6>
- <p class="text-muted">@Html.Raw(Model.ScopeOfWork)</p>
- }
- </div>
+                    <div class="info-row">
+                        <span class="info-label">Location</span>
+                        <span class="info-value">
+                            @Model.Location@if(!string.IsNullOrEmpty(Model.Country)){
+                            <text>, @Model.Country</text>
+                                                        }
+                        </span>
+                    </div>
 
- <div class="col-lg-4">
- <div class="project-info-card">
- <h6 class="fw-bold mb-3">Project Information</h6>
-                    <dl class="row mb-0">
- @if (!string.IsNullOrEmpty(Model.Category))
- {
- <dt class="col-5 text-muted">Category</dt>
- <dd class="col-7">@Model.Category</dd>
- }
- @if (!string.IsNullOrEmpty(Model.Client))
- {
- <dt class="col-5 text-muted">Client</dt>
- <dd class="col-7">@Model.Client</dd>
- }
- <dt class="col-5 text-muted">Location</dt>
- <dd class="col-7">
- @Model.Location@if(!string.IsNullOrEmpty(Model.Country)){
- <text>, @Model.Country</text>
- }
- </dd>
+                    <div class="info-row">
+                        <span class="info-label">Year Completed</span>
+                        <span class="info-value">@Model.Year</span>
+                    </div>
 
- <dt class="col-5 text-muted">Year Completed</dt>
- <dd class="col-7">@Model.Year</dd>
+                    @if (!string.IsNullOrEmpty(Model.Area))
+                    {
+                        <div class="info-row">
+                            <span class="info-label">Area</span>
+                            <span class="info-value">@Model.Area</span>
+                        </div>
+                    }
 
- @if (!string.IsNullOrEmpty(Model.Area))
- {
- <dt class="col-5 text-muted">Area</dt>
- <dd class="col-7">@Model.Area</dd>
- }
+                    @if (!string.IsNullOrEmpty(Model.Brand))
+                    {
+                        <div class="info-row">
+                            <span class="info-label">Brand</span>
+                            <span class="info-value">@Model.Brand</span>
+                        </div>
+                    }
 
- <dt class="col-5 text-muted">Brand</dt>
- <dd class="col-7">@Model.Brand</dd>
- </dl>
- </div>
- </div>
- </div>
+                </div>
+            </div>
+
+        </div>
+
 
 
  <!-- bottom close bar -->
  <div class="project-bottom-bar bg-light p-3 border-top">
  <div class="container-fluid px-4 d-flex justify-content-end">
- <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+ <button type="button" class="btn btn-outline-success view-all-btn btn-sm" data-bs-dismiss="modal">Close</button>
  </div>
  </div>
 
 <style>
+            /* ===== Section Titles ===== */
+            .section-title {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #111;
+            }
+
+            /* ===== Body Text ===== */
+            .section-text {
+                color: #6c757d;
+                line-height: 1.7;
+                font-size: 14px;
+                margin-bottom: 0;
+                text-align: justify;
+            }
+
+            /* ===== Right Info Column ===== */
+            .project-info-list {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .info-row {
+                display: flex;
+                flex-direction: column;
+                padding-left: 14px;
+                border-left: 5px solid #1f5f36;
+            }
+
+            .info-label {
+                font-size: 12px;
+                color: #8c8c8c;
+                margin-bottom: 2px;
+            }
+
+            .info-value {
+                font-size: 14px;
+                font-weight: 500;
+                color: #111;
+            }
+
  /* ===== FORCE MODAL TO FULL WIDTH ===== */
  .modal-dialog {
         max-width: 95vw !important;
@@ -156,6 +221,32 @@
 
  .modal-content {
         border-radius: 16px;
+ }
+
+ /* Icon-only close button (green X) */
+ .modal-close-icon {
+ background: transparent;
+ border: none;
+                color: #1f5f36; /* brand green */
+ font-size:18px;
+ padding:6px;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+}
+.modal-close-icon:hover,
+.modal-close-icon:focus {
+ color: #1f5f36; /* darker green on hover */
+ background: rgba(0,0,0,0.02);
+ border-radius:4px;
+ text-decoration: none;
+}
+
+/* Ensure bottom close uses same view-all-btn spacing */
+.project-bottom-bar .view-all-btn {
+ padding:0.5rem1.6rem;
+ border-radius:50px;
+ font-weight:600;
  }
 
  /* ===== FULL WIDTH BODY ===== */
@@ -171,19 +262,6 @@
         z-index: 1055;
  }
 
- /* circular close button */
- .modal-close-circle {
- width:36px;
- height:36px;
- border-radius:50%;
- display: inline-flex;
- align-items: center;
- justify-content: center;
- border:1px solid rgba(0,0,0,0.08);
- background: #fff;
- color: #333;
- font-size:14px;
- }
 
  /* Scroll container */
  .project-scroll-content {
@@ -202,8 +280,8 @@
  }
 
  .project-main-img {
- height:70vh;
- max-height:900px;
+ height:95vh;
+ max-height:1000px;
  object-fit: cover;
  border-radius:8px;
  display: block;
@@ -240,12 +318,12 @@
     /* Only show green border when hovered or selected */
         .related-thumb:hover {
             /* enforce visible green border when hovered or explicitly selected */
-            border-color: #28a745 !important;
+                    border-color: #1f5f36 !important;
             box-shadow: 06px18px rgba(0,0,0,.08) !important;
         }
 ,
  .related-thumb.selected {
- border-color: #28a745 !important;
+                    border-color: #1f5f36 !important;
  box-shadow:06px18px rgba(0,0,0,.08) !important;
  }
 
