@@ -1663,6 +1663,16 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
  }
  /* Ensure icon and small button look good on dark/light images */
  .image-details-btn i { font-size:0.95rem; }
+    button:focus,
+button:active,
+a:focus,
+a:active,
+.related-thumb:focus,
+.related-thumb:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function(){

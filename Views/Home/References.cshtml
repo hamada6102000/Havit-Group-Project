@@ -80,49 +80,58 @@
 
 <!-- Featured Projects Section -->
 @{
-    var projects = ViewBag.Projects as List<HavitGroup.Models.Project>;
+var projects = ViewBag.Projects as List<HavitGroup.Models.Project>;
 }
 <section class="featured-projects-section mb-5 py-5">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Featured Projects</h2>
-            <p class="lead text-muted">A showcase of our successful furniture solutions across various sectors</p>
+      <div class="text-center mb-5">
+    <h2 class="display-5 fw-bold mb-3">Featured Projects</h2>
+      <p class="lead text-muted">A showcase of our successful furniture solutions across various sectors</p>
         </div>
         @if (projects != null && projects.Any())
         {
             <div class="row g-4">
-                @foreach (var project in projects)
-                {
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card h-100">
-                            <div class="project-image-wrapper">
-                                <img src="@project.ImagePath" class="project-image" alt="@project.Title">
-                                <div class="brand-tag">@project.Brand</div>
-                            </div>
-                            <div class="project-content p-4">
-                                <h3 class="project-title mb-3">@project.Title</h3>
-                                <div class="project-meta mb-3">
-                                    <div class="meta-item mb-2">
-                                        <i class="fas fa-map-marker-alt me-2"></i>
-                                        <span>@project.Location, @project.Country</span>
-                                    </div>
-                                    <div class="meta-item mb-2">
-                                        <i class="fas fa-calendar me-2"></i>
-                                        <span>@project.Year</span>
-                                    </div>
-                                </div>
-                                <div class="category-tag mb-3">@project.Category</div>
-                                <p class="project-description mb-0">@project.Description</p>
-                            </div>
-                        </div>
-                    </div>
-                }
+        @foreach (var project in projects)
+      {
+             <div class="col-md-6 col-lg-4">
+   <div class="project-card h-100 d-flex flex-column">
+           <div class="project-image-wrapper">
+       <img src="@project.ImagePath" class="project-image" alt="@project.Title">
+       <div class="brand-tag">@project.Brand</div>
+        </div>
+       <div class="project-content p-4 flex-grow-1 d-flex flex-column">
+       <h3 class="project-title mb-3">@project.Title</h3>
+          <div class="project-meta mb-3">
+           <div class="meta-item mb-2">
+           <i class="fas fa-map-marker-alt me-2"></i>
+               <span>@project.Location, @project.Country</span>
+      </div>
+    <div class="meta-item mb-2">
+            <i class="fas fa-calendar me-2"></i>
+             <span>@project.Year</span>
+              </div>
+    </div>
+    <div class="category-tag mb-3">@project.Category</div>
+      <p class="project-description mb-4">
+         @((!string.IsNullOrWhiteSpace(project.Overview)) ? project.Overview : project.Description)
+           </p>
+        <div class="mt-auto pt-3">
+     <button type="button"
+     class="btn btn-outline-success btn-sm view-project-btn px-3 rounded-pill fw-bold"
+     data-project-id="@project.Id">
+        View Details <i class="fas fa-arrow-right ms-2"></i>
+   </button>
+        </div>
+            </div>
+         </div>
+       </div>
+              }
             </div>
         }
         else
-        {
-            <div class="text-center py-5">
-                <p class="text-muted">No projects available at the moment.</p>
+  {
+  <div class="text-center py-5">
+          <p class="text-muted">No projects available at the moment.</p>
             </div>
         }
     </div>
@@ -407,13 +416,13 @@
         background: white;
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .project-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
     }
 
     .project-image-wrapper {
@@ -424,31 +433,31 @@
 
     .project-image {
         width: 100%;
-        height: 100%;
+ height: 100%;
         object-fit: contain;
-        object-position: center;
+  object-position: center;
         background-color: #f8f9fa;
-        transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
     }
 
-    .project-card:hover .project-image {
+ .project-card:hover .project-image {
         transform: scale(1.1);
     }
 
     .brand-tag {
-        position: absolute;
+     position: absolute;
         top: 15px;
         left: 15px;
         background: rgb(41, 78, 52);
-        color: white;
-        padding: 0.4rem 1rem;
+      color: white;
+  padding: 0.4rem 1rem;
         border-radius: 20px;
-        font-size: 0.85rem;
+    font-size: 0.85rem;
         font-weight: 600;
     }
 
     .project-content {
-        background: white;
+   background: white;
     }
 
     .project-title {
@@ -459,7 +468,7 @@
     }
 
     .project-meta {
-        color: #6c757d;
+      color: #6c757d;
         font-size: 0.95rem;
     }
 
@@ -468,25 +477,63 @@
         align-items: center;
     }
 
-    .meta-item i {
+ .meta-item i {
         color: rgb(41, 78, 52);
-        width: 20px;
+   width: 20px;
     }
 
     .category-tag {
-        display: inline-block;
-        background: #e9ecef;
-        color: #6c757d;
+     display: inline-block;
+     background: #e9ecef;
+  color: #6c757d;
         padding: 0.3rem 0.8rem;
-        border-radius: 5px;
+    border-radius: 5px;
         font-size: 0.85rem;
         font-weight: 500;
     }
 
     .project-description {
         color: #6c757d;
-        line-height: 1.6;
+line-height: 1.6;
         font-size: 0.95rem;
+    }
+
+    /* View Details Button */
+    .btn-outline-success.view-project-btn {
+   border-color: rgb(41, 78, 52);
+    color: rgb(41, 78, 52);
+   transition: all 0.3s ease;
+    }
+
+    .btn-outline-success.view-project-btn:hover {
+        background-color: rgb(41, 78, 52);
+   border-color: rgb(41, 78, 52);
+      color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(41, 78, 52, 0.3);
+    }
+
+    .btn-outline-success.view-project-btn:focus,
+    .btn-outline-success.view-project-btn:focus-visible,
+    .btn-outline-success.view-project-btn:active {
+        outline: none;
+  box-shadow: none;
+     border-color: rgb(41, 78, 52);
+        color: rgb(41, 78, 52);
+        background-color: transparent;
+    }
+
+    .btn-outline-success.view-project-btn:active:hover {
+     background-color: rgb(41, 78, 52);
+   color: #ffffff;
+}
+
+ .view-project-btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .view-project-btn:hover i {
+  transform: translateX(4px);
     }
 
     /* Testimonials Section */
@@ -658,5 +705,90 @@
             window.requestAnimationFrame(step);
         }
     });
+</script>
+
+<!-- Project details modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body" id="projectModalBody">
+<div class="text-center py-5">
+   <div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>
+          </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    // Delegated handler for View Details buttons
+    document.body.addEventListener('click', function(e){
+        var btn = e.target.closest('.view-project-btn');
+        if (!btn) return;
+        e.preventDefault();
+
+   var id = btn.getAttribute('data-project-id');
+        if (!id) return;
+
+     var modalEl = document.getElementById('projectModal');
+        if (!modalEl) {
+     console.error('Project modal element not found');
+return;
+        }
+        var modal = new bootstrap.Modal(modalEl);
+        var body = document.getElementById('projectModalBody');
+        body.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+    fetch('/Home/ProjectDetails?id=' + encodeURIComponent(id), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+ .then(function(resp){
+          if (!resp.ok) throw new Error('Network response was not ok');
+                return resp.text();
+         })
+            .then(function(html){
+    body.innerHTML = html;
+   modal.show();
+ })
+   .catch(function(err){
+                body.innerHTML = '<div class="p-4 text-danger">Unable to load project details.</div>';
+     modal.show();
+       console.error(err);
+ });
+    });
+
+// Handle thumbnail clicks inside modal (delegated)
+    document.body.addEventListener('click', function(e){
+var thumb = e.target.closest('.related-thumb');
+        if (!thumb) return;
+  e.preventDefault();
+        var large = thumb.getAttribute('data-large');
+      if (!large) return;
+        var modalEl = document.getElementById('projectModal');
+        if (!modalEl) return;
+        var main = modalEl.querySelector('#project-main-image');
+        if (main) main.src = large;
+ // update selected class
+        var container = thumb.closest('.related-thumbs-wrapper');
+        if (container) {
+          container.querySelectorAll('.related-thumb').forEach(function(t){ t.classList.remove('selected'); });
+        }
+        thumb.classList.add('selected');
+    });
+
+    // When modal is shown, auto-select first thumbnail if exists
+    var projectModalEl = document.getElementById('projectModal');
+    if (projectModalEl) {
+  projectModalEl.addEventListener('shown.bs.modal', function(){
+            var firstThumb = projectModalEl.querySelector('.related-thumb');
+   if (firstThumb) {
+      var large = firstThumb.getAttribute('data-large');
+                var main = projectModalEl.querySelector('#project-main-image');
+  if (main && large) main.src = large;
+  projectModalEl.querySelectorAll('.related-thumb').forEach(function(t){ t.classList.remove('selected'); });
+              firstThumb.classList.add('selected');
+            }
+        });
+    }
+});
 </script>
 
