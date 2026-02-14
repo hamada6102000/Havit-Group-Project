@@ -9,32 +9,35 @@
 @if (aboutImages != null && aboutImages.Any())
 {
     <section class="hero-carousel-section mb-5">
-        <div id="aboutCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+        <div id="aboutCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true">
             <div class="carousel-inner">
                 @for (int i = 0; i < aboutImages.Count; i++)
                 {
                     <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="@aboutImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(aboutImages[i].AltText ?? "Havit Group")">
+                        <div class="carousel-image-wrapper">
+                            <img src="@aboutImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(aboutImages[i].AltText ?? "Havit Group")">
+                            <div class="carousel-overlay"></div>
+                        </div>
                         @if (!string.IsNullOrWhiteSpace(aboutImages[i].AltText))
                         {
-                            <div class="carousel-caption">
-                                <h5>@aboutImages[i].AltText</h5>
+                            <div class="carousel-caption-custom">
+                                <div class="caption-content">
+                                    <h2 class="caption-title">@aboutImages[i].AltText</h2>
+                                </div>
                             </div>
                         }
                     </div>
                 }
             </div>
-            @if (aboutImages.Count > 1)
-            {
-                <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            }
+            
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators-custom">
+                @for (int i = 0; i < aboutImages.Count; i++)
+                {
+                    <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="@i" 
+                            class="@(i == 0 ? "active" : "")" aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
         </div>
     </section>
 }
@@ -47,7 +50,7 @@
                 <div class="mission-card h-100 p-4">
                     <div class="d-flex align-items-center mb-3">
                         <div class="mission-icon me-3">
-                            <i class="fas fa-bullseye fa-2x"></i>
+                            <i class="fas fa-bullseye"></i>
                         </div>
                         <h2 class="mb-0">Our Mission</h2>
                     </div>
@@ -60,7 +63,7 @@
                 <div class="vision-card h-100 p-4">
                     <div class="d-flex align-items-center mb-3">
                         <div class="vision-icon me-3">
-                            <i class="fas fa-eye fa-2x "></i>
+                            <i class="fas fa-eye"></i>
                         </div>
                         <h2 class="mb-0">Our Vision</h2>
                     </div>
@@ -80,17 +83,17 @@
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h2 class="display-5 fw-bold mb-4">Our Story</h2>
                 <p class="lead mb-3">
-                    What began as a small technology startup in 2000 has grown into a diversified group with operations spanning multiple continents. Our journey has been marked by strategic growth, thoughtful acquisitions, and an unwavering commitment to excellence.
+                    Established in 2016 in Nairobi, Kenya, Havit Group was founded with a strategic vision to deliver integrated furniture and turnkey solutions to corporate clients, 
+                    developers, and hospitality investors across the region. Over the years, the Group has grown into a trusted partner for large-scale residential, commercial, 
+                    and hotel projects, representing leading brands including Istikbal, Burotime, Bravo Furniture, and Havit Furniture. 
+                    By combining international quality standards with strong project management expertise and local market insight, 
+                    Havit Group provides end-to-end solutions — from concept and supply to execution and delivery. 
+                    Today, we continue to support developers and businesses in creating functional, elegant, and future-ready spaces that drive long-term value.
                 </p>
-                <p class="mb-3">
-                    Today, Havit Group comprises multiple business units, each a leader in its respective field. From cutting-edge technology solutions to sustainable manufacturing, from innovative real estate development to renewable energy projects, we continue to expand our impact.
-                </p>
-                <p class="mb-0">
-                    Our success is built on the talent and dedication of our team, the trust of our partners, and our relentless pursuit of innovation. As we look to the future, we remain committed to creating value while making a positive difference in the world.
-                </p>
+
             </div>
             <div class="col-lg-6">
-                <img src="~/Images/photo-1623715537851-8bc15aa8c145.jpg" class="img-fluid rounded shadow-lg" alt="Our Story">
+                <img src="~/Images/photo-1687180497278-ca4d736ecc99.jpg" class="img-fluid rounded shadow-lg" alt="Our Story">
             </div>
         </div>
     </div>
@@ -107,43 +110,57 @@
             <div class="col-lg-10">
                 <div class="timeline-container" >
                     <div class="timeline">
+
+                        <!-- 2016 -->
                         <div class="timeline-item">
-                            <div class="timeline-content left">
-                                <div class="timeline-year">2000</div>
-                                <div class="timeline-text">Founded with a vision to transform industries</div>
+                            <div class="timeline-card left">
+                                <h5 class="timeline-year">2016</h5>
+                                <p>Founded in Nairobi, Kenya with a vision to deliver integrated furniture solutions</p>
                             </div>
                         </div>
+
+                        <!-- 2017 -->
                         <div class="timeline-item">
-                            <div class="timeline-content right">
-                                <div class="timeline-year">2005</div>
-                                <div class="timeline-text">Expanded into international markets</div>
+                            <div class="timeline-card right">
+                                <h5 class="timeline-year">2017</h5>
+                                <p>Established partnerships with Istikbal and Burotime brands</p>
                             </div>
                         </div>
+
+                        <!-- 2019 -->
                         <div class="timeline-item">
-                            <div class="timeline-content left">
-                                <div class="timeline-year">2010</div>
-                                <div class="timeline-text">Launched sustainable energy division</div>
+                            <div class="timeline-card left">
+                                <h5 class="timeline-year">2019</h5>
+                                <p>Expanded brand portfolio with Bravo Furniture and Havit Furniture</p>
                             </div>
                         </div>
+
+                        <!-- 2021 -->
                         <div class="timeline-item">
-                            <div class="timeline-content right">
-                                <div class="timeline-year">2015</div>
-                                <div class="timeline-text">Reached 250+ employees milestone</div>
+                            <div class="timeline-card right">
+                                <h5 class="timeline-year">2021</h5>
+                                <p>Reached milestone of serving clients across 20+ countries in East Africa and beyond</p>
                             </div>
                         </div>
+
+                        <!-- 2023 -->
                         <div class="timeline-item">
-                            <div class="timeline-content left">
-                                <div class="timeline-year">2020</div>
-                                <div class="timeline-text">Achieved carbon-neutral operations</div>
+                            <div class="timeline-card left">
+                                <h5 class="timeline-year">2023</h5>
+                                <p>Completed major turnkey projects for hospitality and commercial sectors</p>
                             </div>
                         </div>
+
+                        <!-- 2026 -->
                         <div class="timeline-item">
-                            <div class="timeline-content right">
-                                <div class="timeline-year">2025</div>
-                                <div class="timeline-text">Celebrating 25 years of excellence</div>
+                            <div class="timeline-card right">
+                                <h5 class="timeline-year">2026</h5>
+                                <p>Celebrating 10+ years of excellence in furniture and project solutions</p>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -217,12 +234,14 @@
 
 
 <style>
-    /* Hero Carousel Styles */
-    .hero-carousel-section {
-        margin-top: -1rem;
-        margin-left: -15px;
-        margin-right: -15px;
-    }
+/* Hero Carousel Styles */
+.hero-carousel-section {
+    margin-top: -2.5rem;
+    margin-bottom: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+    position: relative;
+}
     
     @@media (min-width: 576px) {
         .hero-carousel-section {
@@ -259,71 +278,150 @@
         }
     }
 
+    .carousel-image-wrapper {
+        position: relative;
+        height: 750px;
+        overflow: hidden;
+    }
+
     .carousel-image {
-        max-height: 600px;
         width: 100%;
+        height: 100%;
         object-fit: cover;
         object-position: center;
-        background-color: #f8f9fa;
-        animation: fadeIn 1s ease-in;
         display: block;
     }
 
-    .carousel-item {
-        min-height: 400px;
-        background-color: #f8f9fa;
+    /* Green Overlay */
+    .carousel-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
+        z-index: 1;
+        transition: background 0.8s ease-in-out 0.3s;
     }
 
-    .carousel-item img {
-        margin: 0 auto;
+    /* Bright green when transitioning between slides */
+    .carousel-item.active .carousel-overlay {
+        background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        animation: overlayColorTransition 2.2s ease-in-out forwards;
     }
 
-    .carousel-caption {
-        background: transparent; /* شفاف - Transparent background */
-        padding: 0.75rem 1.5rem;
-        border-radius: 5px;
-        bottom: 1.5rem;
+    /* Animation that transitions from bright to dark green with delay */
+    @@keyframes overlayColorTransition {
+        0% {
+            background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        }
+        40% {
+            background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        }
+        100% {
+            background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
+        }
+    }
+
+    /* Custom Caption Styling */
+    .carousel-caption-custom {
+        position: absolute;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
-        max-width: 90%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
         text-align: center;
+        width: 90%;
+        max-width: 900px;
     }
 
-    .carousel-caption h5 {
-        color: #fff;
-        font-size: 1.25rem;
+    .caption-content {
+        padding: 0 1rem;
+    }
+
+    .caption-title {
+        font-size: 2rem;
         font-weight: 600;
-        margin: 0;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        line-height: 1.3;
+        opacity: 0;
+        transform: translateY(30px);
+        letter-spacing: 0.3px;
     }
 
-    @@media (min-width: 768px) {
-        .carousel-caption {
-            padding: 1rem 2rem;
-            bottom: 2rem;
-        }
-
-        .carousel-caption h5 {
-            font-size: 1.5rem;
-        }
+    .carousel-item.active .caption-title {
+        animation: slideInUp 0.8s ease-out 0.3s forwards;
     }
 
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
+    /* Text Animation Keyframes */
+    @@keyframes slideInUp {
         to {
             opacity: 1;
+            transform: translateY(0);
         }
     }
 
-    .carousel-fade .carousel-item {
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
+    /* Custom Carousel Indicators */
+    .carousel-indicators-custom {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 3;
     }
 
-    .carousel-fade .carousel-item.active {
+    .carousel-indicators-custom button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        background-color: rgba(255, 255, 255, 0.5);
         opacity: 1;
+        transition: all 0.4s ease;
+        cursor: pointer;
+        padding: 0;
+    }
+
+        .carousel-indicators-custom button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+    .carousel-indicators-custom button.active {
+        background-color: #ffffff;
+        width: 40px;
+        border-radius: 10px;
+        transform: scale(1);
+    }
+
+        .carousel-indicators-custom button.active:hover {
+            transform: scale(1.05);
+        }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 768px) {
+        .carousel-image-wrapper {
+            height: 500px;
+        }
+
+        .caption-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image-wrapper {
+            height: 400px;
+        }
+
+        .caption-title {
+            font-size: 1.25rem;
+        }
     }
 
     /* Mission and Vision Section */
@@ -331,28 +429,40 @@
 /*         background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
  */    }
 
-    .mission-card, .vision-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    .mission-card,
+    .vision-card {
+        background: #e9f3ec; /* soft light green background */
+        border-radius: 18px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
     }
 
-    .mission-card:hover, .vision-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    }
+        .mission-card:hover,
+        .vision-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+        }
 
-    .mission-icon, .vision-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
+    /* Icon Circle Style */
+    .mission-icon,
+    .vision-icon {
+        width: 55px;
+        height: 55px;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: rgb(41, 78, 52);
-        color:white;
+        background: #0f5f2f; /* dark rich green */
+        color: #ffffff;
         border-radius: 50%;
+        font-size: 1.3rem;
+        box-shadow: 0 4px 12px rgba(15, 95, 47, 0.25);
+    }
+
+    /* Optional: Slightly softer heading color */
+    .mission-card h2,
+    .vision-card h2 {
+        color: #0f5f2f;
+        font-weight: 600;
     }
 
     /* Our Story Section */
@@ -371,147 +481,117 @@
         transform: scale(1.02);
     }
 
-    /* Our Journey Section - Timeline */
+    /* ===== Our Journey Timeline ===== */
 
-    .timeline-container {
-        position: relative;
-        padding: 40px 0;
-        background: white;
+    .our-journey-section {
+        background: #f8faf9;
     }
 
     .timeline {
         position: relative;
-        max-width: 100%;
-        background:white;
-        color: rgb(41, 78, 52);
+        max-width: 1000px;
+        margin: auto;
+        padding: 40px 0;
     }
 
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-            background: linear-gradient(180deg, rgb(41, 78, 52) 0%, rgb(41, 78, 52) 100%);
-        transform: translateX(-50%);
-    }
+        /* Vertical line */
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: #7fcf9b; /* soft green line */
+            transform: translateX(-50%);
+        }
 
+    /* Timeline item */
     .timeline-item {
         position: relative;
-        margin-bottom: 60px;
+        width: 100%;
+        margin-bottom: 70px;
         display: flex;
-        align-items: center;
-        color: rgb(41, 78, 52);
     }
 
-    .timeline-item:nth-child(odd) {
-        justify-content: flex-start;
+        .timeline-item:nth-child(odd) {
+            justify-content: flex-start;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-end;
+        }
+
+        /* Circle dot */
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 14px;
+            height: 14px;
+            background: #0f5f2f;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+    /* Card */
+    .timeline-card {
+        background: #e9f3ec; /* light green like image */
+        padding: 25px 30px;
+        border-radius: 14px;
+        width: 45%;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
     }
 
-    .timeline-item:nth-child(even) {
-        justify-content: flex-end;
-    }
+        .timeline-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
 
-    .timeline-content {
-        position: relative;
-        background: rgb(41, 78, 52);
-        color:white;
-        padding: 20px 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        max-width: 45%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .timeline-content:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .timeline-content.left {
-        margin-right: auto;
-        margin-left: 0;
-    }
-
-    .timeline-content.right {
-        margin-left: auto;
-        margin-right: 0;
-    }
-
-    .timeline-content::before {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .timeline-content.left::before {
-        right: -15px;
-        border-width: 15px 0 15px 15px;
-        border-color: transparent transparent transparent rgb(41, 78, 52);
-    }
-
-    .timeline-content.right::before {
-        left: -15px;
-        border-width: 15px 15px 15px 0;
-        border-color: transparent rgb(41, 78, 52) transparent transparent;
-    }
-
+    /* Year */
     .timeline-year {
-        font-size: 1.5rem;
+        color: #0f5f2f;
         font-weight: 700;
-        color: white;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
-    .timeline-text {
-        font-size: 1rem;
-        color: white;
+    /* Text */
+    .timeline-card p {
+        margin: 0;
+        color: #2c3e34;
         line-height: 1.6;
     }
 
-    .timeline-item::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 20px;
-        height: 20px;
-        background: rgb(41, 78, 52);
-        border: 4px solid white;
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 2;
-    }
-
+    /* Mobile */
     @@media (max-width: 768px) {
-        .timeline::before {
-            left: 30px;
-        }
+        .timeline::before
 
-        .timeline-content {
-            max-width: calc(100% - 60px);
-            margin-left: 60px !important;
-            margin-right: 0 !important;
-        }
-
-        .timeline-content.left::before,
-        .timeline-content.right::before {
-            left: -15px;
-            right: auto;
-            border-width: 15px 15px 15px 0;
-                border-color: transparent rgb(41, 78, 52) transparent transparent;
-        }
-
-        .timeline-item::after {
-            left: 30px;
-        }
+    {
+        left: 25px;
     }
+
+    .timeline-item {
+        justify-content: flex-start !important;
+    }
+
+    .timeline-card {
+        width: calc(100% - 70px);
+        margin-left: 70px;
+    }
+
+    .timeline-item::after {
+        left: 25px;
+        transform: none;
+    }
+
+    }
+
+
+
+
 
     /* What Drives Us Section */
     .what-drives-us-section {
@@ -550,3 +630,27 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // === Carousel Indicator Animation ===
+    const aboutCarousel = document.getElementById('aboutCarousel');
+    if (aboutCarousel) {
+        // Listen for Bootstrap carousel slide events
+        aboutCarousel.addEventListener('slide.bs.carousel', function (e) {
+            // Get all indicator buttons
+            const indicators = document.querySelectorAll('.carousel-indicators-custom button');
+                   
+            // Remove active class from all indicators
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+                   
+            // Add active class to the indicator for the slide we're going to
+            if (indicators[e.to]) {
+                indicators[e.to].classList.add('active');
+            }
+        });
+    }
+});
+</script>

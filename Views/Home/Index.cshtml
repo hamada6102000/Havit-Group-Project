@@ -9,32 +9,40 @@
 @if (homeImages != null && homeImages.Any())
 {
     <section class="hero-carousel-section mb-5">
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true">
             <div class="carousel-inner">
                 @for (int i = 0; i < homeImages.Count; i++)
                 {
                     <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="@homeImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(homeImages[i].AltText ?? "Havit Group")">
-                        @if (!string.IsNullOrWhiteSpace(homeImages[i].AltText))
-                        {
-                            <div class="carousel-caption">
-                                <h5>@homeImages[i].AltText</h5>
+                        <div class="carousel-image-wrapper">
+                            <img src="@homeImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(homeImages[i].AltText ?? "Havit Group")">
+                            <div class="carousel-overlay"></div>
+                        </div>
+                        <div class="carousel-caption-custom">
+                            <div class="caption-content">
+                                <h2 class="caption-title animate-text">@(homeImages[i].AltText ?? "Quality Furniture Solutions")</h2>
+                                <div class="caption-buttons animate-text-delay-2">
+                                    <a asp-controller="Home" asp-action="About" class="btn btn-light btn-lg me-3">
+                                        Learn More <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                    <a asp-controller="Home" asp-action="Contact" class="btn btn-light btn-lg">
+                                        Get In Touch
+                                    </a>
+                                </div>
                             </div>
-                        }
+                        </div>
                     </div>
                 }
             </div>
-            @if (homeImages.Count > 1)
-            {
-                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            }
+            
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators-custom">
+                @for (int i = 0; i < homeImages.Count; i++)
+                {
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i" 
+                            class="@(i == 0 ? "active" : "")" aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
         </div>
     </section>
 }
@@ -42,11 +50,32 @@ else
 {
     <!-- Fallback to default image if no images in database -->
     <section class="hero-carousel-section mb-5">
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" data-bs-wrap="true">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="d-block w-100 carousel-image" alt="Havit Group">
+                    <div class="carousel-image-wrapper">
+                        <img src="~/Images/photo-1709715357520-5e1047a2b691.jpg" class="d-block w-100 carousel-image" alt="Havit Group">
+                        <div class="carousel-overlay"></div>
+                    </div>
+                    <div class="carousel-caption-custom">
+                        <div class="caption-content">
+                            <h2 class="caption-title animate-text">Quality Furniture Solutions</h2>
+                            <p class="caption-subtitle animate-text-delay-1">From luxury hotels to modern offices, we deliver exceptional furniture that transforms spaces worldwide.</p>
+                            <div class="caption-buttons animate-text-delay-2">
+                                <a asp-controller="Home" asp-action="About" class="btn btn-light btn-lg me-3">
+                                    Learn More <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                                <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-light btn-lg">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="carousel-indicators-custom">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
             </div>
         </div>
     </section>
@@ -140,7 +169,7 @@ else
             <div class="col-md-4 animate-card">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-award fa-3x"></i>
+                        <i class="fas fa-award"></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Quality Craftsmanship</h3>
                     <p class="text-muted">We deliver premium products and precise project execution.</p>
@@ -149,7 +178,7 @@ else
             <div class="col-md-4 animate-card">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-handshake fa-3x"></i>
+                        <i class="fas fa-handshake"></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Trust & Transparency</h3>
                     <p class="text-muted">We build honest, reliable relationships with every client.</p>
@@ -158,7 +187,7 @@ else
             <div class="col-md-4 animate-card">
                 <div class="value-card text-center p-4 h-100">
                     <div class="value-icon mb-3">
-                        <i class="fas fa-lightbulb fa-3x"></i>
+                        <i class="far fa-lightbulb"></i>
                     </div>
                     <h3 class="h4 fw-bold mb-3">Innovation</h3>
                     <p class="text-muted">We continuously improve through smart design and modern solutions.</p>
@@ -656,6 +685,280 @@ else
 }
 
 <style>
+    /* === Hero Carousel with Green Overlay === */
+    .hero-carousel-section {
+        margin-top: -2.5rem;
+        margin-bottom: 0;
+        margin-left: -15px;
+        margin-right: -15px;
+        position: relative;
+    }
+    
+    @@media (min-width: 576px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 540px) / -2);
+            margin-right: calc((100vw - 540px) / -2);
+        }
+    }
+    
+    @@media (min-width: 768px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 720px) / -2);
+            margin-right: calc((100vw - 720px) / -2);
+        }
+    }
+    
+    @@media (min-width: 992px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 960px) / -2);
+            margin-right: calc((100vw - 960px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1200px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1140px) / -2);
+            margin-right: calc((100vw - 1140px) / -2);
+        }
+    }
+    
+    @@media (min-width: 1400px) {
+        .hero-carousel-section {
+            margin-left: calc((100vw - 1320px) / -2);
+            margin-right: calc((100vw - 1320px) / -2);
+        }
+    }
+
+    .carousel-image-wrapper {
+        position: relative;
+        height: 750px;
+        overflow: hidden;
+    }
+
+    .carousel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+    /* Green Overlay */
+    .carousel-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
+        z-index: 1;
+        transition: background 0.8s ease-in-out 0.3s;
+    }
+
+    /* Bright green when transitioning between slides */
+    .carousel-item.active .carousel-overlay {
+        background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        animation: overlayColorTransition 2.2s ease-in-out forwards;
+    }
+
+    /* Animation that transitions from bright to dark green with delay */
+    @@keyframes overlayColorTransition {
+        0% {
+            background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        }
+        40% {
+            background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+        }
+        100% {
+            background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
+        }
+    }
+
+    /* Custom Caption Styling */
+    .carousel-caption-custom {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        text-align: center;
+        width: 90%;
+        max-width: 900px;
+    }
+
+    .caption-content {
+        padding: 0 1rem;
+    }
+
+    .caption-title {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        line-height: 1.3;
+        opacity: 0;
+        transform: translateY(30px);
+        letter-spacing: 0.3px;
+    }
+
+    .carousel-item.active .caption-title {
+        animation: slideInUp 0.8s ease-out 0.3s forwards;
+    }
+
+    .caption-subtitle {
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.92);
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(30px);
+        letter-spacing: 0.2px;
+    }
+
+    .carousel-item.active .caption-subtitle {
+        animation: slideInUp 0.8s ease-out 0.6s forwards;
+    }
+
+    .caption-buttons {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .carousel-item.active .caption-buttons {
+        animation: slideInUp 0.8s ease-out 0.9s forwards;
+    }
+
+    /* Text Animation Keyframes */
+    @@keyframes slideInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Caption Buttons */
+    .caption-buttons .btn {
+        padding: 0.75rem 2rem;
+        font-size: 0.95rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-width: 2px;
+    }
+
+    .caption-buttons .btn-light {
+        background-color: #ffffff;
+        border-color: #ffffff;
+        color: rgb(41, 78, 52);
+    }
+
+    .caption-buttons .btn-light:hover {
+        background-color: transparent;
+        border-color: #ffffff;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .caption-buttons .btn-outline-light {
+        background-color: transparent;
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+
+    .caption-buttons .btn-outline-light:hover {
+        background-color: #ffffff;
+        border-color: #ffffff;
+        color: rgb(41, 78, 52);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Custom Carousel Indicators */
+    .carousel-indicators-custom {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 3;
+    }
+
+    .carousel-indicators-custom button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        background-color: rgba(255, 255, 255, 0.5);
+        opacity: 1;
+        transition: all 0.4s ease;
+        cursor: pointer;
+        padding: 0;
+    }
+
+        .carousel-indicators-custom button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+    .carousel-indicators-custom button.active {
+        background-color: #ffffff;
+        width: 40px;
+        border-radius: 10px;
+        transform: scale(1);
+    }
+
+        .carousel-indicators-custom button.active:hover {
+            transform: scale(1.05);
+        }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 768px) {
+        .carousel-image-wrapper {
+            height: 500px;
+        }
+
+        .caption-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .caption-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .caption-buttons .btn {
+            padding: 0.65rem 1.6rem;
+            font-size: 0.85rem;
+            margin: 0.3rem;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .carousel-image-wrapper {
+            height: 400px;
+        }
+
+        .caption-title {
+            font-size: 1.25rem;
+        }
+
+        .caption-subtitle {
+            font-size: 0.85rem;
+        }
+
+        .caption-buttons .btn {
+            display: block;
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+    }
+
     /* === Staggered Card Animation === */
 
     /* 1. Initial State (Hidden & Moved Down) */
@@ -704,351 +1007,6 @@ else
     }
 
     }
-</style>
-
-<script>
-       document.addEventListener('DOMContentLoaded', function() {
-           // === Staggered Animation Observer ===
-           const staggerObserver = new IntersectionObserver((entries, observer) => {
-               entries.forEach(entry => {
-                   if (entry.isIntersecting) {
-                       // Find all animatable cards inside this container
-                       const cards = entry.target.querySelectorAll('.animate-card');
-
-                       // Loop through them and add the class with a delay
-                       cards.forEach((card, index) => {
-                           setTimeout(() => {
-                               card.classList.add('visible');
-                           }, index * 150); // 150ms delay between each item
-                       });
-
-                       // Stop watching this container once triggered
-                       observer.unobserve(entry.target);
-                   }
-               });
-           }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-           // Observe all grids
-           document.querySelectorAll('.animate-grid').forEach(grid => {
-               staggerObserver.observe(grid);
-           });
-       });
-       // === Scroll Animation Script ===
-       document.addEventListener("DOMContentLoaded", function() {
-
-           // 1. Select all elements with the 'reveal-section' class
-           const sections = document.querySelectorAll('.reveal-section');
-
-           // 2. Create the observer settings (trigger when 15% of item is visible)
-           const observerOptions = {
-               threshold: 0.15,
-               rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
-           };
-
-           // 3. Define the observer logic
-           const observer = new IntersectionObserver((entries, observer) => {
-               entries.forEach(entry => {
-                   if (entry.isIntersecting) {
-                       // Add the class to start animation
-                       entry.target.classList.add('active');
-                       // Stop watching this element (so it doesn't animate again when scrolling up)
-                       observer.unobserve(entry.target);
-                   }
-               });
-           }, observerOptions);
-
-           // 4. Start watching the sections
-           sections.forEach(section => {
-               observer.observe(section);
-           });
-       });
- // Animate statistics numbers on scroll
- document.addEventListener('DOMContentLoaded', function() {
- const statNumbers = document.querySelectorAll('.stat-number');
- if (!('IntersectionObserver' in window)) {
- // Fallback: just set final values
- statNumbers.forEach(el => el.textContent = el.getAttribute('data-target'));
- return;
- }
-
- const observerOptions = { threshold:0.5, rootMargin: '0px' };
- const observer = new IntersectionObserver(function(entries) {
- entries.forEach(entry => {
- if (entry.isIntersecting) {
- const target = parseInt(entry.target.getAttribute('data-target')) ||0;
- animateValue(entry.target,0, target,1500);
- observer.unobserve(entry.target);
- }
- });
- }, observerOptions);
-
- statNumbers.forEach(stat => observer.observe(stat));
-
- function animateValue(element, start, end, duration) {
- let startTimestamp = null;
- const step = (timestamp) => {
- if (!startTimestamp) startTimestamp = timestamp;
- const progress = Math.min((timestamp - startTimestamp) / duration,1);
- const current = Math.floor(progress * (end - start) + start);
- element.textContent = current;
- if (progress <1) {
- window.requestAnimationFrame(step);
- }
- };
- window.requestAnimationFrame(step);
- }
- });
-
-</script>
-<script>
-    document.querySelectorAll('.view-all-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            this.classList.add('clicked');
-            document.body.classList.add('page-fade-out');
-            setTimeout(() => {
-                window.location.href = this.href;
-            }, 350);
-        });
-    });
-    // Inside your DOMContentLoaded listener:
-document.querySelectorAll('.view-project-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const projectId = this.getAttribute('data-project-id');
-        // Call your function to open the modal (as we discussed in the previous step)
-        if (typeof openProjectDetails === "function") {
-            openProjectDetails(projectId);
-        }
-    });
-});
-</script>
-
-<style>
-    /* Project Card Specific Styling */
-    .project-card {
-        border: 1px solid rgba(0,0,0,0.08);
-        border-radius: 12px;
-        overflow: hidden;
-        background: #fff;
-        transition: all 0.3s ease;
-    }
-
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-        }
-
-    /* Matching the site's green brand colors */
-    .btn-outline-success {
-        border-color: #294e34; /* Dark Green matching your stats */
-        color: #294e34;
-        transition: all 0.3s ease;
-    }
-
-        .btn-outline-success:hover {
-            background-color: #294e34;
-            border-color: #294e34;
-            color: #ffffff;
-        }
-
-    .project-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #333;
-    }
-
-    .category-tag {
-        display: inline-block;
-        padding: 2px 10px;
-        background: #f0f4f1;
-        color: #294e34;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-    /* Button Style (Matches Featured Projects) */
-    .view-all-btn {
-        padding: 0.7rem 2.2rem;
-        border-radius: 50px; /* Pill shape */
-        font-weight: 600;
-        font-size: 1rem;
-        border: 2px solid rgb(41, 78, 52); /* Brand Border Color */
-        color: rgb(41, 78, 52); /* Brand Text Color */
-        transition: all 0.35s cubic-bezier(.2,.9,.2,1);
-        position: relative;
-        overflow: hidden;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-    }
-
-    /* Remove default Bootstrap success colors if needed */
-    .btn-outline-success.view-all-btn {
-        color: rgb(41, 78, 52);
-        border-color: rgb(41, 78, 52);
-    }
-
-    .view-all-btn:hover {
-        transform: translateY(-4px) scale(1.04);
-        box-shadow: 0 12px 28px rgba(41,78,52,0.25);
-        background-color: rgb(41, 78, 52);
-        color: #fff;
-        border-color: rgb(41, 78, 52);
-    }
-
-    .view-all-btn i {
-        transition: transform 0.35s ease;
-    }
-
-    .view-all-btn:hover i {
-        transform: translateX(6px); /* Arrow moves right on hover */
-    }
-    /* === CTA Section Styles (Light Background Version) === */
-    .cta-section {
-        background-color: #f8f9fa; /* Very subtle light gray background */
-        border-top: 1px solid #e9ecef;
-        border-bottom: 1px solid #e9ecef;
-    }
-
-    /* Custom Solid Brand Green Button */
-    .btn-brand-green {
-        background-color: rgb(41, 78, 52); /* Your brand green color */
-        border: 2px solid rgb(41, 78, 52);
-        color: white;
-        transition: all 0.3s ease;
-    }
-
-        .btn-brand-green:hover {
-            background-color: rgb(28, 54, 36); /* Slightly darker green on hover */
-            border-color: rgb(28, 54, 36);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.2);
-        }
-
-    /* Custom Outline Brand Green Button */
-    .btn-outline-brand-green {
-        background-color: transparent;
-        color: rgb(41, 78, 52); /* Brand green text */
-        border: 2px solid rgb(41, 78, 52); /* Brand green border */
-        transition: all 0.3s ease;
-    }
-
-        .btn-outline-brand-green:hover {
-            background-color: rgb(41, 78, 52);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.1);
-        }
-    /* Hero Carousel Styles */
-    .hero-carousel-section {
-        margin-top: -1rem;
-        margin-left: -15px;
-        margin-right: -15px;
-    }
-    
-    @@media (min-width: 576px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 540px) / -2);
-            margin-right: calc((100vw - 540px) / -2);
-        }
-    }
-    
-    @@media (min-width: 768px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 720px) / -2);
-            margin-right: calc((100vw - 720px) / -2);
-        }
-    }
-    
-    @@media (min-width: 992px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 960px) / -2);
-            margin-right: calc((100vw - 960px) / -2);
-        }
-    }
-    
-    @@media (min-width: 1200px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 1140px) / -2);
-            margin-right: calc((100vw - 1140px) / -2);
-        }
-    }
-    
-    @@media (min-width: 1400px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 1320px) / -2);
-            margin-right: calc((100vw - 1320px) / -2);
-        }
-    }
-
-    .carousel-image {
-        max-height: 700px;
-        width: 100%;
-        object-fit: cover;
-        object-position: center;
-        background-color: #f8f9fa;
-        animation: fadeIn 1s ease-in;
-        display: block;
-    }
-
-    .carousel-item {
-        min-height: 400px;
-        background-color: #f8f9fa;
-    }
-
-        .carousel-item img {
-            margin: 0 auto;
-        }
-
-    .carousel-caption {
-        background: transparent; /* شفاف - Transparent background */
-        padding: 0.75rem 1.5rem;
-        border-radius: 5px;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        max-width: 90%;
-        text-align: center;
-    }
-
-        .carousel-caption h5 {
-            color: #fff;
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-    @@media (min-width: 768px) {
-        .carousel-caption {
-            padding: 1rem 2rem;
-            bottom: 2rem;
-        }
-
-            .carousel-caption h5 {
-                font-size: 1.5rem;
-            }
-    }
-
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    .carousel-fade .carousel-item {
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
-    }
-
-        .carousel-fade .carousel-item.active {
-            opacity: 1;
-        }
 
     /* Brands Section */
     .brands-section {
@@ -1186,24 +1144,24 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
     }
 
     .value-icon {
-        animation: pulse 2s infinite;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+        background-color: #d4f4dd;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         color: rgb(41, 78, 52);
+        transition: transform 0.6s ease;
     }
 
-    @@keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.1);
-        }
+    .value-icon i {
+        font-size: 1.5rem;
     }
 
-    @@media (max-width: 575px) {
-        .carousel-image {
-            max-height: 400px;
-        }
+    .value-card:hover .value-icon {
+        transform: rotate(360deg);
     }
 
     /* Why Choose Section styles */
@@ -1442,7 +1400,7 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
     .achievement-card {
         background: #fff;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* Very subtle shadow like the image */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         border: 1px solid #f0f0f0;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
@@ -1458,22 +1416,36 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
         }
 
     .achievement-icon {
-        width: 70px;
-        height: 70px;
-        background-color: #e9f5ee; /* Light green circle background */
-        color: rgb(41, 78, 52); /* Brand green color for icon */
-        font-size: 1.75rem;
+        width: 60px;
+        height: 60px;
+        background-color: #d4f4dd;
+        color: rgb(41, 78, 52);
+        font-size: 1.5rem;
         border-radius: 50%;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s ease;
+        transition: none;
     }
 
-    .achievement-card:hover .achievement-icon {
-        background-color: rgb(41, 78, 52);
-        color: #fff;
-        transform: scale(1.1);
+    .achievement-icon i {
+        transition: transform 0.3s ease;
+    }
+
+    .achievement-card:hover .achievement-icon i {
+        animation: vibrateIcon 0.3s ease-in-out;
+    }
+
+    @@keyframes vibrateIcon {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(-30deg);
+        }
+        75% {
+            transform: rotate(30deg);
+        }
     }
 
 
@@ -1618,20 +1590,6 @@ document.querySelectorAll('.view-project-btn').forEach(btn => {
         }
     }
 
-    @@media (max-width: 575px) {
-        .carousel-image {
-            max-height: 400px;
-        }
-
-        .testimonial-card {
-            padding: 1.5rem;
-        }
-
-        .testimonial-quote-icon {
-            font-size: 2rem;
-        }
-    }
-
     /* Add CSS for image overlay button */
     .project-image-wrapper { position: relative; }
     .image-details-btn {
@@ -1673,7 +1631,194 @@ a:active,
     box-shadow: none !important;
 }
 
+    /* === CTA Section Styles (Light Background Version) === */
+    .cta-section {
+        background-color: #f8f9fa; /* Very subtle light gray background */
+        border-top: 1px solid #e9ecef;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    /* Custom Solid Brand Green Button */
+    .btn-brand-green {
+        background-color: rgb(41, 78, 52); /* Your brand green color */
+        border: 2px solid rgb(41, 78, 52);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+        .btn-brand-green:hover {
+            background-color: rgb(28, 54, 36); /* Slightly darker green on hover */
+            border-color: rgb(28, 54, 36);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.2);
+        }
+
+    /* Custom Outline Brand Green Button */
+    .btn-outline-brand-green {
+        background-color: transparent;
+        color: rgb(41, 78, 52); /* Brand green text */
+        border: 2px solid rgb(41, 78, 52); /* Brand green border */
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-brand-green:hover {
+            background-color: rgb(41, 78, 52);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 78, 52, 0.1);
+        }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // === Staggered Animation Observer ===
+    const staggerObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Find all animatable cards inside this container
+                const cards = entry.target.querySelectorAll('.animate-card');
+
+                // Loop through them and add the class with a delay
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 150); // 150ms delay between each item
+                });
+
+                // Stop watching this container once triggered
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    // Observe all grids
+    document.querySelectorAll('.animate-grid').forEach(grid => {
+        staggerObserver.observe(grid);
+    });
+
+    // === Carousel Indicator Animation ===
+    const heroCarousel = document.getElementById('heroCarousel');
+    if (heroCarousel) {
+        // Listen for Bootstrap carousel slide events
+        heroCarousel.addEventListener('slide.bs.carousel', function (e) {
+            // Get all indicator buttons
+            const indicators = document.querySelectorAll('.carousel-indicators-custom button');
+                   
+            // Remove active class from all indicators
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+                   
+            // Add active class to the indicator for the slide we're going to
+            if (indicators[e.to]) {
+                indicators[e.to].classList.add('active');
+            }
+        });
+    }
+});
+       // === Scroll Animation Script ===
+       document.addEventListener("DOMContentLoaded", function() {
+
+           // 1. Select all elements with the 'reveal-section' class
+           const sections = document.querySelectorAll('.reveal-section');
+
+           // 2. Create the observer settings (trigger when 15% of item is visible)
+           const observerOptions = {
+               threshold: 0.15,
+               rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+           };
+
+           // 3. Define the observer logic
+           const observer = new IntersectionObserver((entries, observer) => {
+               entries.forEach(entry => {
+                   if (entry.isIntersecting) {
+                       // Add the class to start animation
+                       entry.target.classList.add('active');
+                       // Stop watching this element (so it doesn't animate again when scrolling up)
+                       observer.unobserve(entry.target);
+                   }
+               });
+           }, observerOptions);
+
+           // 4. Start watching the sections
+           sections.forEach(section => {
+               observer.observe(section);
+           });
+       });
+ // Animate statistics numbers on scroll
+ document.addEventListener('DOMContentLoaded', function() {
+ const statNumbers = document.querySelectorAll('.stat-number');
+ if (!('IntersectionObserver' in window)) {
+ // Fallback: just set final values
+ statNumbers.forEach(el => el.textContent = el.getAttribute('data-target'));
+ return;
+ }
+
+ const observerOptions = { threshold:0.5, rootMargin: '0px' };
+ const observer = new IntersectionObserver(function(entries) {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ const target = parseInt(entry.target.getAttribute('data-target')) ||0;
+ animateValue(entry.target,0, target,1500);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, observerOptions);
+
+ statNumbers.forEach(stat => observer.observe(stat));
+
+ function animateValue(element, start, end, duration) {
+ let startTimestamp = null;
+ const step = (timestamp) => {
+ if (!startTimestamp) startTimestamp = timestamp;
+ const progress = Math.min((timestamp - startTimestamp) / duration,1);
+ const current = Math.floor(progress * (end - start) + start);
+ element.textContent = current;
+ if (progress <1) {
+ window.requestAnimationFrame(step);
+ }
+ };
+ window.requestAnimationFrame(step);
+ }
+ });
+
+</script>
+<script>
+    document.querySelectorAll('.view-all-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.add('clicked');
+            document.body.classList.add('page-fade-out');
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 350);
+        });
+    });
+    // Inside your DOMContentLoaded listener:
+document.querySelectorAll('.view-project-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const projectId = this.getAttribute('data-project-id');
+        // Call your function to open the modal (as we discussed in the previous step)
+        if (typeof openProjectDetails === "function") {
+            openProjectDetails(projectId);
+        }
+    });
+});
+</script>
+
+<!-- Project details modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+ <div class="modal-dialog modal-xl modal-dialog-centered">
+ <div class="modal-content">
+ <div class="modal-body" id="projectModalBody">
+ <div class="text-center py-5">
+ <div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
  // Delegated handler to support dynamically added buttons too
@@ -1747,16 +1892,3 @@ document.addEventListener('DOMContentLoaded', function(){
  }
  });
  </script>
-
-<!-- Project details modal -->
-<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
- <div class="modal-dialog modal-xl modal-dialog-centered">
- <div class="modal-content">
- <div class="modal-body" id="projectModalBody">
- <div class="text-center py-5">
- <div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading...</span></div>
- </div>
- </div>
- </div>
- </div>
-</div>
