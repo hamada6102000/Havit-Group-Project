@@ -174,56 +174,71 @@
             <h2 class="display-5 fw-bold mb-3">What Drives Us</h2>
             <p class="lead text-muted">The principles that guide our operations</p>
         </div>
-        <div class="row g-4">
 
-            <!-- Excellence in Every Detail -->
-            <div class="col-md-6 col-lg-3">
-                <div class="drive-card text-center p-4 h-100">
-                    <div class="drive-icon mb-3">
-                        <i class="fas fa-gem fa-3x"></i>
+        <div class="row g-4 justify-content-center">
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <!-- Innovation First
+                -->
+                <div class="drive-card-new p-4 h-100 text-start">
+                    <div class="drive-icon-circle mb-3">
+                        <i class="fa-regular fa-lightbulb"></i>
                     </div>
-                    <h3 class="h4 fw-bold mb-3">Excellence in Every Detail</h3>
-                    <p class="text-muted mb-0">
-                        We are committed to impeccable quality and craftsmanship, ensuring every product and project exceeds expectations.
+                    <h5 class="fw-semibold mb-2">
+                        Innovation First
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        We invest heavily in R&D to drive breakthrough solutions
                     </p>
                 </div>
             </div>
 
-            <!-- Innovation & Design Leadership -->
-            <div class="col-md-6 col-lg-3">
-                <div class="drive-card text-center p-4 h-100">
-                    <div class="drive-icon mb-3">
-                        <i class="fas fa-pen-ruler fa-3x"></i>
+            <!-- Global Reach -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="drive-card-new p-4 h-100 text-start">
+                    <div class="drive-icon-circle mb-3">
+                        <i class="fa-regular fa-globe"></i>
                     </div>
-                    <h3 class="h4 fw-bold mb-3">Innovation & Design Leadership</h3>
-                    <p class="text-muted mb-0">
-                        We continuously embrace modern trends, advanced solutions, and creative ideas to shape extraordinary spaces.
+                    <h5 class="fw-semibold mb-2">
+                        Global Reach
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        Operating in 20+ countries with local expertise
                     </p>
                 </div>
             </div>
 
-            <!-- Client-Centric Approach -->
-            <div class="col-md-6 col-lg-3">
-                <div class="drive-card text-center p-4 h-100">
-                    <div class="drive-icon mb-3">
-                        <i class="fas fa-handshake fa-3x"></i>
+            <!-- Sustainable Practices
+            -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="drive-card-new p-4 h-100 text-start">
+                    <div class="drive-icon-circle mb-3">
+                        <i class="fa-regular fa-shield"></i>
                     </div>
-                    <h3 class="h4 fw-bold mb-3">Client-Centric Approach</h3>
-                    <p class="text-muted mb-0">
-                        Our clients’ vision guides everything we do, delivering personalized, seamless, and memorable experiences.
+                    <h5 class="fw-semibold mb-2">
+                        Sustainable Practices
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        Committed to environmental and social responsibility
+
                     </p>
                 </div>
             </div>
 
-            <!-- Integrity & Trust -->
-            <div class="col-md-6 col-lg-3">
-                <div class="drive-card text-center p-4 h-100">
-                    <div class="drive-icon mb-3">
-                        <i class="fas fa-shield-halved fa-3x"></i>
+            <!-- People Centered
+
+            -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="drive-card-new p-4 h-100 text-start">
+                    <div class="drive-icon-circle mb-3">
+                        <i class="fa-regular fa-heart"></i>
                     </div>
-                    <h3 class="h4 fw-bold mb-3">Integrity & Trust</h3>
-                    <p class="text-muted mb-0">
-                        We uphold the highest standards of honesty, reliability, and transparency in every interaction and project.
+                    <h5 class="fw-semibold mb-2">
+                        People Centered
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        Our employees are our greatest asset and strength
+
                     </p>
                 </div>
             </div>
@@ -593,42 +608,57 @@
 
 
 
-    /* What Drives Us Section */
+    /* ===== What Drives Us - Final Image Style ===== */
+
     .what-drives-us-section {
-/*         background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
- */    }
-
-    .drive-card {
-        background: white;
-        border-radius: 15px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid #e9ecef;
+        background: #f5f7f6;
     }
 
-    .drive-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+   @*  .drive-card-new {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 32px;
+        border: 1px solid #eef2f0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        transition: all 0.25s ease;
+    } *@
+
+    .drive-card-new {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 33px; /* MORE space inside → taller */
+        min-height: 230px; /* FORCE height */
+        min-width: 310px;
+        border: 1px solid #eef2f0;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
     }
 
-    .drive-icon {
-        animation: pulse 2s infinite;
-        color: rgb(41, 78, 52);
-    }
-
-    @@keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
+        .drive-card-new:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
         }
-        50% {
-            transform: scale(1.1);
-        }
+
+    .what-drives-us-section .container {
+        max-width: 1500px; /* wider than default */
     }
 
-    @@media (max-width: 575px) {
-        .carousel-image {
-            height: 300px;
-        }
+    .drive-icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #d9f2e3; /* very soft green */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
     }
+
+        .drive-icon-circle i {
+            color: #1b7a45; /* softer green */
+            font-size: 20px;
+            font-weight: 400;
+        }
 </style>
 
 <script>
