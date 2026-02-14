@@ -15,26 +15,32 @@
                 @for (int i = 0; i < contactImages.Count; i++)
                 {
                     <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="@contactImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(contactImages[i].AltText ?? "Havit Group Contact")">
+                        <div class="carousel-image-wrapper">
+                            <img src="@contactImages[i].ImagePath" class="d-block w-100 carousel-image" alt="@(contactImages[i].AltText ?? "Havit Group Contact")">
+                            <div class="carousel-overlay"></div>
+                        </div>
                         @if (!string.IsNullOrWhiteSpace(contactImages[i].AltText))
                         {
-                            <div class="carousel-caption">
-                                <h5>@contactImages[i].AltText</h5>
+                            <div class="carousel-caption-custom">
+                                <div class="caption-content">
+                                    <h2 class="caption-title">@contactImages[i].AltText</h2>
+                                </div>
                             </div>
                         }
                     </div>
                 }
             </div>
+            
+            <!-- Carousel Indicators -->
             @if (contactImages.Count > 1)
             {
-                <button class="carousel-control-prev" type="button" data-bs-target="#contactCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#contactCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div class="carousel-indicators-custom">
+                    @for (int i = 0; i < contactImages.Count; i++)
+                    {
+                        <button type="button" data-bs-target="#contactCarousel" data-bs-slide-to="@i" 
+                                class="@(i == 0 ? "active" : "")" aria-label="Slide @(i + 1)"></button>
+                    }
+                </div>
             }
         </div>
     </section>
@@ -344,120 +350,195 @@
 }
 
 <style>
-    /* Hero Carousel Styles */
+/* === Hero Carousel with Green Overlay === */
+.hero-carousel-section {
+    margin-top: -2.5rem;
+    margin-bottom: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+    position: relative;
+}
+    
+@@media (min-width: 576px) {
     .hero-carousel-section {
-        margin-top: -1rem;
-        margin-left: -15px;
-        margin-right: -15px;
+        margin-left: calc((100vw - 540px) / -2);
+        margin-right: calc((100vw - 540px) / -2);
     }
+}
     
-    @@media (min-width: 576px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 540px) / -2);
-            margin-right: calc((100vw - 540px) / -2);
-        }
+@@media (min-width: 768px) {
+    .hero-carousel-section {
+        margin-left: calc((100vw - 720px) / -2);
+        margin-right: calc((100vw - 720px) / -2);
     }
+}
     
-    @@media (min-width: 768px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 720px) / -2);
-            margin-right: calc((100vw - 720px) / -2);
-        }
+@@media (min-width: 992px) {
+    .hero-carousel-section {
+        margin-left: calc((100vw - 960px) / -2);
+        margin-right: calc((100vw - 960px) / -2);
     }
+}
     
-    @@media (min-width: 992px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 960px) / -2);
-            margin-right: calc((100vw - 960px) / -2);
-        }
+@@media (min-width: 1200px) {
+    .hero-carousel-section {
+        margin-left: calc((100vw - 1140px) / -2);
+        margin-right: calc((100vw - 1140px) / -2);
     }
+}
     
-    @@media (min-width: 1200px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 1140px) / -2);
-            margin-right: calc((100vw - 1140px) / -2);
-        }
+@@media (min-width: 1400px) {
+    .hero-carousel-section {
+        margin-left: calc((100vw - 1320px) / -2);
+        margin-right: calc((100vw - 1320px) / -2);
     }
-    
-    @@media (min-width: 1400px) {
-        .hero-carousel-section {
-            margin-left: calc((100vw - 1320px) / -2);
-            margin-right: calc((100vw - 1320px) / -2);
-        }
+}
+
+.carousel-image-wrapper {
+    position: relative;
+    height: 750px;
+    overflow: hidden;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Green Overlay */
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
+    z-index: 1;
+    transition: background 0.8s ease-in-out 0.3s;
+}
+
+/* Bright green when transitioning between slides */
+.carousel-item.active .carousel-overlay {
+    background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
+    animation: overlayColorTransition 2.2s ease-in-out forwards;
+}
+
+/* Animation that transitions from bright to dark green with delay */
+@@keyframes overlayColorTransition {
+    0% {
+        background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
     }
-
-    .carousel-image {
-        max-height: 600px;
-        width: 100%;
-        object-fit: cover;
-        object-position: center;
-        background-color: #f8f9fa;
-        animation: fadeIn 1s ease-in;
-        display: block;
+    40% {
+        background: linear-gradient(135deg, rgba(70, 160, 105, 0.80) 0%, rgba(55, 140, 85, 0.84) 100%);
     }
-
-    .carousel-item {
-        min-height: 400px;
-        background-color: #f8f9fa;
+    100% {
+        background: linear-gradient(135deg, rgba(15, 95, 47, 0.80) 0%, rgba(15, 95, 47, 0.84) 100%);
     }
+}
 
-    .carousel-item img {
-        margin: 0 auto;
-    }
+/* Custom Caption Styling */
+.carousel-caption-custom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    width: 90%;
+    max-width: 900px;
+}
 
-    .carousel-caption {
-        background: transparent;
-        padding: 0.75rem 1.5rem;
-        border-radius: 5px;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        max-width: 90%;
-        text-align: center;
-    }
+.caption-content {
+    padding: 0 1rem;
+}
 
-    .carousel-caption h5 {
-        color: #fff;
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin: 0;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    }
+.caption-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    line-height: 1.3;
+    opacity: 0;
+    transform: translateY(30px);
+    letter-spacing: 0.3px;
+}
 
-    @@media (min-width: 768px) {
-        .carousel-caption {
-            padding: 1rem 2rem;
-            bottom: 2rem;
-        }
+.carousel-item.active .caption-title {
+    animation: slideInUp 0.8s ease-out 0.3s forwards;
+}
 
-        .carousel-caption h5 {
-            font-size: 1.5rem;
-        }
-    }
-
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    .carousel-fade .carousel-item {
-        opacity: 0;
-        transition: opacity 0.8s ease-in-out;
-    }
-
-    .carousel-fade .carousel-item.active {
+/* Text Animation Keyframes */
+@@keyframes slideInUp {
+    to {
         opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom Carousel Indicators */
+.carousel-indicators-custom {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.carousel-indicators-custom button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .carousel-indicators-custom button:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        transform: scale(1.2);
     }
 
-    @@media (max-width: 575px) {
-        .carousel-image {
-            max-height: 400px;
-        }
+.carousel-indicators-custom button.active {
+    background-color: #ffffff;
+    width: 40px;
+    border-radius: 10px;
+    transform: scale(1);
+}
+
+    .carousel-indicators-custom button.active:hover {
+        transform: scale(1.05);
     }
+
+/* Responsive Adjustments */
+@@media (max-width: 768px) {
+    .carousel-image-wrapper {
+        height: 500px;
+    }
+
+    .caption-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+}
+
+@@media (max-width: 575px) {
+    .carousel-image-wrapper {
+        height: 400px;
+    }
+
+    .caption-title {
+        font-size: 1.25rem;
+    }
+}
 
     /* Contact Page Styles */
     .contact-icon-wrapper {
@@ -559,4 +640,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // === Carousel Indicator Animation ===
+            const contactCarousel = document.getElementById('contactCarousel');
+            if (contactCarousel) {
+                // Listen for Bootstrap carousel slide events
+                contactCarousel.addEventListener('slide.bs.carousel', function (e) {
+                    // Get all indicator buttons
+                    const indicators = document.querySelectorAll('.carousel-indicators-custom button');
+                    
+                    // Remove active class from all indicators
+                    indicators.forEach(indicator => {
+                        indicator.classList.remove('active');
+                    });
+                    
+                    // Add active class to the indicator for the slide we're going to
+                    if (indicators[e.to]) {
+                        indicators[e.to].classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
 }
