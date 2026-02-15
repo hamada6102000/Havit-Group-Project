@@ -816,9 +816,13 @@
         border-radius: 16px;
         border: 1px solid #e8ede9;
         transition: all 0.3s ease;
-        min-height: 600px;
-        padding: 3rem !important;
+        min-height: 650px; /* increase height */
+        padding: 3.5rem !important; /* slightly bigger padding */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* pushes buttons to bottom */
     }
+
 
         .portfolio-newsletter-card:hover {
             box-shadow: 0 8px 20px rgba(0,0,0,0.06);
