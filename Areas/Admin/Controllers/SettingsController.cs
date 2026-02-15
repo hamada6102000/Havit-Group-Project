@@ -76,11 +76,13 @@ namespace HavitGroup.Areas.Admin.Controllers
         /// Handles the update of site settings
         /// </summary>
         /// <param name="settings">Updated settings data</param>
+        /// <param name="portfolioPdf">Portfolio PDF file</param>
+        /// <param name="newsletterPdf">Newsletter PDF file</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Redirects to settings page or returns form with errors</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(SiteSettings settings, CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(SiteSettings settings, IFormFile? portfolioPdf, IFormFile? newsletterPdf, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -99,10 +101,67 @@ namespace HavitGroup.Areas.Admin.Controllers
                 {
                     // Create new settings if none exist
                     settings.CreatedAt = DateTime.UtcNow;
+                    
+                    // Handle Portfolio PDF upload
+                    if (portfolioPdf != null && portfolioPdf.Length > 0)
+                    {
+                        var portfolioPath = await SavePdfFile(portfolioPdf, "portfolio");
+                        settings.PortfolioPdfPath = portfolioPath;
+                        settings.PortfolioPdfOriginalName = portfolioPdf.FileName;
+                    }
+
+                    // Handle Newsletter PDF upload
+                    if (newsletterPdf != null && newsletterPdf.Length > 0)
+                    {
+                        var newsletterPath = await SavePdfFile(newsletterPdf, "newsletter");
+                        settings.NewsletterPdfPath = newsletterPath;
+                        settings.NewsletterPdfOriginalName = newsletterPdf.FileName;
+                    }
+
                     _context.SiteSettings.Add(settings);
                 }
                 else
                 {
+                    // Handle Portfolio PDF upload
+                    if (portfolioPdf != null && portfolioPdf.Length > 0)
+                    {
+                        // Delete old file if exists
+                        if (!string.IsNullOrEmpty(existingSettings.PortfolioPdfPath))
+                        {
+                            DeletePdfFile(existingSettings.PortfolioPdfPath);
+                        }
+
+                        var portfolioPath = await SavePdfFile(portfolioPdf, "portfolio");
+                        settings.PortfolioPdfPath = portfolioPath;
+                        settings.PortfolioPdfOriginalName = portfolioPdf.FileName;
+                    }
+                    else
+                    {
+                        // Keep existing PDF if no new one uploaded
+                        settings.PortfolioPdfPath = existingSettings.PortfolioPdfPath;
+                        settings.PortfolioPdfOriginalName = existingSettings.PortfolioPdfOriginalName;
+                    }
+
+                    // Handle Newsletter PDF upload
+                    if (newsletterPdf != null && newsletterPdf.Length > 0)
+                    {
+                        // Delete old file if exists
+                        if (!string.IsNullOrEmpty(existingSettings.NewsletterPdfPath))
+                        {
+                            DeletePdfFile(existingSettings.NewsletterPdfPath);
+                        }
+
+                        var newsletterPath = await SavePdfFile(newsletterPdf, "newsletter");
+                        settings.NewsletterPdfPath = newsletterPath;
+                        settings.NewsletterPdfOriginalName = newsletterPdf.FileName;
+                    }
+                    else
+                    {
+                        // Keep existing PDF if no new one uploaded
+                        settings.NewsletterPdfPath = existingSettings.NewsletterPdfPath;
+                        settings.NewsletterPdfOriginalName = existingSettings.NewsletterPdfOriginalName;
+                    }
+
                     // Update existing settings
                     _context.Entry(existingSettings).CurrentValues.SetValues(settings);
                     existingSettings.UpdatedAt = DateTime.UtcNow;
@@ -117,6 +176,65 @@ namespace HavitGroup.Areas.Admin.Controllers
                 _logger.LogError(ex, "Error updating site settings");
                 ModelState.AddModelError("", "An error occurred while updating settings. Please try again.");
                 return View(settings);
+            }
+        }
+
+        /// <summary>
+        /// Saves a PDF file to the server
+        /// </summary>
+        /// <param name="file">PDF file to save</param>
+        /// <param name="prefix">Prefix for the filename (portfolio or newsletter)</param>
+        /// <returns>Relative path to the saved file</returns>
+        private async Task<string> SavePdfFile(IFormFile file, string prefix)
+        {
+            // Validate file type
+            var allowedExtensions = new[] { ".pdf" };
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            
+            if (!allowedExtensions.Contains(extension))
+            {
+                throw new InvalidOperationException("Only PDF files are allowed.");
+            }
+
+            // Create unique filename
+            var fileName = $"{prefix}_{DateTime.UtcNow:yyyyMMddHHmmss}{extension}";
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pdfs");
+            
+            // Create directory if it doesn't exist
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            // Save file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Return relative path
+            return $"/pdfs/{fileName}";
+        }
+
+        /// <summary>
+        /// Deletes a PDF file from the server
+        /// </summary>
+        /// <param name="relativePath">Relative path to the file</param>
+        private void DeletePdfFile(string relativePath)
+        {
+            try
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath.TrimStart('/'));
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Failed to delete PDF file: {relativePath}");
             }
         }
     }

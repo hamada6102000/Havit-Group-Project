@@ -6,11 +6,11 @@
 <h1 class="mb-4">Site Settings</h1>
 <p class="text-muted">Manage all displayed data on your website including contact information, company details, and page content.</p>
 
-<form asp-action="Index" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<form asp-action="Index" method="post" enctype="multipart/form-data">
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
     
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="CreatedAt" />
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="CreatedAt" />
 
     <!-- Contact Information Section -->
     <div class="card mb-4">
@@ -202,6 +202,62 @@
                     <label asp-for="YouTubeUrl" class="form-label"></label>
                     <input asp-for="YouTubeUrl" class="form-control" type="url" placeholder="https://youtube.com/yourchannel" />
                     <span asp-validation-for="YouTubeUrl" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio and Newsletter PDFs Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Portfolio & Newsletter PDFs</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Portfolio PDF -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Portfolio PDF</label>
+                    <input type="file" name="portfolioPdf" class="form-control" accept=".pdf" />
+                    <small class="form-text text-muted">Upload a PDF file for the portfolio (max 10MB)</small>
+                    @if (!string.IsNullOrEmpty(Model.PortfolioPdfPath))
+                    {
+                        <div class="mt-2">
+                            <p class="mb-1"><strong>Current File:</strong> @Model.PortfolioPdfOriginalName</p>
+                            <a href="@Model.PortfolioPdfPath" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View Current PDF
+                            </a>
+                            <a href="@Model.PortfolioPdfPath" download class="btn btn-sm btn-outline-success">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mt-2"><em>No portfolio PDF uploaded yet</em></p>
+                    }
+                </div>
+
+                <!-- Newsletter PDF -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Newsletter PDF</label>
+                    <input type="file" name="newsletterPdf" class="form-control" accept=".pdf" />
+                    <small class="form-text text-muted">Upload a PDF file for the newsletter (max 10MB)</small>
+                    @if (!string.IsNullOrEmpty(Model.NewsletterPdfPath))
+                    {
+                        <div class="mt-2">
+                            <p class="mb-1"><strong>Current File:</strong> @Model.NewsletterPdfOriginalName</p>
+                            <a href="@Model.NewsletterPdfPath" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View Current PDF
+                            </a>
+                            <a href="@Model.NewsletterPdfPath" download class="btn btn-sm btn-outline-success">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mt-2"><em>No newsletter PDF uploaded yet</em></p>
+                    }
                 </div>
             </div>
         </div>

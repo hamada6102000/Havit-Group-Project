@@ -247,6 +247,143 @@
     </div>
 </section>
 
+<!-- Portfolio and Newsletter Section -->
+<section class="portfolio-newsletter-section mb-5 py-5">
+    <div class="container">
+        <div class="row g-4">
+            @{
+                var settings = ViewBag.Settings as HavitGroup.Models.SiteSettings;
+                var hasPortfolioPdf = settings != null && !string.IsNullOrEmpty(settings.PortfolioPdfPath);
+                var hasNewsletterPdf = settings != null && !string.IsNullOrEmpty(settings.NewsletterPdfPath);
+            }
+            
+            <!-- Portfolio Card -->
+            <div class="col-lg-6">
+                <div class="portfolio-newsletter-card p-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="pn-icon-circle me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="mb-0 fw-bold">Portfolio</h3>
+                    </div>
+                    <p class="text-muted mb-4">
+                        Explore our comprehensive portfolio showcasing our completed projects, furniture collections, and design capabilities.
+                    </p>
+                    
+                    @if (hasPortfolioPdf)
+                    {
+                        <!-- PDF Display Box -->
+                        <div class="pdf-display-box mb-4 p-4 text-center">
+                            <i class="fas fa-file-pdf pdf-icon mb-3"></i>
+                            <h5 class="mb-2">@settings.PortfolioPdfOriginalName</h5>
+                            <p class="text-muted small mb-0">Portfolio PDF Document</p>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <a href="@settings.PortfolioPdfPath" target="_blank" class="btn btn-portfolio w-100">
+                                    <i class="fas fa-eye me-2"></i> View Portfolio
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="@settings.PortfolioPdfPath" download="@settings.PortfolioPdfOriginalName" class="btn btn-download w-100">
+                                    <i class="fas fa-download me-2"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Upload Box (Placeholder) -->
+                        <div class="upload-box mb-4 p-4 text-center">
+                            <i class="fas fa-cloud-upload-alt upload-icon mb-3"></i>
+                            <h5 class="mb-2">Portfolio PDF</h5>
+                            <p class="text-muted small mb-0">Portfolio document will be available soon</p>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-portfolio w-100 disabled" aria-disabled="true">
+                                    <i class="fas fa-eye me-2"></i> View Portfolio
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-download w-100 disabled" aria-disabled="true">
+                                    <i class="fas fa-download me-2"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+            <!-- Newsletter Card -->
+            <div class="col-lg-6">
+                <div class="portfolio-newsletter-card p-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="pn-icon-circle me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="mb-0 fw-bold">Newsletter</h3>
+                    </div>
+                    <p class="text-muted mb-4">
+                        Stay updated with our latest projects, industry insights, and exclusive furniture trends in our monthly newsletter.
+                    </p>
+                    
+                    @if (hasNewsletterPdf)
+                    {
+                        <!-- PDF Display Box -->
+                        <div class="pdf-display-box mb-4 p-4 text-center">
+                            <i class="fas fa-file-pdf pdf-icon mb-3"></i>
+                            <h5 class="mb-2">@settings.NewsletterPdfOriginalName</h5>
+                            <p class="text-muted small mb-0">Newsletter PDF Document</p>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <a href="@settings.NewsletterPdfPath" target="_blank" class="btn btn-portfolio w-100">
+                                    <i class="fas fa-eye me-2"></i> View Newsletter
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="@settings.NewsletterPdfPath" download="@settings.NewsletterPdfOriginalName" class="btn btn-download w-100">
+                                    <i class="fas fa-download me-2"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Upload Box (Placeholder) -->
+                        <div class="upload-box mb-4 p-4 text-center">
+                            <i class="fas fa-cloud-upload-alt upload-icon mb-3"></i>
+                            <h5 class="mb-2">Newsletter PDF</h5>
+                            <p class="text-muted small mb-0">Newsletter document will be available soon</p>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-portfolio w-100 disabled" aria-disabled="true">
+                                    <i class="fas fa-eye me-2"></i> View Newsletter
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-download w-100 disabled" aria-disabled="true">
+                                    <i class="fas fa-download me-2"></i> Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <style>
 /* Hero Carousel Styles */
@@ -664,6 +801,125 @@
         color: #1b7a45;
         font-size: 22px;
     }
+
+    /* ===== Portfolio and Newsletter Section ===== */
+    .portfolio-newsletter-section {
+        background: #ffffff;
+    }
+
+    .portfolio-newsletter-section .container {
+        max-width: 1400px;
+    }
+
+    .portfolio-newsletter-card {
+        background: #f8faf9;
+        border-radius: 16px;
+        border: 1px solid #e8ede9;
+        transition: all 0.3s ease;
+        min-height: 600px;
+        padding: 3rem !important;
+    }
+
+        .portfolio-newsletter-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transform: translateY(-4px);
+        }
+
+    .pn-icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #0f5f2f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 1.2rem;
+    }
+
+    .upload-box {
+        background: #ffffff;
+        border: 2px dashed #d0ddd3;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        padding: 3rem 2rem !important;
+        min-height: 180px;
+    }
+
+        .upload-box:hover {
+            border-color: #0f5f2f;
+            background: #f9fdfb;
+        }
+
+    .upload-icon {
+        font-size: 3.5rem;
+        color: #9fb8a8;
+    }
+
+    /* PDF Display Box (when PDF is uploaded) */
+    .pdf-display-box {
+        background: #ffffff;
+        border: 2px solid #b8e5ca;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        padding: 3rem 2rem !important;
+        min-height: 180px;
+    }
+
+        .pdf-display-box:hover {
+            border-color: #0f5f2f;
+            background: #f9fdfb;
+            box-shadow: 0 4px 12px rgba(15, 95, 47, 0.1);
+        }
+
+    .pdf-icon {
+        font-size: 3.5rem;
+        color: #0f5f2f;
+    }
+
+    .btn-portfolio {
+        background-color: #0f5f2f;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-portfolio:hover,
+        .btn-portfolio:focus,
+        .btn-portfolio:active {
+            background-color: #0d4f28;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 95, 47, 0.3);
+            text-decoration: none;
+        }
+
+    .btn-download {
+        background-color: #d9f2e3;
+        color: #0f5f2f;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 1px solid #b8e5ca;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-download:hover,
+        .btn-download:focus,
+        .btn-download:active {
+            background-color: #c5ebd5;
+            color: #0d4f28 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 95, 47, 0.15);
+            text-decoration: none;
+        }
 
 
 </style>

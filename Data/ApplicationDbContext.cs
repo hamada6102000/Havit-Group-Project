@@ -141,6 +141,10 @@ namespace HavitGroup.Data
                 entity.Property(e => e.LinkedInUrl).HasMaxLength(500);
                 entity.Property(e => e.InstagramUrl).HasMaxLength(500);
                 entity.Property(e => e.YouTubeUrl).HasMaxLength(500);
+                entity.Property(e => e.PortfolioPdfPath).HasMaxLength(500);
+                entity.Property(e => e.PortfolioPdfOriginalName).HasMaxLength(255);
+                entity.Property(e => e.NewsletterPdfPath).HasMaxLength(500);
+                entity.Property(e => e.NewsletterPdfOriginalName).HasMaxLength(255);
                 entity.Property(e => e.CreatedAt).IsRequired();
             });
 

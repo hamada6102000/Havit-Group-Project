@@ -177,6 +177,35 @@ namespace HavitGroup.Models
         [Display(Name = "YouTube URL")]
         public string? YouTubeUrl { get; set; }
 
+        // Portfolio and Newsletter PDFs
+        /// <summary>
+        /// Path to the Portfolio PDF file
+        /// </summary>
+        [StringLength(500, ErrorMessage = "Path cannot exceed 500 characters")]
+        [Display(Name = "Portfolio PDF")]
+        public string? PortfolioPdfPath { get; set; }
+
+        /// <summary>
+        /// Original filename of the Portfolio PDF
+        /// </summary>
+        [StringLength(255, ErrorMessage = "Filename cannot exceed 255 characters")]
+        [Display(Name = "Portfolio PDF Original Filename")]
+        public string? PortfolioPdfOriginalName { get; set; }
+
+        /// <summary>
+        /// Path to the Newsletter PDF file
+        /// </summary>
+        [StringLength(500, ErrorMessage = "Path cannot exceed 500 characters")]
+        [Display(Name = "Newsletter PDF")]
+        public string? NewsletterPdfPath { get; set; }
+
+        /// <summary>
+        /// Original filename of the Newsletter PDF
+        /// </summary>
+        [StringLength(255, ErrorMessage = "Filename cannot exceed 255 characters")]
+        [Display(Name = "Newsletter PDF Original Filename")]
+        public string? NewsletterPdfOriginalName { get; set; }
+
         // Timestamps
         /// <summary>
         /// Date when settings were created
