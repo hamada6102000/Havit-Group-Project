@@ -333,6 +333,61 @@ else
         </div>
     </div>
 </section>
+
+<!-- Resources Section -->
+<section class="resources-section mb-5 py-5 reveal-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Resources</h2>
+            <p class="lead text-muted">Explore our portfolio and stay updated with our monthly newsletter</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Portfolio Card -->
+            <div class="col-md-6 col-lg-5">
+                <div class="resource-card h-100 p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="resource-icon me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-1 fw-bold">Portfolio</h4>
+                            <p class="text-success small mb-0">View & Download</p>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-4">
+                        Browse our comprehensive portfolio showcasing completed projects and furniture collections.
+                    </p>
+                    <a href="@Url.Action("About", "Home")#portfolio-section" class="resource-link">
+                        Access Portfolio <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Newsletter Card -->
+            <div class="col-md-6 col-lg-5">
+                <div class="resource-card h-100 p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="resource-icon me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-1 fw-bold">Newsletter</h4>
+                            <p class="text-success small mb-0">View & Download</p>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-4">
+                        Stay informed with our latest projects, insights, and exclusive furniture trends.
+                    </p>
+                    <a href="@Url.Action("About", "Home")#portfolio-section" class="resource-link">
+                        Read Newsletter <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 @{
     var projects = ViewBag.Projects as List<HavitGroup.Models.Project>;
 }
@@ -1384,6 +1439,65 @@ else
 
         .view-all-btn:hover i {
             transform: translateX(6px);
+        }
+
+    /* Resources Section */
+    .resources-section {
+        background-color: #f8fafb;
+    }
+
+    .resource-card {
+        background: #f3fff7;
+        border: 1px solid #d6f5e3;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(17, 122, 74, 0.08);
+    }
+
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(17, 122, 74, 0.15);
+            border-color: #0d7a43;
+        }
+
+    .resource-icon {
+        width: 50px;
+        height: 50px;
+        background-color: #0d7a43;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .resource-card:hover .resource-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .resource-link {
+        color: #0d7a43;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+        .resource-link:hover {
+            color: #0a5c32;
+            transform: translateX(5px);
+        }
+
+        .resource-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .resource-link:hover i {
+            transform: translateX(4px);
         }
 
     .page-fade-out {
