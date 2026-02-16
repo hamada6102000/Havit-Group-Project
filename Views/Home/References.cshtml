@@ -58,25 +58,25 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card text-center p-4 h-100">
-                    <div class="stat-number mb-2" data-target="@completedProjects">0</div>
+                    <div class="stat-number mb-2" data-target="@completedProjects+">0</div>
                     <div class="stat-label">Completed Projects</div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card text-center p-4 h-100">
-                    <div class="stat-number mb-2" data-target="@countriesServed">0</div>
+                    <div class="stat-number mb-2" data-target="@countriesServed+">0</div>
                     <div class="stat-label">Countries Served</div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card text-center p-4 h-100">
-                    <div class="stat-number mb-2" data-target="@happyClients">0</div>
+                    <div class="stat-number mb-2" data-target="@happyClients+">0</div>
                     <div class="stat-label">Happy Clients</div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card text-center p-4 h-100">
-                    <div class="stat-number mb-2" data-target="@satisfactionRate">0</div>
+                    <div class="stat-number mb-2" data-target="@satisfactionRate%">0</div>
                     <div class="stat-label">Satisfaction Rate</div>
                 </div>
             </div>
@@ -785,11 +785,12 @@ line-height: 1.6;
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const target = parseInt(entry.target.getAttribute('data-target'));
-                    const suffix = entry.target.textContent.includes('%') ? '%' : '+';
-                    const hasPlus = entry.target.textContent.includes('+');
+                    const targetText = entry.target.getAttribute('data-target');
+                    const hasPercent = targetText.includes('%');
+                    const hasPlus = targetText.includes('+');
+                    const target = parseInt(targetText) || 0;
                     
-                    animateValue(entry.target, 0, target, 2000, suffix, hasPlus);
+                    animateValue(entry.target, 0, target, 2000, hasPercent, hasPlus);
                     observer.unobserve(entry.target);
                 }
             });
@@ -799,13 +800,16 @@ line-height: 1.6;
             observer.observe(stat);
         });
 
-        function animateValue(element, start, end, duration, suffix, hasPlus) {
+        function animateValue(element, start, end, duration, hasPercent, hasPlus) {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const current = Math.floor(progress * (end - start) + start);
-                element.textContent = current + (hasPlus ? '+' : '') + (suffix === '%' ? '%' : '');
+                let displayText = current.toString();
+                if (hasPlus) displayText += '+';
+                if (hasPercent) displayText += '%';
+                element.textContent = displayText;
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
                 }

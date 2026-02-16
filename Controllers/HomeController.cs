@@ -68,6 +68,24 @@ namespace HavitGroup.Controllers
                 ViewBag.Testimonials = new List<Testimonial>();
             }
 
+            try
+            {
+                // Load statistics
+                var statistics = await _context.Statistics.FindAsync(new object[] { 1 }, cancellationToken);
+                ViewBag.Statistics = statistics;
+            }
+            catch
+            {
+                // Table doesn't exist yet, use default values
+                ViewBag.Statistics = new Statistics
+                {
+                    CompletedProjects = 500,
+                    CountriesServed = 45,
+                    HappyClients = 1000,
+                    SatisfactionRate = 98
+                };
+            }
+
             return View();
         }
 
